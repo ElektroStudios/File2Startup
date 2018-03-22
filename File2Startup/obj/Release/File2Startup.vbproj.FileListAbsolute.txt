@@ -1,0 +1,10 @@
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\bin\Release\File2Startup.exe.config
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\bin\Release\File2Startup.exe
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\bin\Release\File2Startup.pdb
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\UserInterface.Main.resources
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\Resources.resources
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\File2Startup.vbproj.GenerateResource.cache
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\File2Startup.vbproj.CoreCompileInputs.cache
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\File2Startup.exe
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\File2Startup.pdb
+C:\Users\Administrador\Downloads\Nueva carpeta (2)\File2Startup\obj\Release\File2Startup.vbprojResolveAssemblyReference.cache
