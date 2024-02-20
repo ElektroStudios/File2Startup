@@ -8,17 +8,17 @@
 
 ## 🖼️ Screenshots
 
-![](https://i.imgur.com/zrU4NEp.png)
+![](Images/1.png)
 
-![](https://i.imgur.com/scGFKgD.png)
+![](Images/2.png)
 
-![](https://i.imgur.com/mIh2d0H.png)
+![](Images/3.png)
 
-![](https://i.imgur.com/VsOfEmh.png)
+![](Images/4.png)
 
-![](https://i.imgur.com/NSDFFSu.png)
+![](Images/5.png)
 
-![](https://i.imgur.com/XLgcdWV.png)
+![](Images/6.png)
 
 ## 📝 Requirements
 
