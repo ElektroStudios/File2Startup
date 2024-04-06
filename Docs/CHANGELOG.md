@@ -8,6 +8,8 @@
   🌟 Improvements:
  - Pruned unused code from source-code (faster loading).
  - Added additional error-handlings to prevent and inform about errors. Possible workaround for issue [#2](https://github.com/ElektroStudios/File2Startup/issues/2#issuecomment-2041072015)
+ - Added additional languages for the installer.
+ - Removed unused code and VCL styles from the installer to try prevent AV false positives.
 
 ## v1.3 🔄
  🚀 New Features:
