@@ -260,10 +260,7 @@ Namespace UserInterface
 
             Me.TextBox_Name.Text = name
             Me.TextBox_File.Text = path
-
-            If Not String.IsNullOrEmpty(parameters) Then
-                Me.TextBox_Parameters.Text = parameters
-            End If
+            Me.TextBox_Parameters.Text = parameters
 
         End Sub
 
