@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -42,7 +42,7 @@ Imports System.Runtime.InteropServices
 
 #Region " NativeRectangle (RECT) "
 
-Namespace ElektroKit.Interop.Win32.Types
+Namespace DevCase.Interop.Win32.Types
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -130,10 +130,10 @@ Namespace ElektroKit.Interop.Win32.Types
         ''' The y-coordinate of the lower-right corner of the rectangle.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal left As Integer,
-                       ByVal top As Integer,
-                       ByVal right As Integer,
-                       ByVal bottom As Integer)
+        Public Sub New(left As Integer,
+top As Integer,
+right As Integer,
+bottom As Integer)
 
             Me.Left = left
             Me.Top = top
@@ -151,7 +151,7 @@ Namespace ElektroKit.Interop.Win32.Types
         ''' The <see cref="Rectangle"/>.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal rect As Rectangle)
+        Public Sub New(rect As Rectangle)
 
             Me.New(rect.Left, rect.Top, rect.Right, rect.Bottom)
 
@@ -174,7 +174,7 @@ Namespace ElektroKit.Interop.Win32.Types
         ''' The resulting <see cref="Rectangle"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Shared Widening Operator CType(ByVal rect As NativeRectangle) As Rectangle
+        Public Shared Widening Operator CType(rect As NativeRectangle) As Rectangle
 
             Return New Rectangle(rect.Left, rect.Top, (rect.Right - rect.Left), (rect.Bottom - rect.Top))
 

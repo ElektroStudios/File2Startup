@@ -37,158 +37,323 @@ Namespace UserInterface
             Me.RadioButton_CurrentUser = New System.Windows.Forms.RadioButton()
             Me.RadioButton_AllUsers = New System.Windows.Forms.RadioButton()
             Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
-            Me.ToolStripDropDownButton1 = New System.Windows.Forms.ToolStripDropDownButton()
+            Me.ToolStripDropDownButton_Recent = New System.Windows.Forms.ToolStripDropDownButton()
             Me.ContextMenuStrip_Recent = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.Button_OpenFile = New System.Windows.Forms.Button()
             Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
+            Me.TabControl1 = New System.Windows.Forms.TabControl()
+            Me.TabPage1 = New System.Windows.Forms.TabPage()
+            Me.Label4 = New System.Windows.Forms.Label()
+            Me.Panel1 = New System.Windows.Forms.Panel()
+            Me.TabPage2 = New System.Windows.Forms.TabPage()
+            Me.Button_OpenInRegedit = New System.Windows.Forms.Button()
+            Me.Button_RefreshList = New System.Windows.Forms.Button()
+            Me.Button_SendtoItemBuilder = New System.Windows.Forms.Button()
+            Me.DataGridView1 = New System.Windows.Forms.DataGridView()
+            Me.ColumnType = New System.Windows.Forms.DataGridViewTextBoxColumn()
+            Me.ColumnIcon = New System.Windows.Forms.DataGridViewImageColumn()
+            Me.ColumnName = New System.Windows.Forms.DataGridViewTextBoxColumn()
+            Me.ColumnValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
+            Me.Button_DeleteEntry = New System.Windows.Forms.Button()
+            Me.ToolStrip2 = New System.Windows.Forms.ToolStrip()
+            Me.ToolStripButton_About = New System.Windows.Forms.ToolStripButton()
+            Me.ToolStripDropDownButton2 = New System.Windows.Forms.ToolStripDropDownButton()
+            Me.EnglishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+            Me.SpanishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+            Me.PortugueseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+            Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+            Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton()
             Me.ToolStrip1.SuspendLayout()
+            Me.TabControl1.SuspendLayout()
+            Me.TabPage1.SuspendLayout()
+            Me.Panel1.SuspendLayout()
+            Me.TabPage2.SuspendLayout()
+            CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).BeginInit()
+            Me.ToolStrip2.SuspendLayout()
             Me.SuspendLayout()
             '
             'TextBox_Parameters
             '
-            Me.TextBox_Parameters.Location = New System.Drawing.Point(53, 85)
+            resources.ApplyResources(Me.TextBox_Parameters, "TextBox_Parameters")
             Me.TextBox_Parameters.Name = "TextBox_Parameters"
-            Me.TextBox_Parameters.Size = New System.Drawing.Size(347, 20)
-            Me.TextBox_Parameters.TabIndex = 7
             '
             'TextBox_File
             '
-            Me.TextBox_File.Location = New System.Drawing.Point(53, 59)
+            resources.ApplyResources(Me.TextBox_File, "TextBox_File")
             Me.TextBox_File.Name = "TextBox_File"
-            Me.TextBox_File.Size = New System.Drawing.Size(317, 20)
-            Me.TextBox_File.TabIndex = 5
             '
             'TextBox_Name
             '
-            Me.TextBox_Name.Location = New System.Drawing.Point(53, 33)
+            resources.ApplyResources(Me.TextBox_Name, "TextBox_Name")
             Me.TextBox_Name.Name = "TextBox_Name"
-            Me.TextBox_Name.Size = New System.Drawing.Size(347, 20)
-            Me.TextBox_Name.TabIndex = 3
             '
             'Label1
             '
-            Me.Label1.Location = New System.Drawing.Point(12, 38)
+            resources.ApplyResources(Me.Label1, "Label1")
             Me.Label1.Name = "Label1"
-            Me.Label1.Size = New System.Drawing.Size(35, 13)
-            Me.Label1.TabIndex = 2
             Me.Label1.Tag = ""
-            Me.Label1.Text = "Title"
             '
             'Label2
             '
-            Me.Label2.Location = New System.Drawing.Point(12, 64)
+            resources.ApplyResources(Me.Label2, "Label2")
             Me.Label2.Name = "Label2"
-            Me.Label2.Size = New System.Drawing.Size(35, 13)
-            Me.Label2.TabIndex = 4
-            Me.Label2.Text = "File"
             '
             'Label3
             '
-            Me.Label3.Location = New System.Drawing.Point(12, 90)
+            resources.ApplyResources(Me.Label3, "Label3")
             Me.Label3.Name = "Label3"
-            Me.Label3.Size = New System.Drawing.Size(35, 13)
-            Me.Label3.TabIndex = 6
-            Me.Label3.Text = "Args."
             '
             'Button_AddToStartup
             '
+            resources.ApplyResources(Me.Button_AddToStartup, "Button_AddToStartup")
             Me.Button_AddToStartup.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.Button_AddToStartup.Enabled = False
-            Me.Button_AddToStartup.Location = New System.Drawing.Point(120, 116)
             Me.Button_AddToStartup.Name = "Button_AddToStartup"
-            Me.Button_AddToStartup.Size = New System.Drawing.Size(280, 40)
-            Me.Button_AddToStartup.TabIndex = 8
-            Me.Button_AddToStartup.Text = "Add to Windows Startup"
             Me.Button_AddToStartup.UseVisualStyleBackColor = True
             '
             'RadioButton_CurrentUser
             '
-            Me.RadioButton_CurrentUser.AutoSize = True
+            resources.ApplyResources(Me.RadioButton_CurrentUser, "RadioButton_CurrentUser")
             Me.RadioButton_CurrentUser.Checked = True
             Me.RadioButton_CurrentUser.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.RadioButton_CurrentUser.Location = New System.Drawing.Point(12, 116)
             Me.RadioButton_CurrentUser.Name = "RadioButton_CurrentUser"
-            Me.RadioButton_CurrentUser.Size = New System.Drawing.Size(102, 17)
-            Me.RadioButton_CurrentUser.TabIndex = 0
             Me.RadioButton_CurrentUser.TabStop = True
             Me.RadioButton_CurrentUser.Tag = "CurrentUserKey"
-            Me.RadioButton_CurrentUser.Text = "For Current User"
             Me.RadioButton_CurrentUser.UseVisualStyleBackColor = True
             '
             'RadioButton_AllUsers
             '
-            Me.RadioButton_AllUsers.AutoSize = True
+            resources.ApplyResources(Me.RadioButton_AllUsers, "RadioButton_AllUsers")
             Me.RadioButton_AllUsers.Cursor = System.Windows.Forms.Cursors.Hand
-            Me.RadioButton_AllUsers.Location = New System.Drawing.Point(12, 139)
             Me.RadioButton_AllUsers.Name = "RadioButton_AllUsers"
-            Me.RadioButton_AllUsers.Size = New System.Drawing.Size(84, 17)
-            Me.RadioButton_AllUsers.TabIndex = 1
             Me.RadioButton_AllUsers.Tag = "AllUsersKey"
-            Me.RadioButton_AllUsers.Text = "For All Users"
             Me.RadioButton_AllUsers.UseVisualStyleBackColor = True
             '
             'ToolStrip1
             '
-            Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripDropDownButton1})
-            Me.ToolStrip1.Location = New System.Drawing.Point(0, 0)
+            resources.ApplyResources(Me.ToolStrip1, "ToolStrip1")
+            Me.ToolStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+            Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripDropDownButton_Recent})
             Me.ToolStrip1.Name = "ToolStrip1"
-            Me.ToolStrip1.Size = New System.Drawing.Size(412, 25)
-            Me.ToolStrip1.TabIndex = 9
-            Me.ToolStrip1.Text = "ToolStrip1"
             '
-            'ToolStripDropDownButton1
+            'ToolStripDropDownButton_Recent
             '
-            Me.ToolStripDropDownButton1.AutoToolTip = False
-            Me.ToolStripDropDownButton1.DropDown = Me.ContextMenuStrip_Recent
-            Me.ToolStripDropDownButton1.Image = CType(resources.GetObject("ToolStripDropDownButton1.Image"), System.Drawing.Image)
-            Me.ToolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta
-            Me.ToolStripDropDownButton1.Name = "ToolStripDropDownButton1"
-            Me.ToolStripDropDownButton1.Size = New System.Drawing.Size(81, 22)
-            Me.ToolStripDropDownButton1.Text = "Recent..."
+            Me.ToolStripDropDownButton_Recent.AutoToolTip = False
+            Me.ToolStripDropDownButton_Recent.DropDown = Me.ContextMenuStrip_Recent
+            resources.ApplyResources(Me.ToolStripDropDownButton_Recent, "ToolStripDropDownButton_Recent")
+            Me.ToolStripDropDownButton_Recent.Name = "ToolStripDropDownButton_Recent"
             '
             'ContextMenuStrip_Recent
             '
             Me.ContextMenuStrip_Recent.Name = "ContextMenuStrip_Recent"
-            Me.ContextMenuStrip_Recent.OwnerItem = Me.ToolStripDropDownButton1
-            Me.ContextMenuStrip_Recent.Size = New System.Drawing.Size(61, 4)
+            Me.ContextMenuStrip_Recent.OwnerItem = Me.ToolStripDropDownButton_Recent
+            resources.ApplyResources(Me.ContextMenuStrip_Recent, "ContextMenuStrip_Recent")
             '
             'Button_OpenFile
             '
-            Me.Button_OpenFile.Location = New System.Drawing.Point(376, 60)
+            resources.ApplyResources(Me.Button_OpenFile, "Button_OpenFile")
             Me.Button_OpenFile.Name = "Button_OpenFile"
-            Me.Button_OpenFile.Size = New System.Drawing.Size(24, 20)
-            Me.Button_OpenFile.TabIndex = 10
-            Me.Button_OpenFile.Text = "..."
             Me.Button_OpenFile.UseVisualStyleBackColor = True
             '
             'OpenFileDialog1
             '
             Me.OpenFileDialog1.FileName = "OpenFileDialog1"
             '
+            'TabControl1
+            '
+            resources.ApplyResources(Me.TabControl1, "TabControl1")
+            Me.TabControl1.Controls.Add(Me.TabPage1)
+            Me.TabControl1.Controls.Add(Me.TabPage2)
+            Me.TabControl1.Name = "TabControl1"
+            Me.TabControl1.SelectedIndex = 0
+            Me.TabControl1.SizeMode = System.Windows.Forms.TabSizeMode.Fixed
+            '
+            'TabPage1
+            '
+            Me.TabPage1.Controls.Add(Me.ToolStrip1)
+            Me.TabPage1.Controls.Add(Me.Label4)
+            Me.TabPage1.Controls.Add(Me.Panel1)
+            Me.TabPage1.Controls.Add(Me.TextBox_Parameters)
+            Me.TabPage1.Controls.Add(Me.Button_OpenFile)
+            Me.TabPage1.Controls.Add(Me.TextBox_File)
+            Me.TabPage1.Controls.Add(Me.TextBox_Name)
+            Me.TabPage1.Controls.Add(Me.Label1)
+            Me.TabPage1.Controls.Add(Me.Label2)
+            Me.TabPage1.Controls.Add(Me.Button_AddToStartup)
+            Me.TabPage1.Controls.Add(Me.Label3)
+            resources.ApplyResources(Me.TabPage1, "TabPage1")
+            Me.TabPage1.Name = "TabPage1"
+            Me.TabPage1.UseVisualStyleBackColor = True
+            '
+            'Label4
+            '
+            resources.ApplyResources(Me.Label4, "Label4")
+            Me.Label4.Name = "Label4"
+            '
+            'Panel1
+            '
+            Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
+            Me.Panel1.Controls.Add(Me.RadioButton_CurrentUser)
+            Me.Panel1.Controls.Add(Me.RadioButton_AllUsers)
+            resources.ApplyResources(Me.Panel1, "Panel1")
+            Me.Panel1.Name = "Panel1"
+            '
+            'TabPage2
+            '
+            Me.TabPage2.Controls.Add(Me.Button_OpenInRegedit)
+            Me.TabPage2.Controls.Add(Me.Button_RefreshList)
+            Me.TabPage2.Controls.Add(Me.Button_SendtoItemBuilder)
+            Me.TabPage2.Controls.Add(Me.DataGridView1)
+            Me.TabPage2.Controls.Add(Me.Button_DeleteEntry)
+            resources.ApplyResources(Me.TabPage2, "TabPage2")
+            Me.TabPage2.Name = "TabPage2"
+            Me.TabPage2.UseVisualStyleBackColor = True
+            '
+            'Button_OpenInRegedit
+            '
+            resources.ApplyResources(Me.Button_OpenInRegedit, "Button_OpenInRegedit")
+            Me.Button_OpenInRegedit.Name = "Button_OpenInRegedit"
+            Me.Button_OpenInRegedit.UseVisualStyleBackColor = True
+            '
+            'Button_RefreshList
+            '
+            resources.ApplyResources(Me.Button_RefreshList, "Button_RefreshList")
+            Me.Button_RefreshList.Name = "Button_RefreshList"
+            Me.Button_RefreshList.UseVisualStyleBackColor = True
+            '
+            'Button_SendtoItemBuilder
+            '
+            resources.ApplyResources(Me.Button_SendtoItemBuilder, "Button_SendtoItemBuilder")
+            Me.Button_SendtoItemBuilder.Name = "Button_SendtoItemBuilder"
+            Me.Button_SendtoItemBuilder.UseVisualStyleBackColor = True
+            '
+            'DataGridView1
+            '
+            Me.DataGridView1.AllowUserToAddRows = False
+            Me.DataGridView1.AllowUserToDeleteRows = False
+            Me.DataGridView1.AllowUserToOrderColumns = True
+            Me.DataGridView1.AllowUserToResizeRows = False
+            resources.ApplyResources(Me.DataGridView1, "DataGridView1")
+            Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
+            Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
+            Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColumnType, Me.ColumnIcon, Me.ColumnName, Me.ColumnValue})
+            Me.DataGridView1.MultiSelect = False
+            Me.DataGridView1.Name = "DataGridView1"
+            Me.DataGridView1.ReadOnly = True
+            Me.DataGridView1.RowHeadersVisible = False
+            Me.DataGridView1.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing
+            Me.DataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect
+            Me.DataGridView1.ShowCellErrors = False
+            Me.DataGridView1.ShowCellToolTips = False
+            Me.DataGridView1.ShowEditingIcon = False
+            Me.DataGridView1.ShowRowErrors = False
+            '
+            'ColumnType
+            '
+            resources.ApplyResources(Me.ColumnType, "ColumnType")
+            Me.ColumnType.Name = "ColumnType"
+            Me.ColumnType.ReadOnly = True
+            '
+            'ColumnIcon
+            '
+            Me.ColumnIcon.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader
+            resources.ApplyResources(Me.ColumnIcon, "ColumnIcon")
+            Me.ColumnIcon.ImageLayout = System.Windows.Forms.DataGridViewImageCellLayout.Zoom
+            Me.ColumnIcon.Name = "ColumnIcon"
+            Me.ColumnIcon.ReadOnly = True
+            Me.ColumnIcon.Resizable = System.Windows.Forms.DataGridViewTriState.[False]
+            '
+            'ColumnName
+            '
+            resources.ApplyResources(Me.ColumnName, "ColumnName")
+            Me.ColumnName.Name = "ColumnName"
+            Me.ColumnName.ReadOnly = True
+            '
+            'ColumnValue
+            '
+            resources.ApplyResources(Me.ColumnValue, "ColumnValue")
+            Me.ColumnValue.Name = "ColumnValue"
+            Me.ColumnValue.ReadOnly = True
+            '
+            'Button_DeleteEntry
+            '
+            resources.ApplyResources(Me.Button_DeleteEntry, "Button_DeleteEntry")
+            Me.Button_DeleteEntry.Name = "Button_DeleteEntry"
+            Me.Button_DeleteEntry.UseVisualStyleBackColor = True
+            '
+            'ToolStrip2
+            '
+            Me.ToolStrip2.AllowMerge = False
+            Me.ToolStrip2.BackColor = System.Drawing.SystemColors.Control
+            Me.ToolStrip2.CanOverflow = False
+            resources.ApplyResources(Me.ToolStrip2, "ToolStrip2")
+            Me.ToolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
+            Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_About, Me.ToolStripDropDownButton2, Me.ToolStripButton1, Me.ToolStripButton3})
+            Me.ToolStrip2.Name = "ToolStrip2"
+            '
+            'ToolStripButton_About
+            '
+            Me.ToolStripButton_About.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+            Me.ToolStripButton_About.Image = Global.My.Resources.Resources.communications
+            resources.ApplyResources(Me.ToolStripButton_About, "ToolStripButton_About")
+            Me.ToolStripButton_About.Name = "ToolStripButton_About"
+            '
+            'ToolStripDropDownButton2
+            '
+            Me.ToolStripDropDownButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+            Me.ToolStripDropDownButton2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EnglishToolStripMenuItem, Me.SpanishToolStripMenuItem, Me.PortugueseToolStripMenuItem})
+            Me.ToolStripDropDownButton2.Image = Global.My.Resources.Resources.languages
+            resources.ApplyResources(Me.ToolStripDropDownButton2, "ToolStripDropDownButton2")
+            Me.ToolStripDropDownButton2.Name = "ToolStripDropDownButton2"
+            '
+            'EnglishToolStripMenuItem
+            '
+            Me.EnglishToolStripMenuItem.Image = Global.My.Resources.Resources.united_states_of_america
+            Me.EnglishToolStripMenuItem.Name = "EnglishToolStripMenuItem"
+            resources.ApplyResources(Me.EnglishToolStripMenuItem, "EnglishToolStripMenuItem")
+            '
+            'SpanishToolStripMenuItem
+            '
+            Me.SpanishToolStripMenuItem.Image = Global.My.Resources.Resources.spain
+            Me.SpanishToolStripMenuItem.Name = "SpanishToolStripMenuItem"
+            resources.ApplyResources(Me.SpanishToolStripMenuItem, "SpanishToolStripMenuItem")
+            '
+            'PortugueseToolStripMenuItem
+            '
+            Me.PortugueseToolStripMenuItem.Image = Global.My.Resources.Resources.portugal
+            Me.PortugueseToolStripMenuItem.Name = "PortugueseToolStripMenuItem"
+            resources.ApplyResources(Me.PortugueseToolStripMenuItem, "PortugueseToolStripMenuItem")
+            '
+            'ToolStripButton1
+            '
+            Me.ToolStripButton1.Image = Global.My.Resources.Resources.plus
+            resources.ApplyResources(Me.ToolStripButton1, "ToolStripButton1")
+            Me.ToolStripButton1.Name = "ToolStripButton1"
+            '
+            'ToolStripButton3
+            '
+            Me.ToolStripButton3.Image = Global.My.Resources.Resources.pencil
+            resources.ApplyResources(Me.ToolStripButton3, "ToolStripButton3")
+            Me.ToolStripButton3.Name = "ToolStripButton3"
+            '
             'Main
             '
             Me.AllowDrop = True
-            Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
+            resources.ApplyResources(Me, "$this")
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-            Me.ClientSize = New System.Drawing.Size(412, 169)
-            Me.Controls.Add(Me.Button_OpenFile)
-            Me.Controls.Add(Me.ToolStrip1)
-            Me.Controls.Add(Me.RadioButton_AllUsers)
-            Me.Controls.Add(Me.RadioButton_CurrentUser)
-            Me.Controls.Add(Me.Button_AddToStartup)
-            Me.Controls.Add(Me.Label3)
-            Me.Controls.Add(Me.Label2)
-            Me.Controls.Add(Me.Label1)
-            Me.Controls.Add(Me.TextBox_Name)
-            Me.Controls.Add(Me.TextBox_File)
-            Me.Controls.Add(Me.TextBox_Parameters)
-            Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
-            Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+            Me.Controls.Add(Me.TabControl1)
+            Me.Controls.Add(Me.ToolStrip2)
             Me.Name = "Main"
-            Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-            Me.Text = "File 2 Startup"
             Me.ToolStrip1.ResumeLayout(False)
             Me.ToolStrip1.PerformLayout()
+            Me.TabControl1.ResumeLayout(False)
+            Me.TabPage1.ResumeLayout(False)
+            Me.TabPage1.PerformLayout()
+            Me.Panel1.ResumeLayout(False)
+            Me.Panel1.PerformLayout()
+            Me.TabPage2.ResumeLayout(False)
+            CType(Me.DataGridView1, System.ComponentModel.ISupportInitialize).EndInit()
+            Me.ToolStrip2.ResumeLayout(False)
+            Me.ToolStrip2.PerformLayout()
             Me.ResumeLayout(False)
             Me.PerformLayout()
 
@@ -204,10 +369,31 @@ Namespace UserInterface
         Friend WithEvents RadioButton_AllUsers As System.Windows.Forms.RadioButton
         Friend WithEvents ToolStrip1 As System.Windows.Forms.ToolStrip
         Friend WithEvents ContextMenuStrip_Recent As System.Windows.Forms.ContextMenuStrip
-        Friend WithEvents ToolStripDropDownButton1 As System.Windows.Forms.ToolStripDropDownButton
+        Friend WithEvents ToolStripDropDownButton_Recent As System.Windows.Forms.ToolStripDropDownButton
         Friend WithEvents Button_OpenFile As System.Windows.Forms.Button
         Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
-
+        Friend WithEvents TabControl1 As TabControl
+        Friend WithEvents TabPage1 As TabPage
+        Friend WithEvents TabPage2 As TabPage
+        Friend WithEvents Panel1 As Panel
+        Friend WithEvents Button_DeleteEntry As Button
+        Friend WithEvents Label4 As Label
+        Friend WithEvents DataGridView1 As DataGridView
+        Friend WithEvents ColumnType As DataGridViewTextBoxColumn
+        Friend WithEvents ColumnIcon As DataGridViewImageColumn
+        Friend WithEvents ColumnName As DataGridViewTextBoxColumn
+        Friend WithEvents ColumnValue As DataGridViewTextBoxColumn
+        Friend WithEvents ToolStrip2 As ToolStrip
+        Friend WithEvents ToolStripButton_About As ToolStripButton
+        Friend WithEvents ToolStripDropDownButton2 As ToolStripDropDownButton
+        Friend WithEvents EnglishToolStripMenuItem As ToolStripMenuItem
+        Friend WithEvents SpanishToolStripMenuItem As ToolStripMenuItem
+        Friend WithEvents PortugueseToolStripMenuItem As ToolStripMenuItem
+        Friend WithEvents ToolStripButton1 As ToolStripButton
+        Friend WithEvents ToolStripButton3 As ToolStripButton
+        Friend WithEvents Button_SendtoItemBuilder As Button
+        Friend WithEvents Button_RefreshList As Button
+        Friend WithEvents Button_OpenInRegedit As Button
     End Class
 
 End Namespace

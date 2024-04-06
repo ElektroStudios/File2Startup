@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -56,15 +56,15 @@ Option Infer Off
 
 Imports System.Reflection
 
-Imports ElektroKit.Core.Application.UserInterface.Enums
-Imports ElektroKit.Core.Application.UserInterface.Types
+Imports DevCase.Core.Application.UserInterface.Enums
+Imports DevCase.Core.Application.UserInterface.Types
 
 #End Region
 
 #Region " ControlHint Manager "
 
 
-Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
+Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -155,8 +155,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub SetHint(ByVal ctrl As Control,
-                                  ByVal hintInfo As ControlHintInfo)
+        Public Shared Sub SetHint(ctrl As Control, hintInfo As ControlHintInfo)
 
             Dim text As String = hintInfo.Text
             Dim font As Font = hintInfo.Font
@@ -232,8 +231,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub SetHint(ByVal controls As Control(),
-                                  ByVal hintInfo As ControlHintInfo)
+        Public Shared Sub SetHint(controls As Control(), hintInfo As ControlHintInfo)
 
             For Each control As Control In controls
                 SetHint(control, hintInfo)
@@ -251,7 +249,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub RemoveHint(ByVal ctrl As Control)
+        Public Shared Sub RemoveHint(ctrl As Control)
 
             InstanceControlHintFields()
             Select Case controlHintsB.ContainsKey(ctrl)
@@ -297,7 +295,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub RemoveHint(ByVal ctrls As Control())
+        Public Shared Sub RemoveHint(ctrls As Control())
 
             For Each ctrl As Control In ctrls
                 RemoveHint(ctrl)
@@ -346,8 +344,8 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Function GetPropertyValue(Of T)(ByVal ctrl As Control,
-                                                       ByVal propName As String) As T
+        Private Shared Function GetPropertyValue(Of T)(ctrl As Control,
+propName As String) As T
 
             Dim prop As PropertyInfo = ctrl.GetType().GetProperty(propName)
 
@@ -381,13 +379,12 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub SetProperties(ByVal ctrl As Object,
-                                         ByVal hintInfo As ControlHintInfo,
-                                         Optional ByVal skipProperties As String() = Nothing)
+        Private Shared Sub SetProperties(ctrl As Object, hintInfo As ControlHintInfo,
+                                         Optional skipProperties As String() = Nothing)
 
             ' Get the control type.
             Dim ctrlType As Type = ctrl.GetType
-            Dim excludeProperties As String() = If(skipProperties Is Nothing, {""}, skipProperties)
+            Dim excludeProperties As String() = If(skipProperties, {""})
 
             ' Loop through the 'ControlHintInfo' properties to 
             ' determine whether exist all the needed properties in the Control.
@@ -395,7 +392,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
 
                 Dim prop As PropertyInfo = ctrlType.GetProperty(hintProp.Name)
 
-                If Not prop Is Nothing AndAlso Not excludeProperties.Contains(prop.Name) Then
+                If prop IsNot Nothing AndAlso Not excludeProperties.Contains(prop.Name) Then
                     prop.SetValue(ctrl, hintProp.GetValue(hintInfo, Nothing), Nothing)
                 End If
 
@@ -421,12 +418,11 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub RestoreProperties(ByVal ctrl As Object,
-                                             ByVal defaultProperties As ControlHintInfo,
-                                             Optional ByVal skipProperties As String() = Nothing)
+        Private Shared Sub RestoreProperties(ctrl As Object,
+defaultProperties As ControlHintInfo,
+                                             Optional skipProperties As String() = Nothing)
 
-            Dim excludeProperties As String() =
-                If(skipProperties Is Nothing, {""}, skipProperties)
+            Dim excludeProperties As String() = If(skipProperties, {""})
 
             ' Get the control type.
             Dim ctrlType As Type = ctrl.GetType
@@ -463,7 +459,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_HandleCreated(ByVal sender As Object, ByVal e As EventArgs)
+        Private Shared Sub Control_HandleCreated(sender As Object, e As EventArgs)
 
             InstanceControlHintFields()
 
@@ -488,7 +484,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_Enter(ByVal sender As Object, ByVal e As EventArgs)
+        Private Shared Sub Control_Enter(sender As Object, e As EventArgs)
 
             InstanceControlHintFields()
 
@@ -522,7 +518,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_Leave(ByVal sender As Object, ByVal e As EventArgs)
+        Private Shared Sub Control_Leave(sender As Object, e As EventArgs)
 
             InstanceControlHintFields()
 
@@ -565,7 +561,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_MouseDown(ByVal sender As Object, ByVal e As MouseEventArgs)
+        Private Shared Sub Control_MouseDown(sender As Object, e As MouseEventArgs)
 
             InstanceControlHintFields()
 
@@ -587,10 +583,8 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
                                                      {GetType(Integer), GetType(Integer)},
                                                      Nothing)
 
-                        If (method IsNot Nothing) Then
-                            ' Select the zero length.
-                            method.Invoke(ctrl, New Object() {0I, 0I})
-                        End If
+                        ' Select the zero length.
+                        method?.Invoke(ctrl, New Object() {0I, 0I})
 
                     End If
 
@@ -612,7 +606,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_KeyDown(ByVal sender As Object, ByVal e As KeyEventArgs)
+        Private Shared Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
 
             InstanceControlHintFields()
 
@@ -654,7 +648,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub Control_Disposed(ByVal sender As Object, ByVal e As EventArgs)
+        Private Shared Sub Control_Disposed(sender As Object, e As EventArgs)
 
             RemoveHint(DirectCast(sender, Control))
 

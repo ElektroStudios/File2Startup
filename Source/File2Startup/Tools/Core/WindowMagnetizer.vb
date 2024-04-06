@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -49,15 +49,15 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.Runtime.InteropServices
-Imports ElektroKit.Interop.Win32
-Imports ElektroKit.Interop.Win32.Enums
-Imports ElektroKit.Interop.Win32.Types
+Imports DevCase.Interop.Win32
+Imports DevCase.Interop.Win32.Enums
+Imports DevCase.Interop.Win32.Types
 
 #End Region
 
 #Region " Window Magnetizer "
 
-Namespace ElektroKit.Core.Application.UserInterface.Types
+Namespace DevCase.Core.Application.UserInterface.Types
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -147,7 +147,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
                 Return Me.thresholdB
             End Get
             <DebuggerStepThrough>
-            Set(ByVal value As Integer)
+            Set(value As Integer)
                 Me.thresholdB = value
             End Set
         End Property
@@ -174,7 +174,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
                 Return Me.enabledB
             End Get
             <DebuggerStepThrough>
-            Set(ByVal value As Boolean)
+            Set(value As Boolean)
                 Me.enabledB = value
             End Set
         End Property
@@ -203,7 +203,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
                 Return Me.allowOffscreenB
             End Get
             <DebuggerStepThrough>
-            Set(ByVal value As Boolean)
+            Set(value As Boolean)
                 Me.allowOffscreenB = value
             End Set
         End Property
@@ -238,7 +238,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Sub New(ByVal window As IWin32Window)
+        Public Sub New(window As IWin32Window)
 
             Me.allowOffscreenB = True
             Me.thresholdB = 20
@@ -378,9 +378,9 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' The minimum threshold that the window needs to dock it on the nearest desktop border.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Protected Overridable Sub DockToNearestScreenBorder(ByVal window As IWin32Window,
-                                                            ByVal windowPosHandle As IntPtr,
-                                                            Optional ByVal threshold As Integer = 0I)
+        Protected Overridable Sub DockToNearestScreenBorder(window As IWin32Window,
+windowPosHandle As IntPtr,
+                                                            Optional threshold As Integer = 0I)
 
             ' Deprecated.
             ' Dim workingArea As Rectangle = Rectangle.Empty
@@ -545,7 +545,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Protected Overridable Sub Dispose(ByVal isDisposing As Boolean)
+        Protected Overridable Sub Dispose(isDisposing As Boolean)
 
             If (Not Me.isDisposed) AndAlso (isDisposing) Then
 

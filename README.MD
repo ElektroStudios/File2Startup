@@ -1,6 +1,6 @@
 # File 2 startup
 
-### A desktop application to easy configure executable files to run at Windows startup.
+### A desktop application to easy add executable files to run at Windows startup.
 
 ![](https://i.imgur.com/mLDKiBF.png)
 

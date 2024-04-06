@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -37,16 +37,18 @@ Option Infer Off
 
 #Region " Imports "
 
+Imports System.IO
 Imports System.Runtime.InteropServices
 
-Imports ElektroKit.Interop.Win32
-Imports ElektroKit.Interop.Win32.Enums
+Imports DevCase.Interop.Win32
+Imports DevCase.Win32.Enums
+Imports DevCase.Win32.Structures
 
 #End Region
 
 #Region " Image Util "
 
-Namespace ElektroKit.Core.Imaging.Tools
+Namespace DevCase.Core.Imaging.Tools
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -72,76 +74,49 @@ Namespace ElektroKit.Core.Imaging.Tools
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Extracts a icon stored in the specified file.
+        ''' Extracts the icon associated for the specified file.
+        ''' <para></para>
+        ''' Note: the maximum size of the returned icon only can be 32x32.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
-        ''' <code>
-        ''' Dim ico As Icon = ExtractIconFromFile("C:\Windows\Explorer.exe", 0)
+        ''' <code language="VB.NET">
+        ''' Dim path As String = "C:\File.ext"
+        ''' Dim ico As Icon = ExtractIconFromFile(path)
         ''' Dim bmp As Bitmap = ico.ToBitmap()
         ''' PictureBox1.BackgroundImage = bmp
         ''' </code>
         ''' </example>
         ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filepath">
-        ''' The source filepath.
+        ''' The full path to a file.
         ''' </param>
-        ''' 
-        ''' <param name="iconIndex">
-        ''' The index of the icon to be extracted.
-        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The resulting icon.
+        ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromFile(ByVal filepath As String,
-                                                   ByVal iconIndex As Integer) As Global.System.Drawing.Icon
+        Public Shared Function ExtractIconFromFile(filepath As String) As Icon
 
-            Return ImageUtil.ExtractIconFromFile(filepath, iconIndex, 0)
+            ' Note that the icon returned by "SHGetFileInfo" function 
+            ' is limited to "SHGetFileInfoFlags.IconSizeSmall" (16x16) 
+            ' and "SHGetFileInfoFlags.IconSizeLarge" (32x32) icon size.
 
-        End Function
+            Dim shInfo As New ShellFileInfo()
 
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Extracts a icon stored in the specified file.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <example> This is a code example.
-        ''' <code>
-        ''' Dim ico As Icon = ExtractIconFromFile("C:\Windows\Explorer.exe", 0, 256)
-        ''' Dim bmp As Bitmap = ico.ToBitmap()
-        ''' PictureBox1.BackgroundImage = bmp
-        ''' </code>
-        ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="filepath">
-        ''' The source filepath.
-        ''' </param>
-        ''' 
-        ''' <param name="iconIndex">
-        ''' The index of the icon to be extracted.
-        ''' </param>
-        ''' 
-        ''' <param name="iconSize">
-        ''' The icon size, in pixels.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Function ExtractIconFromFile(ByVal filepath As String,
-                                                   ByVal iconIndex As Integer,
-                                                   ByVal iconSize As Integer) As Global.System.Drawing.Icon
-
-            Dim hiconLarge As IntPtr
-            Dim result As Integer = NativeMethods.SHDefExtractIcon(filepath, iconIndex, 0, hiconLarge, Nothing, CUInt(iconSize))
-
-            If (CType(result, HResult) <> HResult.S_OK) Then
-                Marshal.ThrowExceptionForHR(result)
-                Return Nothing
-
-            Else
-                Dim ico As Global.System.Drawing.Icon = Global.System.Drawing.Icon.FromHandle(hiconLarge)
-                ' NativeMethods.DestroyIcon(hiconLarge)
-                Return ico
-
+            Dim result As IntPtr = NativeMethods.SHGetFileInfo(filepath, FileAttributes.Normal, shInfo, CUInt(Marshal.SizeOf(shInfo)), SHGetFileInfoFlags.UseFileAttributes Or SHGetFileInfoFlags.Icon Or SHGetFileInfoFlags.IconSizeLarge)
+            If result = IntPtr.Zero Then
+                result = NativeMethods.SHGetFileInfo(filepath, FileAttributes.Normal, shInfo, CUInt(Marshal.SizeOf(shInfo)), SHGetFileInfoFlags.Icon Or SHGetFileInfoFlags.IconSizeLarge)
             End If
+
+            If result = IntPtr.Zero Then
+                Return Nothing
+            End If
+
+            Dim ico As Icon = TryCast(Drawing.Icon.FromHandle(shInfo.IconHandle).Clone(), Icon)
+            NativeMethods.DestroyIcon(shInfo.IconHandle)
+            Return ico
 
         End Function
 

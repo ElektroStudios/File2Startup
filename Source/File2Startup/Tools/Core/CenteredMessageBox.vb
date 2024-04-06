@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -50,15 +50,15 @@ Option Infer Off
 Imports System.Text
 Imports System.Threading
 
-Imports ElektroKit.Interop.Win32
-Imports ElektroKit.Interop.Win32.Enums
-Imports ElektroKit.Interop.Win32.Types
+Imports DevCase.Interop.Win32
+Imports DevCase.Interop.Win32.Enums
+Imports DevCase.Interop.Win32.Types
 
 #End Region
 
 #Region " Centered MessageBox "
 
-Namespace ElektroKit.Core.Application.UserInterface.Types
+Namespace DevCase.Core.Application.UserInterface.Types
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -161,7 +161,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' The <see cref="Form"/> that owns this <see cref="CenteredMessageBox"/>.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal owner As Form)
+        Public Sub New(owner As Form)
             Me.New(owner, Global.System.Threading.Timeout.Infinite)
         End Sub
 
@@ -180,7 +180,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' Default value is 0, which means Infinite.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal owner As Form, ByVal timeOut As Integer)
+        Public Sub New(owner As Form, timeOut As Integer)
             Me.New(DirectCast(owner, Control), timeOut)
         End Sub
 
@@ -193,7 +193,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' The <see cref="Control"/> that owns this <see cref="CenteredMessageBox"/>.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal owner As Control)
+        Public Sub New(owner As Control)
             Me.New(owner, Global.System.Threading.Timeout.Infinite)
         End Sub
 
@@ -212,7 +212,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' Default value is 0, which means Infinite.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Sub New(ByVal owner As Control, ByVal timeOut As Integer)
+        Public Sub New(owner As Control, timeOut As Integer)
 
             Me.ownerB = owner
             Me.TimeOut = timeOut
@@ -245,7 +245,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' One of the <see cref="DialogResult"/> values.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Public Overridable Function Show(ByVal text As String) As DialogResult
+        Public Overridable Function Show(text As String) As DialogResult
             Return MessageBox.Show(Me.Owner, text)
         End Function
 
@@ -702,7 +702,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' <see langword="False"/> otherwise.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Function CheckWindow(ByVal hwnd As IntPtr, ByVal lParam As IntPtr) As Boolean
+        Private Function CheckWindow(hwnd As IntPtr, lParam As IntPtr) As Boolean
 
             ' Checks if <hWnd> is a dialog
             Dim sb As New StringBuilder(260)
@@ -749,7 +749,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Private Sub TimeoutTimer_Tick(ByVal sender As Object, ByVal e As Global.System.EventArgs) Handles TimeoutTimer.Tick
+        Private Sub TimeoutTimer_Tick(sender As Object, e As Global.System.EventArgs) Handles TimeoutTimer.Tick
 
             NativeMethods.DestroyWindow(Me.dialogWindowHandleB)
             Me.Dispose()
@@ -790,7 +790,7 @@ Namespace ElektroKit.Core.Application.UserInterface.Types
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Protected Overridable Sub Dispose(ByVal isDisposing As Boolean)
+        Protected Overridable Sub Dispose(isDisposing As Boolean)
 
             If (Not Me.isDisposed) AndAlso (isDisposing) Then
                 Me.tries = -1

@@ -81,6 +81,8 @@
     <Compile Include="Tools\Interop\Delegates.vb" />
     <Compile Include="Tools\Interop\HResult.vb" />
     <Compile Include="Tools\Interop\NativeMethods.vb" />
+    <Compile Include="Tools\Interop\ShellFileInfo.vb" />
+    <Compile Include="Tools\Interop\SHGetFileInfoFlags.vb" />
     <Compile Include="Tools\Interop\WindowsMessages.vb" />
     <Compile Include="Tools\Interop\SetWindowPosFlags.vb" />
     <Compile Include="Tools\Interop\RegistryRootKeyId.vb" />
@@ -94,6 +96,12 @@
     <Compile Include="Tools\Interop\NativeRectangle.vb" />
     <Compile Include="Tools\Core\RegistryUtil.vb" />
     <Compile Include="Tools\Core\WindowMagnetizer.vb" />
+    <Compile Include="UserInterface\Aboutform.Designer.vb">
+      <DependentUpon>Aboutform.vb</DependentUpon>
+    </Compile>
+    <Compile Include="UserInterface\Aboutform.vb">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="UserInterface\Main.vb">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +127,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="UserInterface\Aboutform.es.resx">
+      <DependentUpon>Aboutform.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Aboutform.pt.resx">
+      <DependentUpon>Aboutform.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Aboutform.resx">
+      <DependentUpon>Aboutform.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Main.en-AS.resx">
+      <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Main.en.resx">
+      <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Main.es.resx">
+      <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserInterface\Main.pt.resx">
+      <DependentUpon>Main.vb</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
     </EmbeddedResource>
@@ -144,6 +173,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\Elektro.png" />
+    <None Include="Resources\pencil.png" />
+    <None Include="Resources\plus.png" />
+    <None Include="Resources\united-states-of-america.png" />
+    <None Include="Resources\spain.png" />
+    <None Include="Resources\portugal.png" />
+    <None Include="Resources\languages.png" />
+    <None Include="Resources\communications.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

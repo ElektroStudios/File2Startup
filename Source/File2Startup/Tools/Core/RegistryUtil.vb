@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -384,13 +384,14 @@ Option Infer Off
 Imports System.IO
 Imports System.Security.Permissions
 Imports System.Text
+
 Imports Microsoft.Win32
 
 #End Region
 
 #Region " Reg Util "
 
-Namespace ElektroKit.Core.System.Tools
+Namespace DevCase.Core.System.Tools
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -927,11 +928,11 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function CreateSubKey(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                            ByVal subKeyPath As String,
-                                            Optional ByVal registryKeyPermissionCheck As RegistryKeyPermissionCheck =
+        Public Shared Function CreateSubKey(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+                                            Optional registryKeyPermissionCheck As RegistryKeyPermissionCheck =
                                                            RegistryKeyPermissionCheck.Default,
-                                            Optional ByVal registryOptions As RegistryOptions =
+                                            Optional registryOptions As RegistryOptions =
                                                            RegistryOptions.None) As RegistryKey
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
@@ -971,10 +972,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function CreateSubKey(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                            Optional ByVal registryKeyPermissionCheck As RegistryKeyPermissionCheck =
+        Public Shared Function CreateSubKey(view As RegistryView, fullKeyPath As String,
+                                            Optional registryKeyPermissionCheck As RegistryKeyPermissionCheck =
                                                            RegistryKeyPermissionCheck.Default,
-                                            Optional ByVal registryOptions As RegistryOptions =
+                                            Optional registryOptions As RegistryOptions =
                                                            RegistryOptions.None) As RegistryKey
 
             Return RegistryUtil.CreateSubKey(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), registryKeyPermissionCheck, registryOptions)
@@ -1039,9 +1040,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub DeleteSubKey(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                       ByVal subKeyPath As String,
-                                       Optional ByVal throwOnMissingSubKey As Boolean = False)
+        Public Shared Sub DeleteSubKey(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+                                       Optional throwOnMissingSubKey As Boolean = False)
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -1072,8 +1073,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub DeleteSubKey(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                       Optional ByVal throwOnMissingSubKey As Boolean = False)
+        Public Shared Sub DeleteSubKey(view As RegistryView, fullKeyPath As String,
+                                       Optional throwOnMissingSubKey As Boolean = False)
 
             RegistryUtil.DeleteSubKey(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), throwOnMissingSubKey)
 
@@ -1142,11 +1143,11 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CreateValue(Of T)(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                            ByVal subKeyPath As String,
-                                            ByVal valueName As String,
-                                            ByVal valueData As T,
-                                            Optional ByVal valueType As RegistryValueKind = RegistryValueKind.String)
+        Public Shared Sub CreateValue(Of T)(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+valueName As String,
+valueData As T,
+                                            Optional valueType As RegistryValueKind = RegistryValueKind.String)
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -1189,10 +1190,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CreateValue(Of T)(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                            ByVal valueName As String,
-                                            ByVal valueData As T,
-                                            Optional ByVal valueType As RegistryValueKind = RegistryValueKind.String)
+        Public Shared Sub CreateValue(Of T)(view As RegistryView, fullKeyPath As String,
+valueName As String,
+valueData As T,
+                                            Optional valueType As RegistryValueKind = RegistryValueKind.String)
 
             RegistryUtil.CreateValue(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, valueData, valueType)
 
@@ -1248,10 +1249,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub DeleteValue(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                      ByVal subKeyPath As String,
-                                      ByVal valueName As String,
-                                      Optional ByVal throwOnMissingValue As Boolean = False)
+        Public Shared Sub DeleteValue(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+valueName As String,
+                                      Optional throwOnMissingValue As Boolean = False)
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -1289,9 +1290,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub DeleteValue(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                      ByVal valueName As String,
-                                      Optional ByVal throwOnMissingValue As Boolean = False)
+        Public Shared Sub DeleteValue(view As RegistryView, fullKeyPath As String,
+valueName As String,
+                                      Optional throwOnMissingValue As Boolean = False)
 
             RegistryUtil.DeleteValue(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, throwOnMissingValue)
 
@@ -1364,11 +1365,11 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(Of T)(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                                  ByVal subKeyPath As String,
-                                                  ByVal valueName As String,
-                                                  ByVal defaultIfEmpty As T,
-                                                  Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(Of T)(view As RegistryView, rootKeyName As String,
+                                                  subKeyPath As String,
+                                                  valueName As String,
+                                                  defaultIfEmpty As T,
+                                                  Optional registryValueOptions As RegistryValueOptions =
                                                                  RegistryValueOptions.None) As T
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
@@ -1379,12 +1380,10 @@ Namespace ElektroKit.Core.System.Tools
 
             Else
                 Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view)
-                    If RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath) Then
-                        Return DirectCast(reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
-                                          GetValue(valueName, defaultValue:=defaultIfEmpty, options:=registryValueOptions), T)
-                    Else
-                        Return defaultIfEmpty
-                    End If
+                    Return If(RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath),
+                        DirectCast(reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
+                                          GetValue(valueName, defaultValue:=defaultIfEmpty, options:=registryValueOptions), T),
+                        defaultIfEmpty)
                 End Using
 
             End If
@@ -1425,10 +1424,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(Of T)(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                                  ByVal subKeyPath As String,
-                                                  ByVal valueName As String,
-                                                  Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(Of T)(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+valueName As String,
+                                                  Optional registryValueOptions As RegistryValueOptions =
                                                                  RegistryValueOptions.None) As T
 
             Return RegistryUtil.GetValueData(Of T)(view, rootKeyName, subKeyPath, valueName, Nothing, registryValueOptions)
@@ -1465,10 +1464,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(Of T)(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                                  ByVal valueName As String,
-                                                  ByVal defaultIfEmpty As T,
-                                                  Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(Of T)(view As RegistryView, fullKeyPath As String,
+valueName As String,
+defaultIfEmpty As T,
+                                                  Optional registryValueOptions As RegistryValueOptions =
                                                                  RegistryValueOptions.None) As T
 
             Return RegistryUtil.GetValueData(Of T)(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, defaultIfEmpty, registryValueOptions)
@@ -1544,11 +1543,11 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                            ByVal subKeyPath As String,
-                                            ByVal valueName As String,
-                                            ByVal defaultIfEmpty As Object,
-                                            Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+valueName As String,
+defaultIfEmpty As Object,
+                                            Optional registryValueOptions As RegistryValueOptions =
                                                            RegistryValueOptions.None) As Object
 
             Return RegistryUtil.GetValueData(Of Object)(view, rootKeyName, subKeyPath, valueName, defaultIfEmpty, registryValueOptions)
@@ -1581,10 +1580,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                            ByVal valueName As String,
-                                            ByVal defaultIfEmpty As Object,
-                                            Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(view As RegistryView, fullKeyPath As String,
+valueName As String,
+defaultIfEmpty As Object,
+                                            Optional registryValueOptions As RegistryValueOptions =
                                                            RegistryValueOptions.None) As Object
 
             Return RegistryUtil.GetValueData(Of Object)(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, defaultIfEmpty, registryValueOptions)
@@ -1648,9 +1647,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(Of T)(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                                  ByVal valueName As String,
-                                                  Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(Of T)(view As RegistryView, fullKeyPath As String,
+valueName As String,
+                                                  Optional registryValueOptions As RegistryValueOptions =
                                                                  RegistryValueOptions.None) As T
 
             Return RegistryUtil.GetValueData(Of T)(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, Nothing, registryValueOptions)
@@ -1717,10 +1716,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                            ByVal subKeyPath As String,
-                                            ByVal valueName As String,
-                                            Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(view As RegistryView, rootKeyName As String,
+subKeyPath As String,
+valueName As String,
+                                            Optional registryValueOptions As RegistryValueOptions =
                                                            RegistryValueOptions.None) As Object
 
             Return RegistryUtil.GetValueData(Of Object)(view, rootKeyName, subKeyPath, valueName, String.Empty, registryValueOptions)
@@ -1749,9 +1748,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetValueData(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                            ByVal valueName As String,
-                                            Optional ByVal registryValueOptions As RegistryValueOptions =
+        Public Shared Function GetValueData(view As RegistryView, fullKeyPath As String,
+valueName As String,
+                                            Optional registryValueOptions As RegistryValueOptions =
                                                            RegistryValueOptions.None) As Object
 
             Return RegistryUtil.GetValueData(Of Object)(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, String.Empty, registryValueOptions)
@@ -1804,7 +1803,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function IsRegistryFile(ByVal filepath As String) As Boolean
+        Public Shared Function IsRegistryFile(filepath As String) As Boolean
 
             Dim firstLine As String = File.ReadLines(filepath, Encoding.Unicode).FirstOrDefault.Trim
 
@@ -1835,8 +1834,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExistSubKey(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                           ByVal subKeyPath As String) As Boolean
+        Public Shared Function ExistSubKey(view As RegistryView, rootKeyName As String,
+subKeyPath As String) As Boolean
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -1867,7 +1866,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExistSubKey(ByVal view As RegistryView, ByVal fullKeyPath As String) As Boolean
+        Public Shared Function ExistSubKey(view As RegistryView, fullKeyPath As String) As Boolean
 
             Return RegistryUtil.ExistSubKey(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath))
 
@@ -1923,9 +1922,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExistValue(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                          ByVal subKeyPath As String,
-                                          ByVal valueName As String) As Boolean
+        Public Shared Function ExistValue(view As RegistryView, rootKeyName As String,
+                                          subKeyPath As String,
+                                          valueName As String) As Boolean
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -1936,12 +1935,8 @@ Namespace ElektroKit.Core.System.Tools
             Else
                 Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view)
 
-                    If RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath) Then
-                        Return reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
+                    Return RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath) AndAlso reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
                                    GetValue(valueName, defaultValue:=Nothing) IsNot Nothing
-                    Else
-                        Return False
-                    End If
 
                 End Using
 
@@ -1967,8 +1962,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExistValue(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                          ByVal valueName As String) As Boolean
+        Public Shared Function ExistValue(view As RegistryView, fullKeyPath As String,
+valueName As String) As Boolean
 
             Return RegistryUtil.ExistValue(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName)
 
@@ -2024,9 +2019,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ValueIsEmpty(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                            ByVal subKeyPath As String,
-                                            ByVal valueName As String) As Boolean
+        Public Shared Function ValueIsEmpty(view As RegistryView, rootKeyName As String,
+                                            subKeyPath As String, valueName As String) As Boolean
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -2039,12 +2033,8 @@ Namespace ElektroKit.Core.System.Tools
 
             Else
                 Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view)
-                    If RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath) Then
-                        Return String.IsNullOrEmpty(reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
+                    Return Not RegistryUtil.ExistSubKey(view, rootKeyName, subKeyPath) OrElse String.IsNullOrEmpty(reg.OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False).
                                                     GetValue(valueName, defaultValue:=Nothing).ToString())
-                    Else
-                        Return True
-                    End If
                 End Using
 
             End If
@@ -2069,8 +2059,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ValueIsEmpty(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                            ByVal valueName As String) As Boolean
+        Public Shared Function ValueIsEmpty(view As RegistryView, fullKeyPath As String,
+valueName As String) As Boolean
 
             Return RegistryUtil.ValueIsEmpty(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName)
 
@@ -2098,7 +2088,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ImportRegFile(ByVal regFilePath As String) As Boolean
+        Public Shared Function ImportRegFile(regFilePath As String) As Boolean
 
             If String.IsNullOrEmpty(regFilePath) OrElse String.IsNullOrWhiteSpace(regFilePath) Then
                 Throw New ArgumentNullException("regFilePath")
@@ -2153,9 +2143,9 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function ExportKey(ByVal rootKeyName As String,
-                                         ByVal subKeyPath As String,
-                                         ByVal outputFile As String) As Boolean
+        Public Shared Function ExportKey(rootKeyName As String,
+subKeyPath As String,
+outputFile As String) As Boolean
 
             If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
                 Throw New ArgumentNullException("rootKeyName")
@@ -2193,91 +2183,9 @@ Namespace ElektroKit.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Exports a key to a registry file.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="fullKeyPath">
-        ''' The registry key full path.
-        ''' </param>
-        ''' 
-        ''' <param name="outputFile">
-        ''' The output file.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' <see langword="True"/> if operation succeeds, <see langword="False"/> otherwise.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Function ExportKey(ByVal view As RegistryView, ByVal fullKeyPath As String,
-                                         ByVal outputFile As String) As Boolean
-
-            Return RegistryUtil.ExportKey(RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), outputFile)
-
-        End Function
-
 #End Region
 
 #Region " Navigation "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Runs Regedit.exe process to jump at the specified key.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="rootKeyName">
-        ''' The rootkey name.
-        ''' </param>
-        ''' 
-        ''' <param name="subKeyPath">
-        ''' The subkey path.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <exception cref="ArgumentNullException">
-        ''' rootKeyName or subKeyPath
-        ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub JumpToKey(ByVal view As RegistryView, ByVal rootKeyName As String,
-                                    ByVal subKeyPath As String)
-
-            If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
-                Throw New ArgumentNullException("rootKeyName")
-
-            ElseIf String.IsNullOrEmpty(subKeyPath) OrElse String.IsNullOrWhiteSpace(subKeyPath) Then
-                Throw New ArgumentNullException("subKeyPath")
-
-            Else
-                RegistryUtil.CreateValue(view:=view,
-                                     rootKeyName:="HKCU",
-                                     subKeyPath:="Software\Microsoft\Windows\CurrentVersion\Applets\Registry",
-                                     valueName:="LastKey",
-                                     valueData:=String.Format("{0}\{1}", RegistryUtil.GetRootKeyName(rootKeyName), RegistryUtil.GetSubKeyPath(subKeyPath)),
-                                     valueType:=RegistryValueKind.String)
-
-                Process.Start(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Windows), "Regedit.exe"))
-
-            End If
-
-        End Sub
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Runs Registry.exe process to jump at the specified key.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="fullKeyPath">
-        ''' The registry key full path.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub JumpToKey(ByVal view As RegistryView, ByVal fullKeyPath As String)
-
-            RegistryUtil.JumpToKey(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath))
-
-        End Sub
 
 #End Region
 
@@ -2305,12 +2213,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopyValue(ByVal srcView As RegistryView,
-                                    ByVal srcFullKeyPath As String,
-                                    ByVal srcValueName As String,
-                                    ByVal dstView As RegistryView,
-                                    ByVal dstFullKeyPath As String,
-                                    ByVal dstValueName As String)
+        Public Shared Sub CopyValue(srcView As RegistryView,
+srcFullKeyPath As String,
+srcValueName As String,
+dstView As RegistryView,
+dstFullKeyPath As String,
+dstValueName As String)
 
             RegistryUtil.CreateValue(view:=dstView,
                                  fullKeyPath:=dstFullKeyPath,
@@ -2350,14 +2258,14 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopyValue(ByVal srcView As RegistryView,
-                                    ByVal srcRootKeyName As String,
-                                    ByVal srcSubKeyPath As String,
-                                    ByVal srcValueName As String,
-                                    ByVal dstView As RegistryView,
-                                    ByVal dstRootKeyName As String,
-                                    ByVal dstSubKeyPath As String,
-                                    ByVal dstValueName As String)
+        Public Shared Sub CopyValue(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+srcValueName As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String,
+dstValueName As String)
 
             RegistryUtil.CreateValue(view:=dstView,
                                  rootKeyName:=dstRootKeyName,
@@ -2390,12 +2298,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveValue(ByVal srcView As RegistryView,
-                                    ByVal srcFullKeyPath As String,
-                                    ByVal srcValueName As String,
-                                    ByVal dstView As RegistryView,
-                                    ByVal dstFullKeyPath As String,
-                                    ByVal dstValueName As String)
+        Public Shared Sub MoveValue(srcView As RegistryView,
+srcFullKeyPath As String,
+srcValueName As String,
+dstView As RegistryView,
+dstFullKeyPath As String,
+dstValueName As String)
 
             RegistryUtil.CreateValue(view:=dstView,
                                  fullKeyPath:=dstFullKeyPath,
@@ -2437,14 +2345,14 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveValue(ByVal srcView As RegistryView,
-                                    ByVal srcRootKeyName As String,
-                                    ByVal srcSubKeyPath As String,
-                                    ByVal srcValueName As String,
-                                    ByVal dstView As RegistryView,
-                                    ByVal dstRootKeyName As String,
-                                    ByVal dstSubKeyPath As String,
-                                    ByVal dstValueName As String)
+        Public Shared Sub MoveValue(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+srcValueName As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String,
+dstValueName As String)
 
             RegistryUtil.CreateValue(view:=dstView,
                                  rootKeyName:=dstRootKeyName,
@@ -2483,12 +2391,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopyKeyTree(ByVal srcView As RegistryView,
-                                      ByVal srcRootKeyName As String,
-                                      ByVal srcSubKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstRootKeyName As String,
-                                      ByVal dstSubKeyPath As String)
+        Public Shared Sub CopyKeyTree(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String)
 
             If String.IsNullOrEmpty(srcRootKeyName) OrElse String.IsNullOrWhiteSpace(srcRootKeyName) Then
                 Throw New ArgumentNullException("srcRootKeyName")
@@ -2536,10 +2444,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopyKeyTree(ByVal srcView As RegistryView,
-                                      ByVal srcFullKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstFullKeyPath As String)
+        Public Shared Sub CopyKeyTree(srcView As RegistryView,
+srcFullKeyPath As String,
+dstView As RegistryView,
+dstFullKeyPath As String)
 
             RegistryUtil.CopyKeyTree(srcView:=srcView,
                                  srcRootKeyName:=RegistryUtil.GetRootKeyName(srcFullKeyPath),
@@ -2564,8 +2472,8 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub CopySubKeys(ByVal srcRegistryKey As RegistryKey,
-                                       ByVal dstRegistryKey As RegistryKey)
+        Private Shared Sub CopySubKeys(srcRegistryKey As RegistryKey,
+dstRegistryKey As RegistryKey)
 
             ' Copy Values.
             For Each valueName As String In srcRegistryKey.GetValueNames()
@@ -2605,12 +2513,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopySubKeys(ByVal srcView As RegistryView,
-                                      ByVal srcRootKeyName As String,
-                                      ByVal srcSubKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstRootKeyName As String,
-                                      ByVal dstSubKeyPath As String)
+        Public Shared Sub CopySubKeys(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String)
 
             Dim srcRegistryKey As RegistryKey = Nothing
             Dim dstRegistryKey As RegistryKey = Nothing
@@ -2625,12 +2533,8 @@ Namespace ElektroKit.Core.System.Tools
                 Throw
 
             Finally
-                If srcRegistryKey IsNot Nothing Then
-                    srcRegistryKey.Close()
-                End If
-                If dstRegistryKey IsNot Nothing Then
-                    dstRegistryKey.Close()
-                End If
+                srcRegistryKey?.Close()
+                dstRegistryKey?.Close()
 
             End Try
 
@@ -2650,10 +2554,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub CopySubKeys(ByVal srcView As RegistryView,
-                                      ByVal srcFullKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstFullKeyPath As String)
+        Public Shared Sub CopySubKeys(srcView As RegistryView,
+srcFullKeyPath As String,
+dstView As RegistryView,
+dstFullKeyPath As String)
 
             RegistryUtil.CopySubKeys(srcView:=srcView,
                                  srcRootKeyName:=RegistryUtil.GetRootKeyName(srcFullKeyPath),
@@ -2690,12 +2594,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveKeyTree(ByVal srcView As RegistryView,
-                                      ByVal srcRootKeyName As String,
-                                      ByVal srcSubKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstRootKeyName As String,
-                                      ByVal dstSubKeyPath As String)
+        Public Shared Sub MoveKeyTree(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String)
 
             If String.IsNullOrEmpty(srcRootKeyName) OrElse String.IsNullOrWhiteSpace(srcRootKeyName) Then
                 Throw New ArgumentNullException("srcRootKeyName")
@@ -2745,10 +2649,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveKeyTree(ByVal srcView As RegistryView,
-                                      ByVal srcFullKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstFullKeyPath As String)
+        Public Shared Sub MoveKeyTree(srcView As RegistryView,
+srcFullKeyPath As String,
+dstView As RegistryView,
+dstFullKeyPath As String)
 
             RegistryUtil.MoveKeyTree(srcView:=srcView,
                                  srcRootKeyName:=RegistryUtil.GetRootKeyName(srcFullKeyPath),
@@ -2781,12 +2685,12 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveSubKeys(ByVal srcView As RegistryView,
-                                      ByVal srcRootKeyName As String,
-                                      ByVal srcSubKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstRootKeyName As String,
-                                      ByVal dstSubKeyPath As String)
+        Public Shared Sub MoveSubKeys(srcView As RegistryView,
+srcRootKeyName As String,
+srcSubKeyPath As String,
+dstView As RegistryView,
+dstRootKeyName As String,
+dstSubKeyPath As String)
 
             Dim srcRegistryKey As RegistryKey = Nothing
             Dim dstRegistryKey As RegistryKey = Nothing
@@ -2804,12 +2708,8 @@ Namespace ElektroKit.Core.System.Tools
                 Throw
 
             Finally
-                If srcRegistryKey IsNot Nothing Then
-                    srcRegistryKey.Close()
-                End If
-                If dstRegistryKey IsNot Nothing Then
-                    dstRegistryKey.Close()
-                End If
+                srcRegistryKey?.Close()
+                dstRegistryKey?.Close()
 
             End Try
 
@@ -2829,10 +2729,10 @@ Namespace ElektroKit.Core.System.Tools
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub MoveSubKeys(ByVal srcView As RegistryView,
-                                      ByVal srcFullKeyPath As String,
-                                      ByVal dstView As RegistryView,
-                                      ByVal dstFullKeyPath As String)
+        Public Shared Sub MoveSubKeys(srcView As RegistryView,
+srcFullKeyPath As String,
+dstView As RegistryView,
+dstFullKeyPath As String)
 
             RegistryUtil.MoveSubKeys(srcView:=srcView,
                                  srcRootKeyName:=RegistryUtil.GetRootKeyName(srcFullKeyPath),
@@ -2857,7 +2757,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetRootKey(ByVal registryPath As String, ByVal view As RegistryView) As RegistryKey
+        Public Shared Function GetRootKey(registryPath As String, view As RegistryView) As RegistryKey
 
             Select Case registryPath.ToUpper.Split("\"c).First()
 
@@ -2899,7 +2799,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetRootKeyName(ByVal registryPath As String) As String
+        Public Shared Function GetRootKeyName(registryPath As String) As String
 
             Select Case registryPath.ToUpper.Split("\"c).FirstOrDefault
 
@@ -2941,7 +2841,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Function GetSubKeyPath(ByVal registryPath As String) As String
+        Public Shared Function GetSubKeyPath(registryPath As String) As String
 
             Select Case String.IsNullOrEmpty(RegistryUtil.GetRootKeyName(registryPath))
 
@@ -2954,463 +2854,6 @@ Namespace ElektroKit.Core.System.Tools
             End Select
 
         End Function
-
-#End Region
-
-#Region " Find "
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Finds on a registry path all the subkey names that matches the specified criteria.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="rootKeyName">
-        '''' The rootkey name.
-        '''' </param>
-        '''' 
-        '''' <param name="subKeyPath">
-        '''' The subkey path.
-        '''' </param>
-        '''' 
-        '''' <param name="subKeyName">
-        '''' The subkey name to find.
-        '''' </param>
-        '''' 
-        '''' <param name="matchFullSubKeyName">
-        '''' If set to <see langword="True"/>, matches all the subkey name, otherwise matches a part of the name.
-        '''' </param>
-        '''' 
-        '''' <param name="ignoreCase">
-        '''' If set to <see langword="True"/>, performs a non-sensitive stringcase comparison.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <exception cref="ArgumentNullException">
-        '''' rootKeyName or subKeyPath or subKeyName
-        '''' </exception>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Public Shared Function FindSubKey(ByVal view As RegistryView,
-        '                                  ByVal rootKeyName As String,
-        '                                  ByVal subKeyPath As String,
-        '                                  ByVal subKeyName As String,
-        '                                  ByVal matchFullSubKeyName As Boolean,
-        '                                  ByVal ignoreCase As Boolean,
-        '                                  ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
-        '        Throw New ArgumentNullException("rootKeyName")
-
-        '    ElseIf String.IsNullOrEmpty(subKeyPath) OrElse String.IsNullOrWhiteSpace(subKeyPath) Then
-        '        Throw New ArgumentNullException("subKeyPath")
-
-        '    ElseIf String.IsNullOrEmpty(subKeyName) OrElse String.IsNullOrWhiteSpace(subKeyName) Then
-        '        Throw New ArgumentNullException("subKeyName")
-
-        '    End If
-
-        '    Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view).OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False)
-
-        '        If matchFullSubKeyName Then
-
-        '            If ignoreCase Then
-        '                Return (From registryPath As String In RegistryUtil.CollectSubKeys(reg, searchOption)
-        '                        Where RegistryUtil.GetSubKeyPath(registryPath).
-        '                                      Remove(0, subKeyPath.Length).
-        '                                      ToLower.
-        '                                      Split("\"c).
-        '                                      Contains(subKeyName.ToLower())
-        '                        Select New RegInfo With
-        '                               {
-        '                                   .rootKeyName = RegistryUtil.GetRootKeyName(registryPath),
-        '                                   .subKeyPath = RegistryUtil.GetSubKeyPath(registryPath)
-        '                               }).ToArray
-
-        '            Else
-        '                Return (From registryPath As String In RegistryUtil.CollectSubKeys(reg, searchOption)
-        '                        Where RegistryUtil.GetSubKeyPath(registryPath).
-        '                                      Remove(0, subKeyPath.Length).
-        '                                      Split("\"c).
-        '                                      Contains(subKeyName)
-        '                        Select New RegInfo With
-        '                               {
-        '                                   .rootKeyName = RegistryUtil.GetRootKeyName(registryPath),
-        '                                   .subKeyPath = RegistryUtil.GetSubKeyPath(registryPath)
-        '                               }).ToArray
-
-        '            End If ' ignoreCase
-
-        '        Else ' not matchFullSubKeyName
-        '            If ignoreCase Then
-        '                Return (From registryPath As String In RegistryUtil.CollectSubKeys(reg, searchOption)
-        '                        Where RegistryUtil.GetSubKeyPath(registryPath).
-        '                                      Remove(0, subKeyPath.Length).
-        '                                      ToLower.
-        '                                      Contains(subKeyName.ToLower())
-        '                        Select New RegInfo With
-        '                               {
-        '                                   .rootKeyName = RegistryUtil.GetRootKeyName(registryPath),
-        '                                   .subKeyPath = RegistryUtil.GetSubKeyPath(registryPath)
-        '                               }).ToArray
-
-        '            Else
-        '                Return (From registryPath As String In RegistryUtil.CollectSubKeys(reg, searchOption)
-        '                        Where RegistryUtil.GetSubKeyPath(registryPath).
-        '                                      Remove(0, subKeyPath.Length).
-        '                                      Contains(subKeyName)
-        '                        Select New RegInfo With
-        '                               {
-        '                                   .rootKeyName = RegistryUtil.GetRootKeyName(registryPath),
-        '                                   .subKeyPath = RegistryUtil.GetSubKeyPath(registryPath)
-        '                               }).ToArray
-
-        '            End If ' ignoreCase
-
-        '        End If ' matchFullSubKeyName
-
-        '    End Using
-
-        'End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Finds on a registry path all the subkey names that matches the specified criteria.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="fullKeyPath">
-        '''' The registry key full path.
-        '''' </param>
-        '''' 
-        '''' <param name="subKeyName">
-        '''' The subkey name to find.
-        '''' </param>
-        '''' 
-        '''' <param name="matchFullSubKeyName">
-        '''' If set to <see langword="True"/>, matches all the subkey name, otherwise matches a part of the name.
-        '''' </param>
-        '''' 
-        '''' <param name="ignoreCase">
-        '''' If set to <see langword="True"/>, performs a non-sensitive stringcase comparison.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Public Shared Function FindSubKey(ByVal view As RegistryView,
-        '                                  ByVal fullKeyPath As String,
-        '                                  ByVal subKeyName As String,
-        '                                  ByVal matchFullSubKeyName As Boolean,
-        '                                  ByVal ignoreCase As Boolean,
-        '                                  ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    Return RegistryUtil.FindSubKey(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), subKeyName, matchFullSubKeyName, ignoreCase, searchOption)
-
-        'End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Finds on a registry path all the value names that matches the specified criteria.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="rootKeyName">
-        '''' The rootkey name.
-        '''' </param>
-        '''' 
-        '''' <param name="subKeyPath">
-        '''' The subkey path.
-        '''' </param>
-        '''' 
-        '''' <param name="valueName">
-        '''' The value name to find.
-        '''' </param>
-        '''' 
-        '''' <param name="matchFullValueName">
-        '''' If set to <see langword="True"/>, matches all the value name, otherwise matches a part of the name.
-        '''' </param>
-        '''' 
-        '''' <param name="ignoreCase">
-        '''' If set to <see langword="True"/>, performs a non-sensitive stringcase comparison.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <exception cref="ArgumentNullException">
-        '''' rootKeyName or subKeyPath or subKeyName
-        '''' </exception>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Public Shared Function FindValue(ByVal view As RegistryView,
-        '                                 ByVal rootKeyName As String,
-        '                                 ByVal subKeyPath As String,
-        '                                 ByVal valueName As String,
-        '                                 ByVal matchFullValueName As Boolean,
-        '                                 ByVal ignoreCase As Boolean,
-        '                                 ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
-        '        Throw New ArgumentNullException("rootKeyName")
-
-        '    ElseIf String.IsNullOrEmpty(subKeyPath) OrElse String.IsNullOrWhiteSpace(subKeyPath) Then
-        '        Throw New ArgumentNullException("subKeyPath")
-
-        '    ElseIf String.IsNullOrEmpty(valueName) OrElse String.IsNullOrWhiteSpace(valueName) Then
-        '        Throw New ArgumentNullException("valueName")
-
-        '    End If
-
-        '    Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view).OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False)
-
-        '        If matchFullValueName Then
-
-        '            If ignoreCase Then
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValues(reg, searchOption)
-        '                        Where regInfo.ValueName.ToLower.Equals(valueName.ToLower())).ToArray
-
-        '            Else
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValues(reg, searchOption)
-        '                        Where regInfo.ValueName.Equals(valueName)).ToArray
-
-        '            End If ' ignoreCase
-
-        '        Else ' not matchFullValueName
-        '            If ignoreCase Then
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValues(reg, searchOption)
-        '                        Where regInfo.ValueName.ToLower.Contains(valueName.ToLower())).ToArray
-
-        '            Else
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValues(reg, searchOption)
-        '                        Where regInfo.ValueName.Contains(valueName)).ToArray
-
-        '            End If ' ignoreCase
-
-        '        End If ' matchFullValueName
-
-        '    End Using
-
-        'End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Finds on a registry path all the value names that matches the specified criteria.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="fullKeyPath">
-        '''' The registry key full path.
-        '''' </param>
-        '''' 
-        '''' <param name="valueName">
-        '''' The value name to find.
-        '''' </param>
-        '''' 
-        '''' <param name="matchFullValueName">
-        '''' If set to <see langword="True"/>, matches all the value name, otherwise matches a part of the name.
-        '''' </param>
-        '''' 
-        '''' <param name="ignoreCase">
-        '''' If set to <see langword="True"/>, performs a non-sensitive stringcase comparison.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Public Shared Function FindValue(ByVal view As RegistryView,
-        '                                 ByVal fullKeyPath As String,
-        '                                 ByVal valueName As String,
-        '                                 ByVal matchFullValueName As Boolean,
-        '                                 ByVal ignoreCase As Boolean,
-        '                                 ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    Return RegistryUtil.FindValue(view, RegistryUtil.GetRootKeyName(fullKeyPath), RegistryUtil.GetSubKeyPath(fullKeyPath), valueName, matchFullValueName, ignoreCase, searchOption)
-
-        'End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Finds on a registry path all the values that contains data that matches the specified criteria.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="rootKeyName">
-        '''' The rootkey name.
-        '''' </param>
-        '''' 
-        '''' <param name="subKeyPath">
-        '''' The subkey path.
-        '''' </param>
-        '''' 
-        '''' <param name="valueData">
-        '''' The data to find.
-        '''' </param>
-        '''' 
-        '''' <param name="matchFullData">
-        '''' If set to <see langword="True"/>, matches all the data, otherwise matches a part of the data.
-        '''' </param>
-        '''' 
-        '''' <param name="ignoreCase">
-        '''' If set to <see langword="True"/>, performs a non-sensitive stringcase comparison (for String data).
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <exception cref="ArgumentNullException">
-        '''' rootKeyName or subKeyPath or subKeyName
-        '''' </exception>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Public Shared Function FindValueData(ByVal view As RegistryView,
-        '                                     ByVal rootKeyName As String,
-        '                                     ByVal subKeyPath As String,
-        '                                     ByVal valueData As String,
-        '                                     ByVal matchFullData As Boolean,
-        '                                     ByVal ignoreCase As Boolean,
-        '                                     ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    If String.IsNullOrEmpty(rootKeyName) OrElse String.IsNullOrWhiteSpace(rootKeyName) Then
-        '        Throw New ArgumentNullException("rootKeyName")
-
-        '    ElseIf String.IsNullOrEmpty(subKeyPath) OrElse String.IsNullOrWhiteSpace(subKeyPath) Then
-        '        Throw New ArgumentNullException("subKeyPath")
-
-        '    ElseIf String.IsNullOrEmpty(valueData) OrElse String.IsNullOrWhiteSpace(valueData) Then
-        '        Throw New ArgumentNullException("valueData")
-
-        '    End If
-
-        '    Using reg As RegistryKey = RegistryUtil.GetRootKey(rootKeyName, view).OpenSubKey(RegistryUtil.GetSubKeyPath(subKeyPath), writable:=False)
-
-        '        If matchFullData Then
-
-        '            If ignoreCase Then
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValueDatas(reg, searchOption).ToArray
-        '                        Where Not String.IsNullOrEmpty(regInfo.ValueData.ToString()) AndAlso
-        '                              regInfo.ValueData.ToString().ToLower.Equals(valueData.ToLower()))
-
-        '            Else
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValueDatas(reg, searchOption).ToArray
-        '                        Where Not String.IsNullOrEmpty(regInfo.ValueData.ToString()) AndAlso
-        '                              regInfo.ValueData.ToString().Equals(valueData))
-
-        '            End If ' ignoreCase
-
-        '        Else ' not matchFullData
-        '            If ignoreCase Then
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValueDatas(reg, searchOption).ToArray
-        '                        Where Not String.IsNullOrEmpty(regInfo.ValueData.ToString()) AndAlso
-        '                              regInfo.ValueData.ToString().ToLower.Contains(valueData.ToLower()))
-
-        '            Else
-        '                Return (From regInfo As RegInfo In RegistryUtil.CollectValueDatas(reg, searchOption).ToArray
-        '                        Where Not String.IsNullOrEmpty(regInfo.ValueData.ToString()) AndAlso
-        '                              regInfo.ValueData.ToString().Contains(valueData))
-
-        '            End If ' ignoreCase
-
-        '        End If ' matchFullData
-
-        '    End Using
-
-        'End Function
-
-#End Region
-
-#Region " Hives "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Loads the subkeys of a hive file, 
-        ''' creating a subkey with the specified name into <c>HKEY_LOCAL_MACHINE</c> root key.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <example> This is a code example.
-        ''' <code>
-        ''' LoadHive("C:\WinMount\Users\Administrador\NTUSER.DAT", "My External Branch")
-        ''' </code>
-        ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="filepath">
-        ''' The hive filepath.
-        ''' </param>
-        ''' 
-        ''' <param name="subkeyName">
-        ''' The name to give to the loaded subkey.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub LoadHive(ByVal filepath As String, ByVal subkeyName As String)
-
-            'ProcessUtil.SetCurrentProcessPrivileges(ProcessPrivileges.RestorePrivilege, PrivilegeStates.PrivilegeEnabled)
-
-            'Dim hr As Integer = NativeMethods.RegLoadKey(RegistryRootKeyId.HKEY_LOCAL_MACHINE, subkeyName, filepath)
-
-            'If (hr <> HResult.S_OK) Then
-            '    Marshal.ThrowExceptionForHR(hr)
-            'End If
-
-        End Sub
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Unloads a previouslly hive file that has been loaded into <c>HKEY_LOCAL_MACHINE</c> root key.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <example> This is a code example.
-        ''' <code>
-        ''' UnloadHive("HKEY_LOCAL_MACHINE\My External Branch")
-        ''' or:
-        ''' UnloadHive("My External Branch")
-        ''' </code>
-        ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="subkeyName">
-        ''' The name of the subkey to unload.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub UnloadHive(ByVal subkeyName As String)
-
-            'ProcessUtil.SetCurrentProcessPrivileges(ProcessPrivileges.RestorePrivilege, PrivilegeStates.PrivilegeEnabled)
-
-            'If subkeyName.StartsWith("HKEY_LOCAL_MACHINE\", StringComparison.OrdinalIgnoreCase) Then
-            '    subkeyName = subkeyName.Substring("HKEY_LOCAL_MACHINE\".Length)
-            'End If
-
-            'Dim hr As Integer = NativeMethods.RegUnLoadKey(RegistryRootKeyId.HKEY_LOCAL_MACHINE, subkeyName)
-
-            'If (hr <> HResult.S_OK) Then
-            '    Marshal.ThrowExceptionForHR(hr)
-            'End If
-
-        End Sub
 
 #End Region
 
@@ -3438,8 +2881,7 @@ Namespace ElektroKit.Core.System.Tools
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Iterator Function CollectSubKeys(ByVal srcRegistryKey As RegistryKey,
-                                                        ByVal searchOption As SearchOption) As IEnumerable(Of String)
+        Private Shared Iterator Function CollectSubKeys(srcRegistryKey As RegistryKey, searchOption As SearchOption) As IEnumerable(Of String)
 
             For Each subKeyName As String In srcRegistryKey.GetSubKeyNames
 
@@ -3456,136 +2898,6 @@ Namespace ElektroKit.Core.System.Tools
             Next subKeyName
 
         End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Collects the values on the specified registry path.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="srcRegistryKey">
-        '''' The source registry key.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">
-        '''' The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Private Shared Iterator Function CollectValues(ByVal srcRegistryKey As RegistryKey,
-        '                                               ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    Select Case searchOption
-
-        '        Case SearchOption.TopDirectoryOnly
-        '            For Each valueName As String In srcRegistryKey.GetValueNames
-
-        '                Yield New RegInfo With
-        '                    {
-        '                        .View = srcRegistryKey.View,
-        '                        .RootKeyName = RegistryUtil.GetRootKeyName(srcRegistryKey.Name),
-        '                        .SubKeyPath = RegistryUtil.GetSubKeyPath(srcRegistryKey.Name),
-        '                        .valueName = valueName
-        '                    }
-
-        '            Next valueName
-
-        '        Case SearchOption.AllDirectories
-        '            For Each registryPath As String In RegistryUtil.CollectSubKeys(srcRegistryKey, searchOption)
-
-        '                Dim reg As RegistryKey = RegistryUtil.GetRootKey(registryPath, srcRegistryKey.View).OpenSubKey(RegistryUtil.GetSubKeyPath(registryPath), writable:=False)
-
-        '                For Each valueName As String In reg.GetValueNames
-
-        '                    Yield New RegInfo With
-        '                        {
-        '                            .View = reg.View,
-        '                            .RootKeyName = RegistryUtil.GetRootKeyName(reg.Name),
-        '                            .SubKeyPath = RegistryUtil.GetSubKeyPath(reg.Name),
-        '                            .valueName = valueName
-        '                        }
-
-        '                Next valueName
-
-        '                reg.Close()
-
-        '            Next registryPath
-
-        '    End Select
-
-        'End Function
-
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <summary>
-        '''' Collects the value datas on the specified registry path.
-        '''' </summary>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <param name="srcRegistryKey">
-        '''' The source registry key.
-        '''' </param>
-        '''' 
-        '''' <param name="searchOption">The search mode.
-        '''' </param>
-        '''' ----------------------------------------------------------------------------------------------------
-        '''' <returns>
-        '''' <see cref="IEnumerable(Of RegInfo)"/>
-        '''' </returns>
-        '''' ----------------------------------------------------------------------------------------------------
-        '<DebuggerStepThrough>
-        'Private Shared Iterator Function CollectValueDatas(ByVal srcRegistryKey As RegistryKey,
-        '                                                   ByVal searchOption As SearchOption) As IEnumerable(Of RegInfo)
-
-        '    Select Case searchOption
-
-        '        Case SearchOption.TopDirectoryOnly
-        '            For Each valueName As String In srcRegistryKey.GetValueNames
-
-        '                Yield New RegInfo With
-        '                    {
-        '                        .View = srcRegistryKey.View,
-        '                        .RootKeyName = RegistryUtil.GetRootKeyName(srcRegistryKey.Name),
-        '                        .SubKeyPath = RegistryUtil.GetSubKeyPath(srcRegistryKey.Name),
-        '                        .valueName = valueName,
-        '                        .ValueData = RegistryUtil.GetValueData(view:= .View,
-        '                                                           rootKeyName:= .RootKeyName,
-        '                                                           subKeyPath:= .SubKeyPath,
-        '                                                           valueName:= .ValueName,
-        '                                                           registryValueOptions:=RegistryValueOptions.None)
-        '                    }
-
-        '            Next valueName
-
-        '        Case SearchOption.AllDirectories
-        '            For Each registryPath As String In RegistryUtil.CollectSubKeys(srcRegistryKey, searchOption)
-
-        '                Dim reg As RegistryKey = RegistryUtil.GetRootKey(registryPath, srcRegistryKey.View).OpenSubKey(RegistryUtil.GetSubKeyPath(registryPath), writable:=False)
-
-        '                For Each valueName As String In reg.GetValueNames
-
-        '                    Yield New RegInfo With
-        '                        {
-        '                            .View = reg.View,
-        '                            .RootKeyName = RegistryUtil.GetRootKeyName(reg.Name),
-        '                            .SubKeyPath = RegistryUtil.GetSubKeyPath(reg.Name),
-        '                            .valueName = valueName,
-        '                            .ValueData = RegistryUtil.GetValueData(view:= .View,
-        '                                                               rootKeyName:= .RootKeyName,
-        '                                                               subKeyPath:= .SubKeyPath,
-        '                                                               valueName:= .ValueName,
-        '                                                               registryValueOptions:=RegistryValueOptions.None)
-        '                        }
-        '                Next valueName
-
-        '                reg.Close()
-
-        '            Next registryPath
-
-        '    End Select
-
-        'End Function
 
 #End Region
 

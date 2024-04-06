@@ -8,19 +8,19 @@
 ' WHAT YOU SEE HERE IS FREE CUTTED CONTENT OF THIS FRAMEWORK.
 
 ' IF YOU LIKED THIS FREE APPLICATION, THEN PLEASE CONSIDER TO BUY DEVCASE CLASS LIBRARY FOR .NET AT:
-' https://codecanyon.net/item/elektrokit-class-library-for-net/19260282
+' https://codecanyon.net/item/DevCase-class-library-for-net/19260282
 
 ' YOU CAN FIND THESE HELPER METHODS AND A MASSIVE AMOUNT MORE!, 
 ' +850 EXTENSION METHODS FOR ALL KIND OF TYPES, CUSTOM USER-CONTROLS, 
 ' EVERYTHING FOR THE NEWBIE And THE ADVANCED USER, FOR VB.NET AND C#. 
 
-' ElektroKit is a utility framework containing new APIs and extensions to the core .NET Framework 
+' DevCase is a utility framework containing new APIs and extensions to the core .NET Framework 
 ' to help complete your developer toolbox.
 ' It Is a set of general purpose classes provided as easy to consume packages.
 ' These utility classes and components provide productivity in day to day software development 
 ' mainly focused To WindowsForms. 
 
-' UPDATES OF ELEKTROKIT ARE MAINTAINED AND RELEASED EVERY MONTH.
+' UPDATES OF DevCase ARE MAINTAINED AND RELEASED EVERY MONTH.
 
 
 
@@ -36,20 +36,24 @@ Option Infer Off
 
 #Region " Imports "
 
-Imports System.Diagnostics.CodeAnalysis
+Imports System.IO
 Imports System.Runtime.InteropServices
+Imports System.Runtime.InteropServices.ComTypes
 Imports System.Security
 Imports System.Text
 
-Imports ElektroKit.Interop.Win32.Delegates
-Imports ElektroKit.Interop.Win32.Enums
-Imports ElektroKit.Interop.Win32.Types
+Imports DevCase.Interop.Win32.Delegates
+Imports DevCase.Interop.Win32.Enums
+Imports DevCase.Interop.Win32.Types
+Imports DevCase.Win32.Enums
+Imports DevCase.Win32.Structures
+
+
 
 #End Region
-
 #Region " P/Invoking "
 
-Namespace ElektroKit.Interop.Win32
+Namespace DevCase.Interop.Win32
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -125,11 +129,8 @@ Namespace ElektroKit.Interop.Win32
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <DllImport("AdvApi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)>
-        Public Shared Function RegLoadKey(ByVal keyHandle As IntPtr,
-                                          ByVal subKey As String,
-                                          ByVal file As String
+        Public Shared Function RegLoadKey(keyHandle As IntPtr, subKey As String, file As String
         ) As Integer
         End Function
 
@@ -166,11 +167,79 @@ Namespace ElektroKit.Interop.Win32
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <DllImport("AdvApi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)>
-        Public Shared Function RegUnLoadKey(ByVal keyHandle As IntPtr,
-                                            ByVal subKey As String
+        Public Shared Function RegUnLoadKey(keyHandle As IntPtr, subKey As String
         ) As Integer
+        End Function
+
+#End Region
+
+#Region " Gdi32.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Deletes a logical pen, brush, font, bitmap, region, or palette,
+        ''' freeing all system resources associated with the object.
+        ''' <para></para>
+        ''' After the object is deleted, the specified handle is no longer valid.
+        ''' <para></para>
+        ''' Do not delete a drawing object (pen or brush) while it is still selected into a DC.
+        ''' <para></para>
+        ''' When a pattern brush is deleted, the bitmap associated with the brush is not deleted. 
+        ''' The bitmap must be deleted independently.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms633540%28v=vs.85%29.aspx"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hObject">
+        ''' A handle to a logical pen, brush, font, bitmap, region, or palette.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, the return value is <see langword="True"/>.
+        ''' <para></para>
+        ''' If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("Gdi32.dll", CharSet:=CharSet.Auto, ExactSpelling:=False, SetLastError:=True)>
+        Public Shared Function DeleteObject(hObject As IntPtr
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Deletes a logical pen, brush, font, bitmap, region, or palette,
+        ''' freeing all system resources associated with the object.
+        ''' <para></para>
+        ''' After the object is deleted, the specified handle is no longer valid.
+        ''' <para></para>
+        ''' Do not delete a drawing object (pen or brush) while it is still selected into a DC.
+        ''' <para></para>
+        ''' When a pattern brush is deleted, the bitmap associated with the brush is not deleted. 
+        ''' The bitmap must be deleted independently.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms633540%28v=vs.85%29.aspx"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hObject">
+        ''' A handle to a logical pen, brush, font, bitmap, region, or palette.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, the return value is <see langword="True"/>.
+        ''' <para></para>
+        ''' If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("Gdi32.dll", CharSet:=CharSet.Auto, ExactSpelling:=False, SetLastError:=True)>
+        Public Shared Function DeleteObject(hObject As HandleRef
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
 #End Region
@@ -190,7 +259,6 @@ Namespace ElektroKit.Interop.Win32
         ''' The thread identifier of the calling thread.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Kernel32.dll", SetLastError:=False)>
         Public Shared Function GetCurrentThreadId(
@@ -200,6 +268,118 @@ Namespace ElektroKit.Interop.Win32
 #End Region
 
 #Region " Shell32.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Retrieves information about an object in the file system, 
+        ''' such as a file, folder, directory, or drive root.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb762179(v=vs.85).aspx"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="path">
+        ''' A pointer to a null-terminated string of maximum length <c>MAX_PATH</c> that contains the path and file name. 
+        ''' Both absolute and relative paths are valid. 
+        ''' <para></para>
+        ''' If the <paramref name="flags"/> parameter includes the <see cref="SHGetFileInfoFlags.PIDL"/> flag, 
+        ''' this parameter must be the address of an <c>ITEMIDLIST</c> (<c>PIDL</c>) structure that contains the 
+        ''' list of item identifiers that uniquely identifies the file within the Shell's namespace. 
+        ''' The <c>PIDL</c> must be a fully qualified <c>PIDL</c>. Relative <c>PIDLs</c> are not allowed.
+        ''' <para></para>
+        ''' If the uFlags parameter includes the <see cref="SHGetFileInfoFlags.UseFileAttributes"/> flag, 
+        ''' this parameter does not have to be a valid file name. 
+        ''' The function will proceed as if the file exists with the specified name and with the 
+        ''' file attributes passed in the <paramref name="fileAttribs"/> parameter. 
+        ''' This allows you to obtain information about a file type by passing just the extension for 
+        ''' <paramref name="path"/> parameter and passing FILE_ATTRIBUTE_NORMAL in <paramref name="fileAttribs"/> parameter
+        ''' </param>
+        ''' 
+        ''' <param name="fileAttribs">
+        ''' A combination of one or more file attribute flags. 
+        ''' <para></para>
+        ''' If <paramref name="flags"/> parameter does not include the 
+        ''' <see cref="SHGetFileInfoFlags.UseFileAttributes"/> flag, this parameter is ignored.
+        ''' </param>
+        ''' 
+        ''' <param name="refShellFileInfo">
+        ''' Pointer to a <see cref="ShellFileInfo"/> structure to receive the file information.
+        ''' </param>
+        ''' 
+        ''' <param name="size">
+        ''' The size, in bytes, of the <see cref="ShellFileInfo"/> structure pointed to by the 
+        ''' <paramref name="refShellFileInfo"/> parameter.
+        ''' </param>
+        ''' 
+        ''' <param name="flags">
+        ''' The flags that specify the file information to retrieve.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' Returns a value whose meaning depends on the <paramref name="flags"/> parameter.
+        ''' <para></para>
+        ''' If <paramref name="flags"/> parameter does not contain <see cref="SHGetFileInfoFlags.ExeType"/> 
+        ''' or <see cref="SHGetFileInfoFlags.SysIconIndex"/>, the return value is nonzero if successful, or zero otherwise.
+        ''' <para></para>
+        ''' If <paramref name="flags"/> parameter contains the <see cref="SHGetFileInfoFlags.ExeType"/> flag, 
+        ''' the return value specifies the type of the executable.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
+        Public Shared Function SHGetFileInfo(path As String,
+               <MarshalAs(UnmanagedType.U4)> fileAttribs As FileAttributes,
+                                             ByRef refShellFileInfo As ShellFileInfo,
+               <MarshalAs(UnmanagedType.U4)> size As UInteger,
+               <MarshalAs(UnmanagedType.U4)> flags As SHGetFileInfoFlags
+        ) As IntPtr
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Creates and initializes a Shell item object from a parsing name.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shobjidl_core/nf-shobjidl_core-shcreateitemfromparsingname"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="path">
+        ''' A pointer to a display name.
+        ''' </param>
+        ''' 
+        ''' <param name="bindContext">
+        ''' Optional. A pointer to a bind context used to pass parameters as inputs and outputs to the parsing function. 
+        ''' <para></para>
+        ''' These passed parameters are often specific to the data source and are documented by the data source owners. 
+        ''' <para></para>
+        ''' For example, the file system data source accepts the name being parsed (as a WIN32_FIND_DATA structure), 
+        ''' using the STR_FILE_SYS_BIND_DATA bind context parameter.
+        ''' </param>
+        ''' 
+        ''' <param name="refIid">
+        ''' A reference to the IID of the interface to retrieve through <paramref name="refShellItem"/>, typically IID_IShellItem or IID_IShellItem2.
+        ''' </param>
+        ''' 
+        ''' <param name="refShellItem">
+        ''' When this function returns, contains the interface pointer requested in <paramref name="refIid"/>. 
+        ''' This will usually be <see cref="IShellItem"/> or IShellItem2.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If this function succeeds, it returns <see cref="HResult.S_OK"/>. 
+        ''' Otherwise, it returns an <see cref="HResult"/> error code.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DllImport("Shell32.dll", SetLastError:=False, ExactSpelling:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
+        Public Shared Function SHCreateItemFromParsingName(
+                                                                 <[In]> path As String,
+                                                     <[In], [Optional]> bindContext As IBindCtx,
+                                                                        ByRef refIid As Guid,
+        <Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex:=2)> ByRef refShellItem As Object
+        ) As HResult
+        End Function
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -255,21 +435,73 @@ Namespace ElektroKit.Interop.Win32
         ''' <see cref="HResult.S_OK"/>, <see cref="HResult.S_FALSE"/> or <see cref="HResult.E_FAIL"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", SetLastError:=False, CharSet:=CharSet.Unicode)>
-        Public Shared Function SHDefExtractIcon(ByVal iconFile As String,
-                                                ByVal iconIndex As Integer,
-                                                ByVal flags As UInteger,
+        Public Shared Function SHDefExtractIcon(iconFile As String, iconIndex As Integer, flags As UInteger,
                                                 ByRef refHiconLarge As IntPtr,
                                                 ByRef refHiconSmall As IntPtr,
-                                                ByVal iconSize As UInteger
+                                                iconSize As UInteger
         ) As Integer
         End Function
 
 #End Region
 
+#Region " ShlwApi.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Verifies that a path is a valid directory.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shlwapi/nf-shlwapi-pathisdirectorya"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="path">
+        ''' A pointer to a null-terminated string of maximum length MAX_PATH that contains the path to verify.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' Returns <see langword="True"/> if the path is a valid directory; otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DllImport("ShlwApi.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
+        Public Shared Function PathIsDirectory(path As String
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
+
+#End Region
+
 #Region " User32.dll "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Destroys an icon and frees any memory the icon occupied.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms648063%28v=vs.85%29.aspx"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hIcon">
+        ''' A handle to the icon to be destroyed.
+        ''' <para></para>
+        ''' The icon must not be in use. 
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, the return value is <see langword="True"/>.
+        ''' <para></para>
+        ''' If the function fails, the return value is <see langword="False"/>.
+        ''' <para></para>
+        ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>. 
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("User32.dll", SetLastError:=True)>
+        Public Shared Function DestroyIcon(hIcon As IntPtr
+        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
+        End Function
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
@@ -295,10 +527,9 @@ Namespace ElektroKit.Interop.Win32
         ''' <see langword="True"/> if the function succeeds, <see langword="False"/> otherwise.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
-        Public Shared Function GetWindowRect(ByVal hwnd As IntPtr,
+        Public Shared Function GetWindowRect(hwnd As IntPtr,
                                        <Out> ByRef refRect As NativeRectangle
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
@@ -339,12 +570,9 @@ Namespace ElektroKit.Interop.Win32
         ''' the return value is <see langword="False"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
-        Public Shared Function EnumThreadWindows(ByVal dwThreadId As UInteger,
-                                                 ByVal lpEnumFunc As EnumThreadWindowsProc,
-                                                 ByVal lParam As IntPtr
+        Public Shared Function EnumThreadWindows(dwThreadId As UInteger, lpEnumFunc As EnumThreadWindowsProc, lParam As IntPtr
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
@@ -381,12 +609,9 @@ Namespace ElektroKit.Interop.Win32
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", CharSet:=CharSet.Auto, SetLastError:=True, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function GetClassName(ByVal hwnd As IntPtr,
-                                            ByVal className As StringBuilder,
-                                            ByVal maxCount As Integer
+        Public Shared Function GetClassName(hwnd As IntPtr, className As StringBuilder, maxCount As Integer
         ) As Integer
         End Function
 
@@ -414,11 +639,9 @@ Namespace ElektroKit.Interop.Win32
         ''' indicating an invalid dialog box handle or a nonexistent control.
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("user32.dll", SetLastError:=False)>
-        Public Shared Function GetDlgItem(ByVal hwnd As IntPtr,
-                                          ByVal index As Integer
+        Public Shared Function GetDlgItem(hwnd As IntPtr, index As Integer
         ) As IntPtr
         End Function
 
@@ -456,11 +679,10 @@ Namespace ElektroKit.Interop.Win32
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>. 
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", EntryPoint:="DestroyWindow", SetLastError:=True,
                    CallingConvention:=CallingConvention.StdCall)>
-        Public Shared Function DestroyWindow(ByVal hwnd As IntPtr
+        Public Shared Function DestroyWindow(hwnd As IntPtr
         ) As IntPtr
         End Function
 
@@ -514,16 +736,9 @@ Namespace ElektroKit.Interop.Win32
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>. 
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
-        <SuppressMessage("Microsoft.Interoperability", "CA1401:PInvokesShouldNotBeVisible", Justification:="Visible for API")>
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
-        Public Shared Function SetWindowPos(ByVal hwnd As IntPtr,
-                                            ByVal hwndInsertAfter As IntPtr,
-                                            ByVal x As Integer,
-                                            ByVal y As Integer,
-                                            ByVal cx As Integer,
-                                            ByVal cy As Integer,
-                                            ByVal uFlags As SetWindowPosFlags
+        Public Shared Function SetWindowPos(hwnd As IntPtr, hwndInsertAfter As IntPtr, x As Integer, y As Integer, cx As Integer, cy As Integer, uFlags As SetWindowPosFlags
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
