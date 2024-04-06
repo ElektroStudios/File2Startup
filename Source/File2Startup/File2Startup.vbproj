@@ -79,16 +79,12 @@
   <ItemGroup>
     <Compile Include="Tools\Core\CenteredMessageBox.vb" />
     <Compile Include="Tools\Interop\Delegates.vb" />
-    <Compile Include="Tools\Interop\HResult.vb" />
     <Compile Include="Tools\Interop\NativeMethods.vb" />
     <Compile Include="Tools\Interop\ShellFileInfo.vb" />
     <Compile Include="Tools\Interop\SHGetFileInfoFlags.vb" />
     <Compile Include="Tools\Interop\WindowsMessages.vb" />
     <Compile Include="Tools\Interop\SetWindowPosFlags.vb" />
-    <Compile Include="Tools\Interop\RegistryRootKeyId.vb" />
     <Compile Include="Tools\Interop\WindowPos.vb" />
-    <Compile Include="Tools\Interop\ProcessPrivileges.vb" />
-    <Compile Include="Tools\Interop\PrivilegeStates.vb" />
     <Compile Include="Tools\Core\ControlHintInfo.vb" />
     <Compile Include="Tools\Core\ControlHintManager.vb" />
     <Compile Include="Tools\Core\ControlHintType.vb" />

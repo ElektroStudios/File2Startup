@@ -1,4 +1,5 @@
-﻿
+﻿' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
+
 
 
 
@@ -49,6 +50,7 @@ Option Infer Off
 #Region " Imports "
 
 Imports System.Runtime.InteropServices
+
 Imports DevCase.Interop.Win32
 Imports DevCase.Interop.Win32.Enums
 Imports DevCase.Interop.Win32.Types
@@ -252,112 +254,6 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " Private Methods "
 
-        ' For further implementation.
-        '
-        ' ''' ----------------------------------------------------------------------------------------------------
-        ' ''' <summary>
-        ' ''' If the margin between the specified <paramref name="window"/> 
-        ' ''' and the nearest border of the active screeen is lower than the value specified in <paramref name="threshold"/>,
-        ' ''' then it docks the window to the border. 
-        ' ''' </summary>
-        ' ''' ----------------------------------------------------------------------------------------------------
-        ' ''' <param name="window">
-        ' ''' The magnetic window.
-        ' ''' </param>
-        ' ''' 
-        ' ''' <param name="windowPosHandle">
-        ' ''' A pointer to a <see cref="Interop.Win32.Types.WindowPos"/> structure that contains the 
-        ' ''' new size and position of the <paramref name="window"/>.
-        ' ''' </param>
-        ' ''' 
-        ' ''' <param name="threshold">
-        ' ''' The minimum threshold that the window needs to dock it on the nearest desktop border.
-        ' ''' </param>
-        ' ''' ----------------------------------------------------------------------------------------------------
-        'Protected Overridable Sub DockToNearestWindowBorder(ByVal window As IWin32Window,
-        '                                                    ByVal windowPosHandle As IntPtr,
-        '                                                    ByVal threshold As Integer)
-
-        '    Dim windowPos As WindowPos =
-        '        CType(Marshal.PtrToStructure(windowPosHandle, GetType(WindowPos)), WindowPos)
-
-        '    If (windowPos.Y = 0) OrElse (windowPos.X = 0) Then
-        '        ' Nothing to do.
-        '        Exit Sub
-        '    End If
-
-        '    ' Enumerate all the visible windows in the current desktop.
-        '    Dim windows As New List(Of IntPtr)()
-        '    Dim wpl As New WindowPlacement
-
-        '    Dim callBack As EnumWindowsProc =
-        '        Function(hwnd As IntPtr, lParam As IntPtr) As Boolean
-        '            NativeMethods.GetWindowPlacement(hwnd, wpl)
-        '            If (NativeMethods.IsWindowVisible(hwnd)) AndAlso
-        '               (wpl.ShowCmd = WindowState.Normal) Then
-        '                windows.Add(hwnd)
-        '            End If
-        '            Return True
-        '        End Function
-
-        '    If (NativeMethods.EnumDesktopWindows(IntPtr.Zero, callBack, IntPtr.Zero)) Then
-
-        '        ' Window rectangles
-        '        Dim srcRect As Rectangle
-        '        Dim tgtRect As Rectangle
-
-        '        NativeMethods.GetWindowRect(window.Handle, srcRect)
-
-        '        For Each hwnd As IntPtr In windows
-
-        '            ' This is just for testing purposes.
-        '            Dim pid As Integer
-        '            NativeMethods.GetWindowThreadProcessId(hwnd, pid)
-        '            If Process.GetProcessById(pid).ProcessName.EndsWith("vshost") Then
-        '                Continue For
-        '            End If
-
-        '            NativeMethods.GetWindowRect(hwnd, tgtRect)
-
-
-        '            '' Top border
-
-        '            '' Left border
-
-        '            ' Right border of the source window
-        '            If ((windowPos.X + srcRect.Width) <= (tgtRect.Left + threshold)) AndAlso
-        '               ((windowPos.X + srcRect.Width) >= (tgtRect.Left - threshold)) AndAlso
-        '               ((windowPos.Y) <= (tgtRect.Y + tgtRect.Height)) AndAlso
-        '               ((windowPos.Y + srcRect.Height) >= (tgtRect.Y)) Then
-
-        '                Console.WriteLine("Window adhered to: " & Process.GetProcessById(pid).ProcessName)
-        '                '  Console.WriteLine(GetZOrder(hwnd))
-
-        '                windowPos.X = (tgtRect.Left - srcRect.Width)
-        '                Exit For
-
-        '                ' Console.WriteLine(hwnd)
-        '                ' Console.WriteLine(NativeMethods.GetWindow(window.Handle, GetWindowCmd.HwndNext))
-        '                If window.Handle.ToInt32 = NativeMethods.GetWindow(window.Handle, GetWindowCmd.HwndPrev).ToInt32 Then
-        '                    windowPos.X = (tgtRect.Left - srcRect.Width)
-        '                    Exit For
-
-        '                End If
-
-        '            End If
-
-        '            '' Bottom border.
-
-
-        '        Next hwnd
-
-        '    End If
-
-        '    ' Marshal it back.
-        '    Marshal.StructureToPtr(structure:=windowPos, ptr:=windowPosHandle, fDeleteOld:=True)
-
-        'End Sub
-
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' If the margin between the specified <paramref name="window"/> 
@@ -378,16 +274,8 @@ Namespace DevCase.Core.Application.UserInterface.Types
         ''' The minimum threshold that the window needs to dock it on the nearest desktop border.
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
-        Protected Overridable Sub DockToNearestScreenBorder(window As IWin32Window,
-windowPosHandle As IntPtr,
+        Protected Overridable Sub DockToNearestScreenBorder(window As IWin32Window, windowPosHandle As IntPtr,
                                                             Optional threshold As Integer = 0I)
-
-            ' Deprecated.
-            ' Dim workingArea As Rectangle = Rectangle.Empty
-            ' Screen.AllScreens.ToList.ForEach(
-            '     Sub(scr As Screen)
-            '         workingArea = Rectangle.Union(workingArea, scr.WorkingArea)
-            '     End Sub)
 
             Dim workingArea As Rectangle = Screen.FromHandle(window.Handle).WorkingArea ' Active screen.
             workingArea.Width = 0
@@ -468,46 +356,6 @@ windowPosHandle As IntPtr,
 #End Region
 
 #Region " Window Procedure (WndProc) "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Invokes the default window procedure associated with this window to process windows messages.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="m">
-        ''' A <see cref="Message"/> that is associated with the current Windows message.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Protected Overrides Sub WndProc(ByRef m As Message)
-
-            Select Case m.Msg
-
-                Case WindowsMessages.WM_Sizing
-                    Me.isResizing = True
-
-                Case WindowsMessages.WM_ExitSizeMove
-                    Me.isResizing = False
-
-                Case WindowsMessages.WM_WindowPosChanging
-                    If Not (Me.isResizing) AndAlso (Me.enabledB) Then
-                        Me.DockToNearestScreenBorder(window:=Me.ownerWindowB,
-                                                     windowPosHandle:=m.LParam,
-                                                     threshold:=Me.thresholdB)
-
-                        ' For further implementation.
-                        '
-                        'Me.DockToNearestWindowBorder(window:=Me.ownerWindowB,
-                        '     windowPosHandle:=m.LParam,
-                        '     threshold:=Me.thresholdB)
-
-                    End If
-
-            End Select
-
-            MyBase.WndProc(m)
-
-        End Sub
 
 #End Region
 

@@ -1,4 +1,5 @@
 ﻿
+' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
 
 
 
@@ -48,9 +49,8 @@ Imports DevCase.Interop.Win32.Types
 Imports DevCase.Win32.Enums
 Imports DevCase.Win32.Structures
 
-
-
 #End Region
+
 #Region " P/Invoking "
 
 Namespace DevCase.Interop.Win32
@@ -81,166 +81,6 @@ Namespace DevCase.Interop.Win32
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
-
-#End Region
-
-#Region " AdvApi32.dll "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Creates a subkey under <c>HKEY_USERS</c> or <c>HKEY_LOCAL_MACHINE</c> and loads the data from the 
-        ''' specified registry hive into that subkey.
-        ''' <para></para>
-        ''' Applications that back up or restore system state including system files and registry hives 
-        ''' should use the <c>Volume Shadow Copy</c> service instead of the registry functions.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724889%28v=vs.85%29.aspx"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="keyHandle">
-        ''' A handle to the key where the subkey will be created.
-        ''' <para></para>
-        ''' This can be a handle returned by a call to <c>RegConnectRegistry</c> function.
-        ''' </param>
-        ''' 
-        ''' <param name="subKey">
-        ''' The name of the key to be created under <paramref name="keyHandle"/> parameter.
-        ''' <para></para>
-        ''' This subkey is where the registration information from the file will be loaded.
-        ''' <para></para>
-        ''' Key names are not case sensitive.
-        ''' </param>
-        ''' 
-        ''' <param name="file">
-        ''' The name of the file containing the registry data. 
-        ''' <para></para>
-        ''' This file must be a local file that was created with the <c>RegSaveKey</c> function.
-        ''' <para></para>
-        ''' If this file does not exist, a file is created with the specified name. 
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If the function succeeds, the return value is <see cref="HResult.S_OK"/>.
-        ''' <para></para>
-        ''' If the function fails, the return value is other HRESULT code. 
-        ''' <para></para>
-        ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DllImport("AdvApi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)>
-        Public Shared Function RegLoadKey(keyHandle As IntPtr, subKey As String, file As String
-        ) As Integer
-        End Function
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Unloads the specified registry key and its subkeys from the registry.
-        ''' <para></para>
-        ''' Applications that back up or restore system state including system files and registry hives 
-        ''' should use the <c>Volume Shadow Copy</c> service instead of the registry functions.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms724924%28v=vs.85%29.aspx"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="keyHandle">
-        ''' A handle to the key where the subkey will be unloaded.
-        ''' </param>
-        ''' 
-        ''' <param name="subKey">
-        ''' The name of the subkey to be unloaded.
-        ''' <para></para>
-        ''' The key referred to by the <paramref name="subKey"/> parameter must have been created by 
-        ''' using the <see cref="NativeMethods.RegLoadKey"/> function.
-        ''' <para></para>
-        ''' Key names are not case sensitive.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If the function succeeds, the return value is <see cref="HResult.S_OK"/>.
-        ''' <para></para>
-        ''' If the function fails, the return value is other HRESULT code. 
-        ''' <para></para>
-        ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DllImport("AdvApi32.dll", SetLastError:=True, CharSet:=CharSet.Unicode)>
-        Public Shared Function RegUnLoadKey(keyHandle As IntPtr, subKey As String
-        ) As Integer
-        End Function
-
-#End Region
-
-#Region " Gdi32.dll "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Deletes a logical pen, brush, font, bitmap, region, or palette,
-        ''' freeing all system resources associated with the object.
-        ''' <para></para>
-        ''' After the object is deleted, the specified handle is no longer valid.
-        ''' <para></para>
-        ''' Do not delete a drawing object (pen or brush) while it is still selected into a DC.
-        ''' <para></para>
-        ''' When a pattern brush is deleted, the bitmap associated with the brush is not deleted. 
-        ''' The bitmap must be deleted independently.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms633540%28v=vs.85%29.aspx"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="hObject">
-        ''' A handle to a logical pen, brush, font, bitmap, region, or palette.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If the function succeeds, the return value is <see langword="True"/>.
-        ''' <para></para>
-        ''' If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="False"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <SuppressUnmanagedCodeSecurity>
-        <DllImport("Gdi32.dll", CharSet:=CharSet.Auto, ExactSpelling:=False, SetLastError:=True)>
-        Public Shared Function DeleteObject(hObject As IntPtr
-        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
-        End Function
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Deletes a logical pen, brush, font, bitmap, region, or palette,
-        ''' freeing all system resources associated with the object.
-        ''' <para></para>
-        ''' After the object is deleted, the specified handle is no longer valid.
-        ''' <para></para>
-        ''' Do not delete a drawing object (pen or brush) while it is still selected into a DC.
-        ''' <para></para>
-        ''' When a pattern brush is deleted, the bitmap associated with the brush is not deleted. 
-        ''' The bitmap must be deleted independently.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms633540%28v=vs.85%29.aspx"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="hObject">
-        ''' A handle to a logical pen, brush, font, bitmap, region, or palette.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If the function succeeds, the return value is <see langword="True"/>.
-        ''' <para></para>
-        ''' If the specified handle is not valid or is currently selected into a DC, the return value is <see langword="False"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <SuppressUnmanagedCodeSecurity>
-        <DllImport("Gdi32.dll", CharSet:=CharSet.Auto, ExactSpelling:=False, SetLastError:=True)>
-        Public Shared Function DeleteObject(hObject As HandleRef
-        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
-        End Function
 
 #End Region
 
@@ -334,140 +174,6 @@ Namespace DevCase.Interop.Win32
                <MarshalAs(UnmanagedType.U4)> size As UInteger,
                <MarshalAs(UnmanagedType.U4)> flags As SHGetFileInfoFlags
         ) As IntPtr
-        End Function
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Creates and initializes a Shell item object from a parsing name.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shobjidl_core/nf-shobjidl_core-shcreateitemfromparsingname"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="path">
-        ''' A pointer to a display name.
-        ''' </param>
-        ''' 
-        ''' <param name="bindContext">
-        ''' Optional. A pointer to a bind context used to pass parameters as inputs and outputs to the parsing function. 
-        ''' <para></para>
-        ''' These passed parameters are often specific to the data source and are documented by the data source owners. 
-        ''' <para></para>
-        ''' For example, the file system data source accepts the name being parsed (as a WIN32_FIND_DATA structure), 
-        ''' using the STR_FILE_SYS_BIND_DATA bind context parameter.
-        ''' </param>
-        ''' 
-        ''' <param name="refIid">
-        ''' A reference to the IID of the interface to retrieve through <paramref name="refShellItem"/>, typically IID_IShellItem or IID_IShellItem2.
-        ''' </param>
-        ''' 
-        ''' <param name="refShellItem">
-        ''' When this function returns, contains the interface pointer requested in <paramref name="refIid"/>. 
-        ''' This will usually be <see cref="IShellItem"/> or IShellItem2.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If this function succeeds, it returns <see cref="HResult.S_OK"/>. 
-        ''' Otherwise, it returns an <see cref="HResult"/> error code.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DllImport("Shell32.dll", SetLastError:=False, ExactSpelling:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function SHCreateItemFromParsingName(
-                                                                 <[In]> path As String,
-                                                     <[In], [Optional]> bindContext As IBindCtx,
-                                                                        ByRef refIid As Guid,
-        <Out, MarshalAs(UnmanagedType.Interface, IidParameterIndex:=2)> ByRef refShellItem As Object
-        ) As HResult
-        End Function
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Provides a default handler to extract an icon from a file.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/bb762149%28v=vs.85%29.aspx"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="iconFile">
-        ''' A pointer to a null-terminated buffer that contains the path and name of the file from which the icon is extracted.
-        ''' </param>
-        ''' 
-        ''' <param name="iconIndex">
-        ''' The location of the icon within the file named in pszIconFile.
-        ''' <para></para>
-        ''' If this is a positive number, it refers to the zero-based position of the icon in the file.
-        ''' <para></para>
-        ''' For instance, 0 refers to the 1st icon in the resource file and 2 refers to the 3rd.
-        ''' If this is a negative number, it refers to the icon's resource ID.
-        ''' </param>
-        ''' 
-        ''' <param name="flags">
-        ''' A flag that controls the icon extraction.
-        ''' </param>
-        ''' 
-        ''' <param name="refHiconLarge">
-        ''' A pointer to an <c>HICON</c> that, when this function returns successfully, 
-        ''' receives the handle of the large version of the icon specified in the LOWORD of nIconSize.
-        ''' <para></para>
-        ''' This value can be <see cref="IntPtr.Zero"/>.
-        ''' </param>
-        ''' 
-        ''' <param name="refHiconSmall">
-        ''' A pointer to an <c>HICON</c> that, when this function returns successfully, 
-        ''' receives the handle of the small version of the icon specified in the <c>HIWORD</c> of <paramref name="iconSize"/> param.
-        ''' <para></para>
-        ''' This value can be <see cref="IntPtr.Zero"/>.
-        ''' </param>
-        ''' 
-        ''' <param name="iconSize">
-        ''' A value that contains the large icon size in its <c>LOWORD</c> and the small icon size in its <c>HIWORD</c>. 
-        ''' <para></para>
-        ''' Size is measured in pixels.
-        ''' <para></para>
-        ''' Pass <c>0</c> to specify default large and small sizes.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' This function can return one of these values:
-        ''' <para></para>
-        ''' <see cref="HResult.S_OK"/>, <see cref="HResult.S_FALSE"/> or <see cref="HResult.E_FAIL"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <SuppressUnmanagedCodeSecurity>
-        <DllImport("Shell32.dll", SetLastError:=False, CharSet:=CharSet.Unicode)>
-        Public Shared Function SHDefExtractIcon(iconFile As String, iconIndex As Integer, flags As UInteger,
-                                                ByRef refHiconLarge As IntPtr,
-                                                ByRef refHiconSmall As IntPtr,
-                                                iconSize As UInteger
-        ) As Integer
-        End Function
-
-#End Region
-
-#Region " ShlwApi.dll "
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Verifies that a path is a valid directory.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <remarks>
-        ''' <see href="https://docs.microsoft.com/en-us/windows/desktop/api/shlwapi/nf-shlwapi-pathisdirectorya"/>
-        ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="path">
-        ''' A pointer to a null-terminated string of maximum length MAX_PATH that contains the path to verify.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' Returns <see langword="True"/> if the path is a valid directory; otherwise, <see langword="False"/>.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DllImport("ShlwApi.dll", SetLastError:=True, CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
-        Public Shared Function PathIsDirectory(path As String
-        ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
 #End Region
@@ -685,7 +391,6 @@ Namespace DevCase.Interop.Win32
         Public Shared Function DestroyWindow(hwnd As IntPtr
         ) As IntPtr
         End Function
-
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>

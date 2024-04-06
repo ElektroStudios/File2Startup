@@ -1,16 +1,25 @@
 
 
-#define Version "1.3"
+#define Version "1.3.1"
 #define AppName "File2Startup"
 #define ExeName "File2Startup"
 #define StartMenuGroup "• ElektroStudios"
-
 
 #define AuthorWebsite "https://codecanyon.net/user/elektrostudios/portfolio"
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 Name: es; MessagesFile: compiler:Languages\Spanish.isl
+Name: pt; MessagesFile: compiler:Languages\Portuguese.isl
+Name: bra; MessagesFile: compiler:Languages\BrazilianPortuguese.isl
+Name: rus; MessagesFile: compiler:Languages\Russian.isl
+Name: jap; MessagesFile: compiler:Languages\Japanese.isl
+Name: ita; MessagesFile: compiler:Languages\Italian.isl
+Name: fre; MessagesFile: compiler:Languages\French.isl
+Name: pl; MessagesFile: compiler:Languages\Polish.isl
+Name: ukr; MessagesFile: compiler:Languages\Ukrainian.isl
+Name: dt; MessagesFile: compiler:Languages\Dutch.isl
+Name: ger; MessagesFile: compiler:Languages\German.isl
 
 [LangOptions]
 DialogFontName=Segoe UI
@@ -36,8 +45,8 @@ DefaultDirName={autopf}\ElektroStudios\{#AppName}
 DefaultGroupName=ElektroStudios Installers\{#StartMenuGroup}
 UninstallDisplayIcon={app}\{#ExeName}.exe
 OutputBaseFilename={#AppName}
-Compression=lzma/max
-InternalCompressLevel=max
+Compression=zip
+InternalCompressLevel=normal
 SolidCompression=false
 AlwaysShowComponentsList=False
 DisableWelcomePage=False
@@ -61,7 +70,7 @@ DisableReadyPage=False
 AlwaysShowDirOnReadyPage=True
 AlwaysShowGroupOnReadyPage=True
 WizardStyle=Classic
-SetupLogging=True
+SetupLogging=true
 UninstallLogMode=New
 ASLRCompatible=True
 DEPCompatible=True
@@ -79,7 +88,7 @@ FlatComponentsList=False
 LanguageDetectionMethod=UILanguage
 PrivilegesRequired=PowerUser
 RestartIfNeededByRun=True
-ShowLanguageDialog=Auto
+ShowLanguageDialog=Yes
 ShowTasksTreeLines=True
 SetupIconFile=Icon.ico
 WizardImageFile=embedded\WizardImage.bmp
@@ -89,18 +98,11 @@ Uninstallable=True
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 
-[Dirs]
-Name: {autopf}\ElektroStudios; Attribs: readonly; Flags: uninsneveruninstall
-
 [Files]
-; VCL Styles
-Source: {commoncf}\Inno Setup\*; DestDir: {commoncf}\Inno Setup; Attribs: readonly system; Flags: uninsneveruninstall overwritereadonly onlyifdoesntexist
-
 ; Temp files
 Source: {tmp}\*; DestDir: {tmp}; Flags: recursesubdirs createallsubdirs ignoreversion deleteafterinstall
 
 ; Program
-Source: {autopf}\*; DestDir: {autopf}; Flags: recursesubdirs createallsubdirs ignoreversion uninsneveruninstall overwritereadonly; Attribs: readonly hidden
 Source: {app}\*; DestDir: {app}; Flags: recursesubdirs createallsubdirs ignoreversion
 
 [Registry]
@@ -120,7 +122,7 @@ Root: HKLM; SubKey: SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandSt
 Root: HKLM; SubKey: SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\CommandStore\shell\{#ExeName}.OpenFile\command; ValueType: string; ValueName: ; ValueData: """{app}\{#ExeName}.exe"" ""%1"""; Flags: uninsdeletekey; Tasks: exe
 
 [Tasks]
-Name: exe; Description: .exe; GroupDescription: ContextMenu Integration:
+Name: exe; Description: Executable files (.exe); GroupDescription: ContextMenu Integration:
 
 [UninstallDelete]
 Name: {localappdata}\ElektroStudios\{#ExeName}.exe*; Type: filesandordirs
@@ -132,9 +134,6 @@ Filename: {app}\{#ExeName}.exe; Description: {cm:LaunchProgram,{#AppName}}; Flag
 [Icons]
 Name: {autodesktop}\{#AppName}; Filename: {app}\{#ExeName}.exe; WorkingDir: {app}; IconFilename: {app}\{#ExeName}.exe; Check: IsCreateDesktopShortcutChecked
 Name: {group}\{#AppName}; Filename: {app}\{#ExeName}.exe; WorkingDir: {app}; IconFilename: {app}\{#ExeName}.exe
-
-
-
 
 [Code]
 
@@ -156,136 +155,9 @@ Var
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
-// Function Imports ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ //
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
-
-// LoadVCLStyle for Unicode Inno Setup versions
-procedure LoadVCLStyle(VClStyleFile: String)          ; external 'LoadVCLStyleW@files:VclStylesinno.dll stdcall setuponly';
-procedure LoadVCLStyle_UnInstall(VClStyleFile: String); external 'LoadVCLStyleW@{app}\Uninstall.dll stdcall uninstallonly delayload';
-
-// LoadVCLStyle for ANSI Inno Setup versions
-// procedure LoadVCLStyle(VClStyleFile: String)          ; external 'LoadVCLStyleA@files:VclStylesinno.dll stdcall setuponly';
-// procedure LoadVCLStyle_UnInstall(VClStyleFile: String); external 'LoadVCLStyleA@{app}\Uninstall.dll stdcall uninstallonly delayload';
-
-// Unload VCL Style
-procedure UnLoadVCLStyles          ; external 'UnLoadVCLStyles@files:VclStylesinno.dll stdcall setuponly';
-procedure UnLoadVCLStyles_UnInstall; external 'UnLoadVCLStyles@{app}\Uninstall.dll stdcall uninstallonly delayload';
-
-// CreateSymbolicLink for Unicode Inno Setup versions
-function CreateSymbolicLink(lpSymlinkFileName, lpTargetFileName: string; dwFlags: Integer): Boolean; external 'CreateSymbolicLinkW@kernel32.dll stdcall setuponly';
-
-// CreateSymbolicLink for ANSI Inno Setup versions
-//function CreateSymbolicLink(lpSymlinkFileName, lpTargetFileName: string; dwFlags: Integer): Boolean; external 'CreateSymbolicLinkA@kernel32.dll stdcall setuponly';
-
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
-// ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // Utility Functions ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Determine whether the operating system is using light theme (instead of dark theme) for applications  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-function AppsUseLightTheme(): Boolean;
-var
-  regValue: Cardinal;
-begin
-  RegQueryDWordValue(HKEY_CURRENT_USER, 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize', 'AppsUseLightTheme', regValue);
-  Result := (regValue <> 0);
-end;
-
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Determine whether the operating system is using dark theme (instead of light theme) for applications  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-function AppsUseDarkTheme(): Boolean;
-begin
-  Result := not AppsUseLightTheme();
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Adds a directory path to PATH environment variable  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - //
-procedure PathEnvAddDir(dirPath: String; forAllUsers: Boolean);
-var
-    PathValue: string;
-    RootKey: Integer;
-begin
-    if forAllUsers then RootKey := HKEY_LOCAL_MACHINE else RootKey := HKEY_CURRENT_USER;
-
-    // Retrieve current PATH value (use empty string if entry not exists).
-    if not RegQueryStringValue(RootKey, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', PathValue) then
-        PathValue := '';
-
-    if PathValue = '' then begin
-        PathValue := dirPath + ';';
-    end else begin
-        // Skip if string already found in path.
-        if Pos(';' + Uppercase(dirPath) + ';',  ';' + Uppercase(PathValue) + ';') > 0 then exit;
-        if Pos(';' + Uppercase(dirPath) + '\;', ';' + Uppercase(PathValue) + ';') > 0 then exit;
-
-        // Append directory path to the end of the PATH environment variable.
-        Log(Format('Right(PathValue, 1): [%s]', [PathValue[length(PathValue)]]));
-        if PathValue[length(PathValue)] = ';' then begin
-          // Don't double up ';' in env(PATH).
-          PathValue := PathValue + dirPath + ';';
-        end else begin
-          PathValue := PathValue + ';' + dirPath + ';';
-        end;
-    end;
-
-    // Overwrite (or create if missing) rhe PATH environment variable.
-    if RegWriteStringValue(RootKey, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', PathValue) then begin
-      Log(Format('The directory [%s] was added to PATH environment variable: [%s]', [dirPath, PathValue]));
-    end else begin
-      Log(Format('Error while adding the directory [%s] to PATH environment variable: [%s]', [dirPath, PathValue]));
-    end;
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Removes a directory path from PATH environment variable //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-procedure PathEnvDelDir(dirPath: String; forAllUsers: Boolean);
-var
-    PathValue: string;
-    RootKey: Integer;
-    P: Integer;
-    Offset: Integer;
-    DelimLen: Integer;
-begin
-    if forAllUsers then RootKey := HKEY_LOCAL_MACHINE else RootKey := HKEY_CURRENT_USER;
-
-    // Skip if registry entry not exists.
-    if not RegQueryStringValue(RootKey, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', PathValue) then exit;
-
-    // Skip if string not found in path.
-    DelimLen := 1; // Length(';')
-    P := Pos(';' + Uppercase(dirPath) + ';', ';' + Uppercase(PathValue) + ';');
-    if P = 0 then begin
-        // perhaps dirPath lives in PathValue, but terminated by '\;'.
-        DelimLen := 2; // Length('\;')
-        P := Pos(';' + Uppercase(dirPath) + '\;', ';' + Uppercase(PathValue) + ';');
-        if P = 0 then exit;
-    end;
-
-    // Decide where to start string subset in Delete() operation.
-    if P = 1 then begin
-        Offset := 0;
-    end else begin
-        Offset := 1;
-    end;
-
-    // Update PATH environment variable.
-    Delete(PathValue, P - Offset, Length(dirPath) + DelimLen);
-
-    // Overwrite (or create if missing) rhe PATH environment variable.
-    if RegWriteStringValue(RootKey, 'SYSTEM\CurrentControlSet\Control\Session Manager\Environment', 'Path', PathValue) then begin
-      Log(Format('The directory [%s] was removed from PATH environment variable: [%s]', [dirPath, PathValue]));
-    end else begin
-      Log(Format('Error while removing the directory [%s] from PATH environment variable: [%s]', [dirPath, PathValue]));
-    end;
-end;
 
 // - - - - - - - - - - - - - - - - - - - - //
 // Determines whether a directory is empty //
@@ -324,59 +196,6 @@ begin
   Path := RemoveBackslash(Path);
   PathLength := Length(Path);
   Result := (PathLength <= 1)
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Determine whether the source string ends with the specified characters      //
-//                                                                             //
-//https://stackoverflow.com/a/61522649                                         //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-function EndsWith(SubText, Text: string): Boolean;
-var
-  EndStr: string;
-begin
-  EndStr := Copy(Text, Length(Text) - Length(SubText) + 1, Length(SubText));
-  // Use SameStr function if you need a case-sensitive comparison.
-  Result := SameText(SubText, EndStr);
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Splits a string by the specified delimiter character  //
-//                                                       //
-// https://stackoverflow.com/a/37916394/1248295          //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-function StrSplit(Text: String; Separator: String): TArrayOfString;
-var
-  i, p: Integer;
-  Dest: TArrayOfString;
-begin
-  i := 0;
-  repeat
-    SetArrayLength(Dest, i+1);
-    p := Pos(Separator,Text);
-    if p > 0 then begin
-      Dest[i] := Copy(Text, 1, p-1);
-      Text := Copy(Text, p + Length(Separator), Length(Text));
-      i := i + 1;
-    end else begin
-      Dest[i] := Text;
-      Text := '';
-    end;
-  until Length(Text)=0;
-  Result := Dest
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - -  //
-// Converts a Boolean to String                 //
-//                                              //
-// https://stackoverflow.com/a/35044243/1248295 //
-// - - - - - - - - - - - - - - - - - - - - - -  //
-function BoolToStr(Value: Boolean): String;
-begin
-  if Value then
-    Result := 'True'
-  else
-    Result := 'False';
 end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -453,29 +272,6 @@ end;
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Deletes the VCL style files from {app} after uninstall  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-procedure DeleteVclFiles();
-begin
-  try
-    If FileExists(ExpandConstant('{app}\uninstall.vsf')) then begin
-      DeleteFile(ExpandConstant('{app}\uninstall.vsf'));
-    end;
-
-    If FileExists(ExpandConstant('{app}\uninstall.dll')) then begin
-      DeleteFile(ExpandConstant('{app}\uninstall.dll'));
-    end;
-
-    // Safe remove {app} directory. It does not remove the directory if it contains files or sub-dirrectories.
-    If DirExists(ExpandConstant('{app}')) then begin
-      DelTree(ExpandConstant('{app}\'), true, false, false);
-    end;
-  except
-    Log(Format('Error calling DeleteVclFiles function: [%s]', [GetExceptionMessage()]));
-  end;
-end;
-
 // - - - - - - - - - - - - - - - - - - - - - - //
 // Creates the author website related controls //
 // - - - - - - - - - - - - - - - - - - - - - - //
@@ -487,7 +283,7 @@ var
   UseDarkTheme        : Boolean;
 
 begin
-  UseDarkTheme := AppsUseDarkTheme();
+  UseDarkTheme := False;
 
   // Set AuthorWebsiteBitmap control properties...
   AuthorWebsiteBitmap          := TBitmapImage.Create(WizardForm);
@@ -543,31 +339,6 @@ begin
     AuthorWebsiteLabel.Caption := 'Click here to open the website of the program author.';
   end;
 
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Creates a control that serves as a password hint for the password textbox.  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
-procedure CreatePasswordHintControl();
-var
-  PasswordHintLabel  : TNewStaticText;
-
-begin
-  // Exit if no password has been specified.
-  if ('{SetupSetting("Password"))' = '') then exit;
-
-  // Set PasswordHintLabel control properties...
-  PasswordHintLabel         := TNewStaticText.Create(WizardForm);
-  PasswordHintLabel.Parent  := WizardForm.PasswordPage;
-  PasswordHintLabel.Left    := WizardForm.PasswordEdit.Left;
-  PasswordHintLabel.Top     := WizardForm.PasswordEdit.Top + WizardForm.PasswordEdit.Height + ScaleY(10);
-  PasswordHintLabel.Anchors := [akLeft, akTop];
-
-  if ActiveLanguage = 'es' then begin
-    PasswordHintLabel.Caption := 'Pista: La contraseña es el nombre, en minúsculas, de mi primera mascota felina.';
-  end else begin
-    PasswordHintLabel.Caption := 'Hint: The password is the name, in lower case, of my first feline pet.';
-  end;
 end;
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -638,12 +409,7 @@ begin
       ExtractTemporaryFiles('{tmp}\WizardBitmaps\StartMenuCarbon.bmp');
       WizardForm.SelectGroupBitmapImage.Bitmap.LoadFromFile(ExpandConstant('{tmp}\WizardBitmaps\StartMenuCarbon.bmp'));
   end else begin
-    if AppsUseDarkTheme() then begin
-      ExtractTemporaryFiles('{tmp}\WizardBitmaps\FolderCarbon.bmp');
-      WizardForm.SelectDirBitmapImage.Bitmap.LoadFromFile(ExpandConstant('{tmp}\WizardBitmaps\FolderCarbon.bmp'));
-      ExtractTemporaryFiles('{tmp}\WizardBitmaps\StartMenuCarbon.bmp');
-      WizardForm.SelectGroupBitmapImage.Bitmap.LoadFromFile(ExpandConstant('{tmp}\WizardBitmaps\StartMenuCarbon.bmp'));
-    end else begin
+     begin
       if WizardStyle = 'modern' then begin
         ExtractTemporaryFiles('{tmp}\WizardBitmaps\FolderWhiteModern.bmp');
         WizardForm.SelectDirBitmapImage.Bitmap.LoadFromFile(ExpandConstant('{tmp}\WizardBitmaps\FolderWhiteModern.bmp'));
@@ -718,51 +484,6 @@ end;
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-// - - - - - - - - - - - - - - - - - - - //
-// Occurs when the installer initializes //
-// - - - - - - - - - - - - - - - - - - - //
-function InitializeSetup(): Boolean;
-begin
-  ExtractTemporaryFile('Carbon.vsf');
-
-  if AppsUseDarkTheme then begin
-    // Initialize the VCL skin style.
-    LoadVCLStyle(ExpandConstant('{tmp}\Carbon.vsf'));
-  end;
-
-  Result := True;
-end;
-
-// - - - - - - - - - - - - - - - - - - - - //
-// Occurs when the installer deinitializes //
-// - - - - - - - - - - - - - - - - - - - - //
-procedure DeinitializeSetup();
-begin
-  if AppsUseDarkTheme then begin
-    // Deinitialize the VCL skin style.
-    UnLoadVCLStyles();
-  end;
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - - - - - //
-// Occurs when the installer page is at PostInstall  //
-// - - - - - - - - - - - - - - - - - - - - - - - - - //
-procedure CurStepChanged(CurStep: TSetupStep);
-begin
-  if CurStep = ssPostInstall then begin
-    if WizardIsTaskSelected('envPath') then PathEnvAddDir(ExpandConstant('{app}'), True);
-
-    if YesNoOrTrueFalseToBool('{#SetupSetting("Uninstallable")}') then begin
-      try
-        CreateSymbolicLink(ExpandConstant('{app}\Uninstall.vsf'), ExpandConstant('{commoncf}\Inno Setup\Carbon.vsf'), 0)
-        CreateSymbolicLink(ExpandConstant('{app}\Uninstall.dll'), ExpandConstant('{commoncf}\Inno Setup\VclStylesinno.dll'), 0)
-      except
-        Log(Format('Error calling CreateSymbolicLink in CurStepChanged function: [%s]', [GetExceptionMessage()]));
-      end;
-    end;
-  end;
-end;
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
 // Determine whether a wizard page should be skipped / not shown //
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -836,42 +557,6 @@ end;
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- //
 
-// - - - - - - - - - - - - - - - - - - - - //
-// Occurs when the uninstaller initializes //
-// - - - - - - - - - - - - - - - - - - - - //
-function InitializeUninstall: Boolean;
-begin
-  // Initialize the VCL skin style.
-  if AppsUseDarkTheme then begin
-    If FileExists(ExpandConstant('{app}\Uninstall.vsf')) then begin
-      try
-        LoadVCLStyle_UnInstall(ExpandConstant('{app}\Uninstall.vsf'));
-      except
-        Log(Format('Error calling LoadVCLStyle_UnInstall: [%s]', [GetExceptionMessage()]));
-      end;
-    end;
-  end;
-  Result := True;
-end;
-
-// - - - - - - - - - - - - - - - - - - - - - //
-// Occurs when the uninstaller deinitializes //
-// - - - - - - - - - - - - - - - - - - - - - //
-procedure DeinitializeUninstall();
-begin
-  // Deinitialize the VCL skin style.
-  if AppsUseDarkTheme then begin
-    If FileExists(ExpandConstant('{app}\uninstall.dll')) then begin
-      UnLoadVCLStyles_UnInstall;
-      UnloadDll(ExpandConstant('{app}\uninstall.dll'));
-    end;
-  end;
-
-  if UninstallSuccess then begin
-    DeleteVclFiles();
-  end;
-end;
-
 // - - - - - - - - - - - - - - - - - - - - - - - - - //
 // Occurs when the uninstaller current page changes  //
 // - - - - - - - - - - - - - - - - - - - - - - - - - //
@@ -900,7 +585,6 @@ begin
       // Remove the application directory from PATH environment variable.
       RegQueryStringValue(HKLM, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\' + '{#SetupSetting("AppId")}' + '_is1', 'Inno Setup: Selected Tasks', SelectedTasksHKLM)
       RegQueryStringValue(HKCU, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\' + '{#SetupSetting("AppId")}' + '_is1', 'Inno Setup: Selected Tasks', SelectedTasksHKCU)
-      if (Pos('envpath', LowerCase(SelectedTasksHKLM)) <> 0) or (Pos('envpath', LowerCase(SelectedTasksHKCU)) <> 0) then PathEnvDelDir(ExpandConstant('{app}'), True);
 
       if not DeleteCustomFoldersEnabled then Exit; // Exits from this block if DeleteCustomFoldersEnabled = False
 
@@ -909,26 +593,6 @@ begin
       FoldersToDelete[0] := ExpandConstant('{userappdata}\MyProgramFolder') + '|current user settings|la configuración de usuario actual';
       FoldersToDelete[1] := ExpandConstant('{app}\tmp')                     + '|program temp files|los archivos temporales del programa';
 
-      // Delete custom folders
-      for Index := 0 to Length(foldersToDelete) - 1 do begin
-        if foldersToDelete[Index] = '' then Continue; // Ignore empty array items.
-        Tokens := StrSplit(FoldersToDelete[Index], '|');
-        FolderPath := Tokens[0];
-        FolderDescriptionEN := Tokens[1];
-        FolderDescriptionES := Tokens[2];
-
-        if DirExists(FolderPath) then begin
-          if ActiveLanguage = 'es' then begin
-            DeleteFolderString := '¿Quieres también borrar ' + FolderDescriptionES + '?';
-          end else begin
-            DeleteFolderString := 'Do you want also to delete ' + FolderDescriptionEN + '?';
-          end;
-
-          if MsgBox(DeleteFolderString, mbConfirmation, MB_YESNO or MB_DEFBUTTON2) = IDYES then begin
-            DelTree(FolderPath, True, True, True);
-          end;
-        end; // DirExists
-      end; // for
     end; // usUninstall
   end; // case CurUninstallStep
 end;
@@ -951,6 +615,5 @@ begin
   // No need to call CreateAuthorControls(), CreatePasswordHintControl() and CreateCustomSelectDirPage() if wizard has no GUI or it is the uninstaller.
   if WizardSilent or IsUninstaller then Exit;
   CreateAuthorControls(ExpandConstant('{#AuthorWebsite}'));
-  CreatePasswordHintControl();
   CreateCustomSelectDirPage({CrateShortCutCheckBox} True, {DisableDirControls} False, {DisableGroupControls} False);
 end;

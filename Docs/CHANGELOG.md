@@ -1,6 +1,13 @@
 # File2Startup Change Log 📋
 
-## v1.3 *(current)* 🆕
+## v1.3.1 *(current)* 🆕
+#### 🛠️ Fixes:
+    • Layout logic was interrupted for DataGridView control. Should fix issue #2
+#### 🌟 Improvements:
+    • Pruned unused code from source-code (faster loading).
+    • Added additional error-handlings to prevent and inform about errors.
+
+## v1.3 🔄
 #### 🚀 New Features:
     • Added an startup viewer to list and/or delete added items.
     • Added multilanguage support with English, Spanish and Portuguese.
@@ -14,7 +21,7 @@
     • Improved label descriptions and text-box hints.
     • Implemented logic to warn the user when overwriting an item in Windows startup.
 
-## v1.2 *(current)* 🔄
+## v1.2 🔄
 #### 🚀 New Features:
     • Added a button to load a file.
     • Implemented a window magnetizer (Desktop Border Docking).

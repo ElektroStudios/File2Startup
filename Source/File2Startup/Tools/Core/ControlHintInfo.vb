@@ -1,4 +1,4 @@
-﻿
+﻿' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
 
 
 
@@ -179,10 +179,7 @@ Namespace DevCase.Core.Application.UserInterface.Types
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Sub New(text As String,
-font As Font,
-forecolor As Color,
-hintType As ControlHintType)
+        Public Sub New(text As String, font As Font, forecolor As Color, hintType As ControlHintType)
 
             Me.textB = text
             Me.fontB = font

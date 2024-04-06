@@ -73,7 +73,7 @@ Namespace UserInterface
         ''' <value>The startup type.</value>
         Private SelectedStartupType As String
 
-        Private mruDelimiter As String = $"@@{My.Application.Info.ProductName}@@"
+        Private ReadOnly mruDelimiter As String = $"@@{My.Application.Info.ProductName}@@"
 
 #End Region
 
@@ -294,108 +294,171 @@ Namespace UserInterface
         Handles TabControl1.SelectedIndexChanged
 
             If Me.TabControl1.SelectedTab.Equals(Me.TabPage2) Then
-                Me.LoadRegistryItemsToDataGridView()
+                Try
+                    Me.LoadRegistryItemsToDataGridView()
+                Catch ex As Exception
+                    Using msgbox As New CenteredMessageBox(Me)
+                        msgbox.Show("Error trying to parse registry values. Error message:" &
+                                    Environment.NewLine & Environment.NewLine & ex.Message,
+                                    My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    End Using
+
+                End Try
+
+                Me.TabPage2.Show()
+            Else
+                Me.TabPage1.Show()
+
             End If
 
         End Sub
 
         Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
 
+            ' Tries to ensure that the tab page is shown.
+            ' https://github.com/ElektroStudios/File2Startup/issues/2
+
+            Me.TabControl1.Show()
             Me.TabControl1.SelectTab(Me.TabPage1)
+            Me.TabPage1.Show()
 
         End Sub
 
         Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
 
+            Me.TabControl1.Show()
             Me.TabControl1.SelectTab(Me.TabPage2)
+            Me.TabPage2.Show()
+
         End Sub
 
         Private Sub Button_DeleteEntry_Click(sender As Object, e As EventArgs) Handles Button_DeleteEntry.Click
+            Try
+                If Me.DataGridView1.SelectedRows IsNot Nothing Then
 
-            If Me.DataGridView1.SelectedRows IsNot Nothing Then
+                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                    Dim startupType As String = selectedRow.Cells(0).Value
+                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
+                    Dim name As String = selectedRow.Cells(2).Value
 
-                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-                Dim startupType As String = selectedRow.Cells(0).Value
-                Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
-                Dim name As String = selectedRow.Cells(2).Value
+                    Using msgbox As New CenteredMessageBox(Me)
 
-                Using msgbox As New CenteredMessageBox(Me)
+                        Dim result As DialogResult = msgbox.Show(Me.msgq1 &
+                                                                     Environment.NewLine & Environment.NewLine & $"{startupType}\{name}" &
+                                                                     Environment.NewLine & Environment.NewLine & Me.msgq2,
+                                                                     My.Application.Info.Title,
+                                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                                                                     MessageBoxDefaultButton.Button2)
+                        If result = DialogResult.No Then
+                            Exit Sub
+                        End If
+                    End Using
 
-                    Dim result As DialogResult = msgbox.Show(Me.msgq1 &
-                                                                 Environment.NewLine & Environment.NewLine & $"{startupType}\{name}" &
-                                                                 Environment.NewLine & Environment.NewLine & Me.msgq2,
-                                                                 My.Application.Info.Title,
-                                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-                                                                 MessageBoxDefaultButton.Button2)
-                    If result = DialogResult.No Then
-                        Exit Sub
+                    Dim regValueExists As Boolean = RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name)
+                    If regValueExists Then
+                        RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
                     End If
-                End Using
 
-                Dim regValueExists As Boolean = RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name)
-                If regValueExists Then
-                    RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
+                    Try
+                        Me.LoadRegistryItemsToDataGridView()
+
+                    Catch ex As Exception
+                        Using msgbox As New CenteredMessageBox(Me)
+                            msgbox.Show("Error trying to parse registry values. Error message:" &
+                                        Environment.NewLine & Environment.NewLine & ex.Message,
+                                        My.Application.Info.Title,
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error)
+                        End Using
+
+                    End Try
                 End If
 
-                Me.LoadRegistryItemsToDataGridView()
-            End If
+            Catch ex As Exception
+                Using msgbox As New CenteredMessageBox(Me)
+                    msgbox.Show("Error trying to parse registry key. Error message:" &
+                                Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Using
+
+            End Try
 
         End Sub
 
         Private Sub Button_SendtoItemBuilder_Click(sender As Object, e As EventArgs) Handles Button_SendtoItemBuilder.Click
 
-            If Me.DataGridView1.SelectedRows IsNot Nothing Then
-                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-                Dim startupType As String = selectedRow.Cells(0).Value
-                Dim name As String = selectedRow.Cells(2).Value
-                Dim value As String = selectedRow.Cells(3).Value
+            Try
+                If Me.DataGridView1.SelectedRows IsNot Nothing Then
+                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                    Dim startupType As String = selectedRow.Cells(0).Value
+                    Dim name As String = selectedRow.Cells(2).Value
+                    Dim value As String = selectedRow.Cells(3).Value
 
-                Dim filePath As String = value
-                If value.Contains(ControlChars.Quote) Then
-                    Try
-                        filePath = IO.Path.GetFullPath(value.TrimStart({ControlChars.Quote, " "c}).Substring(0, value.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
-                    Catch ex As Exception
-                    End Try
+                    Dim filePath As String = value
+                    If value.Contains(ControlChars.Quote) Then
+                        Try
+                            filePath = IO.Path.GetFullPath(value.TrimStart({ControlChars.Quote, " "c}).Substring(0, value.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
+                        Catch ex As Exception
+                        End Try
+                    End If
+
+                    Dim parameters As String =
+                        If(value.Contains(ControlChars.Quote),
+                           value?.TrimStart({ControlChars.Quote, " "c}).Substring(filePath.Length).TrimStart({ControlChars.Quote, " "c}),
+                           value?.Substring(value.IndexOf(filePath) + filePath.Length))
+
+                    Me.RemoveControlHints()
+                    Me.TextBox_Name.Text = name
+                    Me.TextBox_File.Text = filePath
+                    Me.TextBox_Parameters.Text = parameters
+                    Me.SetControlHints()
+
+                    If startupType = "Current User" Then
+                        Me.RadioButton_CurrentUser.Checked = True
+                    Else
+                        Me.RadioButton_AllUsers.Checked = True
+                    End If
+
+                    Me.TabControl1.Show()
+                    Me.TabControl1.SelectTab(Me.TabPage1)
+                    Me.TabPage1.Show()
+
                 End If
 
-                Dim parameters As String =
-                    If(value.Contains(ControlChars.Quote),
-                       value?.TrimStart({ControlChars.Quote, " "c}).Substring(filePath.Length).TrimStart({ControlChars.Quote, " "c}),
-                       value?.Substring(value.IndexOf(filePath) + filePath.Length))
+            Catch ex As Exception
+                Using msgbox As New CenteredMessageBox(Me)
+                    msgbox.Show("Error trying to parse registry key. Error message:" &
+                                Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Using
 
-                Me.RemoveControlHints()
-                Me.TextBox_Name.Text = name
-                Me.TextBox_File.Text = filePath
-                Me.TextBox_Parameters.Text = parameters
-                Me.SetControlHints()
-
-                If startupType = "Current User" Then
-                    Me.RadioButton_CurrentUser.Checked = True
-                Else
-                    Me.RadioButton_AllUsers.Checked = True
-                End If
-
-                Me.TabControl1.SelectTab(Me.TabPage1)
-            End If
+            End Try
 
         End Sub
 
         Private Sub Button_OpenInRegedit_Click(sender As Object, e As EventArgs) Handles Button_OpenInRegedit.Click
 
-            Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-            Dim startupType As String = selectedRow.Cells(0).Value
-            Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
-            Dim name As String = selectedRow.Cells(2).Value
-
-            Dim registryLastKey As String = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"
-
             Try
-                Registry.SetValue(registryLastKey, "LastKey", regKeyFullPath) ' Establecer el valor LastKey que Regedit abrirá directamente
-                Process.Start("regedit.exe")
+                If Me.DataGridView1.SelectedRows IsNot Nothing Then
+                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                    Dim startupType As String = selectedRow.Cells(0).Value
+                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
+                    Dim name As String = selectedRow.Cells(2).Value
+
+                    Dim registryLastKey As String = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"
+
+                    Registry.SetValue(registryLastKey, "LastKey", regKeyFullPath) ' Establecer el valor LastKey que Regedit abrirá directamente
+                    Process.Start("regedit.exe")
+                End If
 
             Catch ex As Exception
                 Using msgbox As New CenteredMessageBox(Me)
-                    msgbox.Show(ex.Message, My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error)
+                    msgbox.Show("Error trying to parse registry key. Error message:" &
+                                Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
                 End Using
 
             End Try
@@ -404,7 +467,18 @@ Namespace UserInterface
 
         Private Sub Button_RefreshList_Click(sender As Object, e As EventArgs) Handles Button_RefreshList.Click
 
-            Me.LoadRegistryItemsToDataGridView()
+            Try
+                Me.LoadRegistryItemsToDataGridView()
+
+            Catch ex As Exception
+                Using msgbox As New CenteredMessageBox(Me)
+                    msgbox.Show("Error trying to parse registry values. Error message:" &
+                                Environment.NewLine & Environment.NewLine & ex.Message,
+                                My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Using
+
+            End Try
 
         End Sub
 
@@ -479,7 +553,6 @@ Namespace UserInterface
             Me.SetControlHints()
 
         End Sub
-
 
         ''' <summary>
         ''' Adds the file to the registry startup.
@@ -572,7 +645,8 @@ Namespace UserInterface
 
         Private Sub LoadRegistryItemsToDataGridView()
 
-            Me.DataGridView1.SuspendLayout()
+            ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
+            ' Me.DataGridView1.SuspendLayout()
             Me.DataGridView1.Rows.Clear()
 
             Dim view As RegistryView = RegistryView.Default
@@ -580,7 +654,6 @@ Namespace UserInterface
             For i As Integer = 0 To Me.startupType.Values.Count - 1
 
                 Dim startupType As String = If(Me.startupType.Keys(i) = "CurrentUserKey", "Current User", "All Users")
-
                 Dim fullKeyPath As String = Me.startupType.Values(i)
 
                 If RegistryUtil.ExistSubKey(view, fullKeyPath) Then
@@ -592,28 +665,30 @@ Namespace UserInterface
 
                         For Each valueName As String In valueNames
                             Dim data As String = RegistryUtil.GetValueData(Of String)(view, fullKeyPath, valueName, RegistryValueOptions.DoNotExpandEnvironmentNames)
-                            Dim filePath As String = data
-                            If filePath.Contains(ControlChars.Quote) Then
-                                Try
-                                    filePath = Path.GetFullPath(filePath.TrimStart({ControlChars.Quote, " "c}).Substring(0, filePath.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
-                                Catch ex As Exception
-                                End Try
-                            End If
 
-                            Dim icon As Icon = Nothing
+                            Dim fileIcon As Icon = Nothing
                             Try
-                                icon = ImageUtil.ExtractIconFromFile(filePath)
+                                Dim filePath As String = data
+                                If filePath.Contains(ControlChars.Quote) Then
+                                    filePath = Path.GetFullPath(filePath.TrimStart({ControlChars.Quote, " "c}).Substring(0, filePath.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
+                                End If
+
+                                fileIcon = ImageUtil.ExtractIconFromFile(filePath)
                             Catch ex As Exception
+                                ' Ignore error on building file path to retrieve icon file,
+                                ' as it is not enough reason to abort loading other items in the Data Grid View.
+
                             End Try
 
                             Dim dgvRow As New DataGridViewRow()
                             Dim cellType As New DataGridViewTextBoxCell With {.Value = startupType}
-                            Dim cellIcon As New DataGridViewImageCell With {.Value = icon, .ImageLayout = DataGridViewImageCellLayout.Zoom}
+                            Dim cellIcon As New DataGridViewImageCell With {.Value = fileIcon, .ImageLayout = DataGridViewImageCellLayout.Zoom}
                             Dim cellName As New DataGridViewTextBoxCell With {.Value = valueName}
                             Dim cellData As New DataGridViewTextBoxCell With {.Value = data}
 
                             dgvRow.Cells.AddRange(cellType, cellIcon, cellName, cellData)
                             Me.DataGridView1.Rows.Add(dgvRow)
+
                         Next valueName
 
                     End Using
@@ -622,8 +697,9 @@ Namespace UserInterface
 
             Next
 
-            Me.DataGridView1.ResumeLayout()
-            Me.DataGridView1.PerformLayout()
+            ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
+            ' Me.DataGridView1.ResumeLayout()
+            ' Me.DataGridView1.PerformLayout()
 
         End Sub
 

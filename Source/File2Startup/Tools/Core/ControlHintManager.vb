@@ -1,4 +1,5 @@
-﻿
+﻿' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
+
 
 
 
@@ -219,28 +220,6 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
 
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Sets a new control-hint for multiple controls at once.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="controls">
-        ''' The controls.
-        ''' </param>
-        ''' 
-        ''' <param name="hintInfo">
-        ''' The control-hint properties.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub SetHint(controls As Control(), hintInfo As ControlHintInfo)
-
-            For Each control As Control In controls
-                SetHint(control, hintInfo)
-            Next control
-
-        End Sub
-
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
         ''' Removes a control-hint from a control.
         ''' </summary>
         ''' ----------------------------------------------------------------------------------------------------
@@ -285,24 +264,6 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Removes a control-hint from a control.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="ctrls">
-        ''' The controls.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Public Shared Sub RemoveHint(ctrls As Control())
-
-            For Each ctrl As Control In ctrls
-                RemoveHint(ctrl)
-            Next ctrl
-
-        End Sub
-
 #End Region
 
 #Region " Private Methods "
@@ -344,8 +305,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         ''' </returns>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Function GetPropertyValue(Of T)(ctrl As Control,
-propName As String) As T
+        Private Shared Function GetPropertyValue(Of T)(ctrl As Control, propName As String) As T
 
             Dim prop As PropertyInfo = ctrl.GetType().GetProperty(propName)
 
@@ -418,8 +378,7 @@ propName As String) As T
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub RestoreProperties(ctrl As Object,
-defaultProperties As ControlHintInfo,
+        Private Shared Sub RestoreProperties(ctrl As Object, defaultProperties As ControlHintInfo,
                                              Optional skipProperties As String() = Nothing)
 
             Dim excludeProperties As String() = If(skipProperties, {""})
