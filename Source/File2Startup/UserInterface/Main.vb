@@ -102,7 +102,10 @@ Namespace UserInterface
         ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+            Me.MinimumSize = Me.Size
             Me.CheckRecentFiles()
+            Me.ToolStripCheckBox_CompactMode.Checked = My.Settings.CompactMode
+            Me.SetCompactMode(Me.ToolStripCheckBox_CompactMode.Checked)
 
         End Sub
 
@@ -113,7 +116,6 @@ Namespace UserInterface
         ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
         Private Sub Main_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
 
-            Me.MinimumSize = Me.Size
             Me.windowSticker = New WindowMagnetizer(window:=Me) With {.Threshold = 35, .AllowOffscreen = True, .Enabled = True}
 
             If My.Application.CommandLineArgs.Count <> 0 Then
@@ -123,6 +125,7 @@ Namespace UserInterface
                 End If
 
             End If
+
         End Sub
 
         ''' <summary>
@@ -314,7 +317,7 @@ Namespace UserInterface
 
         End Sub
 
-        Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton1.Click
+        Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ItemBuilder.Click
 
             ' Tries to ensure that the tab page is shown.
             ' https://github.com/ElektroStudios/File2Startup/issues/2
@@ -325,7 +328,7 @@ Namespace UserInterface
 
         End Sub
 
-        Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton3.Click
+        Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton_StartupList.Click
 
             Me.TabControl1.Show()
             Me.TabControl1.SelectTab(Me.TabPage2)
@@ -516,6 +519,18 @@ Namespace UserInterface
         Private Sub PortugueseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PortugueseToolStripMenuItem.Click
 
             Me.ApplyFormLanguage("pt")
+
+        End Sub
+
+        Private Sub ToolStripCheckBox_CompactMode_Click(sender As Object, e As EventArgs) Handles ToolStripCheckBox_CompactMode.Click
+
+            Dim cb As ToolStripCheckBox = DirectCast(sender, ToolStripCheckBox)
+            Dim compactMode As Boolean = cb.Checked
+
+            My.Settings.CompactMode = compactMode
+            My.Settings.Save()
+
+            Me.SetCompactMode(compactMode)
 
         End Sub
 
@@ -725,8 +740,8 @@ Namespace UserInterface
 
             resources.ApplyResources(Me, Me.Name, culture)
 
-            resources.ApplyResources(Me.ToolStripButton1, Me.ToolStripButton1.Name, culture)
-            resources.ApplyResources(Me.ToolStripButton3, Me.ToolStripButton3.Name, culture)
+            resources.ApplyResources(Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_ItemBuilder.Name, culture)
+            resources.ApplyResources(Me.ToolStripButton_StartupList, Me.ToolStripButton_StartupList.Name, culture)
             resources.ApplyResources(Me.ToolStripButton_About, Me.ToolStripButton_About.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton2, Me.ToolStripDropDownButton2.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton_Recent, Me.ToolStripDropDownButton_Recent.Name, culture)
@@ -823,6 +838,40 @@ Namespace UserInterface
                 Me.ToolStrip1.Focus()
             End If
 
+        End Sub
+
+        Private Sub SetCompactMode(compactMode As Boolean)
+
+            If compactMode AndAlso Me.ToolStripButton_ItemBuilder.Visible Then
+                Exit Sub
+            End If
+
+            Me.ToolStripButton_ItemBuilder.Visible = compactMode
+            Me.ToolStripButton_StartupList.Visible = compactMode
+
+            Dim tabHeaderHeigt As Integer = 22
+
+            Me.RemoveControlHints()
+
+            If compactMode Then
+                Me.TabControl1.ItemSize = New Size(0, 1)
+                Me.TabControl1.SizeMode = TabSizeMode.Fixed
+                Me.MinimumSize = New Size(Me.MinimumSize.Width, Me.MinimumSize.Height - tabHeaderHeigt)
+                Me.Height -= tabHeaderHeigt
+
+            Else
+                Me.TabControl1.SizeMode = TabSizeMode.Normal
+                Me.TabControl1.ItemSize = New Size(70, tabHeaderHeigt)
+                Me.TabControl1.TabPages(0).Text = Me.ToolStripButton_ItemBuilder.Text
+                Me.TabControl1.TabPages(1).Text = Me.ToolStripButton_StartupList.Text
+                Me.MinimumSize = New Size(Me.MinimumSize.Width, Me.MinimumSize.Height + tabHeaderHeigt)
+                If Me.Size <> Me.MinimumSize Then
+                    Me.Height += tabHeaderHeigt
+                End If
+
+            End If
+
+            Me.SetControlHints()
         End Sub
 
 #End Region

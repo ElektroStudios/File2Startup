@@ -1,6 +1,6 @@
 
 
-#define Version "1.3.1"
+#define Version "1.3.2"
 #define AppName "File2Startup"
 #define ExeName "File2Startup"
 #define StartMenuGroup "• ElektroStudios"

@@ -61,8 +61,9 @@ Namespace UserInterface
             Me.EnglishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.SpanishToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.PortugueseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
-            Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
-            Me.ToolStripButton3 = New System.Windows.Forms.ToolStripButton()
+            Me.ToolStripButton_ItemBuilder = New System.Windows.Forms.ToolStripButton()
+            Me.ToolStripButton_StartupList = New System.Windows.Forms.ToolStripButton()
+            Me.ToolStripCheckBox_CompactMode = New ToolStripCheckBox()
             Me.ToolStrip1.SuspendLayout()
             Me.TabControl1.SuspendLayout()
             Me.TabPage1.SuspendLayout()
@@ -287,7 +288,7 @@ Namespace UserInterface
             Me.ToolStrip2.CanOverflow = False
             resources.ApplyResources(Me.ToolStrip2, "ToolStrip2")
             Me.ToolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
-            Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_About, Me.ToolStripDropDownButton2, Me.ToolStripButton1, Me.ToolStripButton3})
+            Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_About, Me.ToolStripDropDownButton2, Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_StartupList, Me.ToolStripCheckBox_CompactMode})
             Me.ToolStrip2.Name = "ToolStrip2"
             '
             'ToolStripButton_About
@@ -323,17 +324,25 @@ Namespace UserInterface
             Me.PortugueseToolStripMenuItem.Name = "PortugueseToolStripMenuItem"
             resources.ApplyResources(Me.PortugueseToolStripMenuItem, "PortugueseToolStripMenuItem")
             '
-            'ToolStripButton1
+            'ToolStripButton_ItemBuilder
             '
-            Me.ToolStripButton1.Image = Global.My.Resources.Resources.plus
-            resources.ApplyResources(Me.ToolStripButton1, "ToolStripButton1")
-            Me.ToolStripButton1.Name = "ToolStripButton1"
+            Me.ToolStripButton_ItemBuilder.Image = Global.My.Resources.Resources.plus
+            resources.ApplyResources(Me.ToolStripButton_ItemBuilder, "ToolStripButton_ItemBuilder")
+            Me.ToolStripButton_ItemBuilder.Name = "ToolStripButton_ItemBuilder"
             '
-            'ToolStripButton3
+            'ToolStripButton_StartupList
             '
-            Me.ToolStripButton3.Image = Global.My.Resources.Resources.pencil
-            resources.ApplyResources(Me.ToolStripButton3, "ToolStripButton3")
-            Me.ToolStripButton3.Name = "ToolStripButton3"
+            Me.ToolStripButton_StartupList.Image = Global.My.Resources.Resources.pencil
+            resources.ApplyResources(Me.ToolStripButton_StartupList, "ToolStripButton_StartupList")
+            Me.ToolStripButton_StartupList.Name = "ToolStripButton_StartupList"
+            '
+            'ToolStripCheckBox_CompactMode
+            '
+            Me.ToolStripCheckBox_CompactMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
+            Me.ToolStripCheckBox_CompactMode.BackColor = System.Drawing.Color.Transparent
+            Me.ToolStripCheckBox_CompactMode.Checked = True
+            Me.ToolStripCheckBox_CompactMode.Name = "ToolStripCheckBox"
+            resources.ApplyResources(Me.ToolStripCheckBox_CompactMode, "ToolStripCheckBox_CompactMode")
             '
             'Main
             '
@@ -389,11 +398,12 @@ Namespace UserInterface
         Friend WithEvents EnglishToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents SpanishToolStripMenuItem As ToolStripMenuItem
         Friend WithEvents PortugueseToolStripMenuItem As ToolStripMenuItem
-        Friend WithEvents ToolStripButton1 As ToolStripButton
-        Friend WithEvents ToolStripButton3 As ToolStripButton
+        Friend WithEvents ToolStripButton_ItemBuilder As ToolStripButton
+        Friend WithEvents ToolStripButton_StartupList As ToolStripButton
         Friend WithEvents Button_SendtoItemBuilder As Button
         Friend WithEvents Button_RefreshList As Button
         Friend WithEvents Button_OpenInRegedit As Button
+        Friend WithEvents ToolStripCheckBox_CompactMode As ToolStripCheckBox
     End Class
 
 End Namespace
