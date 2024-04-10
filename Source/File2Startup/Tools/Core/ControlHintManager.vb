@@ -1,5 +1,10 @@
-﻿' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
+﻿' ***********************************************************************
+' Author   : ElektroStudios
+' Modified : 17-July-2021
+' ***********************************************************************
 
+
+' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
 
 
 
@@ -27,6 +32,25 @@
 
 
 
+#Region " Public Members Summary "
+
+#Region " Properties "
+
+' ControlHints As Dictionary(Of Control, ControlHintInfo)
+
+#End Region
+
+#Region " Methods "
+
+' SetHint(Control, ControlHintInfo)
+' SetHint(Control(), ControlHintInfo)
+
+' RemoveHint(Control)
+' RemoveHint(Control())
+
+#End Region
+
+#End Region
 
 #Region " Usage Examples "
 
@@ -60,12 +84,16 @@ Imports System.Reflection
 Imports DevCase.Core.Application.UserInterface.Enums
 Imports DevCase.Core.Application.UserInterface.Types
 
+Imports DevCase.Core.Diagnostics.Assembly.Reflection
+
 #End Region
 
 #Region " ControlHint Manager "
 
 
-Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
+' ReSharper disable once CheckNamespace
+
+Namespace DevCase.Core.Application.Forms
 
     ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
@@ -73,7 +101,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
     ''' </summary>
     ''' ----------------------------------------------------------------------------------------------------
     ''' <example> This is a code example.
-    ''' <code>
+    ''' <code language="VB.NET">
     ''' Dim hintInfo1 As New ControlHintInfo("I'm a persistent hint.", Nothing,
     '''                                      Color.Gray, ControlHintType.Normal)
     ''' 
@@ -89,6 +117,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
     ''' </code>
     ''' </example>
     ''' ----------------------------------------------------------------------------------------------------
+    <CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification:="Required to migrate this code to .NET Core")>
     Public NotInheritable Class ControlHintManager
 
 #Region " Properties "
@@ -156,65 +185,92 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         ''' </exception>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Public Shared Sub SetHint(ctrl As Control, hintInfo As ControlHintInfo)
+        Public Shared Sub SetHint(ctrl As Control,
+                                  hintInfo As ControlHintInfo)
 
             Dim text As String = hintInfo.Text
             Dim font As Font = hintInfo.Font
             Dim foreColor As Color = hintInfo.ForeColor
 
             If String.IsNullOrEmpty(text) Then
-                Throw New ArgumentNullException(paramName:="hintInfo", message:="Control-hint text can't be null or empty.")
-                Exit Sub
+                Throw New ArgumentNullException(message:="Control-hint text can't be null or empty.", paramName:=NameOf(hintInfo))
             End If
 
-            If (font Is Nothing) Then
-                font = GetPropertyValue(Of Font)(ctrl, "Font")
+            If font Is Nothing Then
+                font = UtilReflection.GetPropertyValue(Of Font)(ctrl, "Font", BindingFlags.Instance Or BindingFlags.Public)
             End If
 
-            If (foreColor = Color.Empty) Then
-                foreColor = GetPropertyValue(Of Color)(ctrl, "ForeColor")
+            If foreColor = Color.Empty Then
+                foreColor = UtilReflection.GetPropertyValue(Of Color)(ctrl, "ForeColor", BindingFlags.Instance Or BindingFlags.Public)
             End If
 
             ' Ready to handle the Control.
-            InstanceControlHintFields()
-            Select Case controlHintsB.ContainsKey(ctrl)
+            ControlHintManager.InstanceControlHintFields()
+            Select Case ControlHintManager.controlHintsB.ContainsKey(ctrl)
 
                 Case True ' Control-hint is already set and handled.
                     ' Just replace the new hint properties in the collection.
-                    controlHintsB(ctrl) = hintInfo
+                    ControlHintManager.controlHintsB(ctrl) = hintInfo
 
                 Case False ' Control-hint is not set.
                     ' Set the default control property values to restore them when needed.
                     Dim deaults As New ControlHintInfo(String.Empty,
-                                                       GetPropertyValue(Of Font)(ctrl, "Font"),
-                                                       GetPropertyValue(Of Color)(ctrl, "ForeColor"),
+                                                       UtilReflection.GetPropertyValue(Of Font)(ctrl, "Font", BindingFlags.Instance Or BindingFlags.Public),
+                                                       UtilReflection.GetPropertyValue(Of Color)(ctrl, "ForeColor", BindingFlags.Instance Or BindingFlags.Public),
                                                        ControlHintType.Normal)
 
                     ' Add the hint properties into collections.
-                    controlHintsB.Add(ctrl, hintInfo)
-                    controlHintsDefaults.Add(ctrl, deaults)
+                    ControlHintManager.controlHintsB.Add(ctrl, hintInfo)
+                    ControlHintManager.controlHintsDefaults.Add(ctrl, deaults)
 
-                    With ctrl
+                    ' Remove previously handled events (if any).
+                    RemoveHandler ctrl.HandleCreated, AddressOf ControlHintManager.Control_HandleCreated
+                    RemoveHandler ctrl.Enter, AddressOf ControlHintManager.Control_Enter
+                    RemoveHandler ctrl.Leave, AddressOf ControlHintManager.Control_Leave
+                    RemoveHandler ctrl.Disposed, AddressOf ControlHintManager.Control_Disposed
+                    RemoveHandler ctrl.MouseDown, AddressOf ControlHintManager.Control_MouseDown
+                    RemoveHandler ctrl.KeyDown, AddressOf ControlHintManager.Control_KeyDown
+                    RemoveHandler ctrl.CausesValidationChanged, AddressOf ControlHintManager.Control_CausesValidationChanged
 
-                        ' Remove previouslly handled events (if any).
-                        RemoveHandler .HandleCreated, AddressOf Control_HandleCreated
-                        RemoveHandler .Enter, AddressOf Control_Enter
-                        RemoveHandler .Leave, AddressOf Control_Leave
-                        RemoveHandler .Disposed, AddressOf Control_Disposed
-                        RemoveHandler .MouseDown, AddressOf Control_MouseDown
-                        RemoveHandler .KeyDown, AddressOf Control_KeyDown
+                    ' Start handling the control events.
+                    AddHandler ctrl.HandleCreated, AddressOf ControlHintManager.Control_HandleCreated
+                    AddHandler ctrl.Enter, AddressOf ControlHintManager.Control_Enter
+                    AddHandler ctrl.Leave, AddressOf ControlHintManager.Control_Leave
+                    AddHandler ctrl.Disposed, AddressOf ControlHintManager.Control_Disposed
+                    AddHandler ctrl.MouseDown, AddressOf ControlHintManager.Control_MouseDown
+                    AddHandler ctrl.KeyDown, AddressOf ControlHintManager.Control_KeyDown
+                    AddHandler ctrl.CausesValidationChanged, AddressOf ControlHintManager.Control_CausesValidationChanged
 
-                        ' Start handling the control events.
-                        AddHandler .HandleCreated, AddressOf Control_HandleCreated
-                        AddHandler .Enter, AddressOf Control_Enter
-                        AddHandler .Leave, AddressOf Control_Leave
-                        AddHandler .Disposed, AddressOf Control_Disposed
-                        AddHandler .MouseDown, AddressOf Control_MouseDown
-                        AddHandler .KeyDown, AddressOf Control_KeyDown
-
-                    End With
-
+                    ' Force trigger 'Control_CausesValidationChanged' event-handler to set the text hint on the control.
+                    Dim olCausesValidation As Boolean = ctrl.CausesValidation
+                    ctrl.CausesValidation = Not olCausesValidation
+                    ctrl.CausesValidation = olCausesValidation
             End Select
+
+        End Sub
+
+
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sets a new control-hint for multiple controls at once.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="controls">
+        ''' The controls.
+        ''' </param>
+        ''' 
+        ''' <param name="hintInfo">
+        ''' The control-hint properties.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shared Sub SetHint(controls As Control(),
+                                  hintInfo As ControlHintInfo)
+
+            For Each control As Control In controls
+                ControlHintManager.SetHint(control, hintInfo)
+            Next control
 
         End Sub
 
@@ -230,37 +286,58 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Public Shared Sub RemoveHint(ctrl As Control)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
             Select Case controlHintsB.ContainsKey(ctrl)
 
                 Case True ' Control-hint is already set.
 
                     With ctrl
-                        RemoveHandler .HandleCreated, AddressOf Control_HandleCreated
-                        RemoveHandler .Enter, AddressOf Control_Enter
-                        RemoveHandler .Leave, AddressOf Control_Leave
-                        RemoveHandler .Disposed, AddressOf Control_Disposed
-                        RemoveHandler .MouseDown, AddressOf Control_MouseDown
-                        RemoveHandler .KeyDown, AddressOf Control_KeyDown
+                        RemoveHandler .HandleCreated, AddressOf ControlHintManager.Control_HandleCreated
+                        RemoveHandler .Enter, AddressOf ControlHintManager.Control_Enter
+                        RemoveHandler .Leave, AddressOf ControlHintManager.Control_Leave
+                        RemoveHandler .Disposed, AddressOf ControlHintManager.Control_Disposed
+                        RemoveHandler .MouseDown, AddressOf ControlHintManager.Control_MouseDown
+                        RemoveHandler .KeyDown, AddressOf ControlHintManager.Control_KeyDown
+                        RemoveHandler .CausesValidationChanged, AddressOf ControlHintManager.Control_CausesValidationChanged
                     End With
 
-                    If Not (ctrl.IsDisposed) Then
+                    If Not ctrl.IsDisposed Then
 
                         Dim ctrlDefaults As ControlHintInfo = controlHintsDefaults(ctrl)
 
-                        If (ctrl.Text.Equals(controlHintsB(ctrl).Text, StringComparison.OrdinalIgnoreCase)) Then
-                            RestoreProperties(ctrl, ctrlDefaults)
+                        If ctrl.Text.Equals(controlHintsB(ctrl).Text, StringComparison.OrdinalIgnoreCase) Then
+                            ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
                         Else
-                            RestoreProperties(ctrl, ctrlDefaults, skipProperties:={"Text"})
+#Disable Warning CA1861 ' Avoid constant arrays as arguments
+                            ControlHintManager.RestoreProperties(ctrl, ctrlDefaults, skipProperties:={"Text"})
+#Enable Warning CA1861 ' Avoid constant arrays as arguments
                         End If
 
                     End If
 
                     ' Remove the control-hints from hints collections.
-                    controlHintsB.Remove(ctrl)
-                    controlHintsDefaults.Remove(ctrl)
+                    ControlHintManager.controlHintsB.Remove(ctrl)
+                    ControlHintManager.controlHintsDefaults.Remove(ctrl)
 
             End Select
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Removes a control-hint from a control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="ctrls">
+        ''' The controls.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shared Sub RemoveHint(ctrls As Control())
+
+            For Each ctrl As Control In ctrls
+                ControlHintManager.RemoveHint(ctrl)
+            Next ctrl
 
         End Sub
 
@@ -276,51 +353,17 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub InstanceControlHintFields()
 
-            If (controlHintsB Is Nothing) Then
-                controlHintsB = New Dictionary(Of Control, ControlHintInfo)
+            If controlHintsB Is Nothing Then
+                ControlHintManager.controlHintsB = New Dictionary(Of Control, ControlHintInfo)
             End If
 
-            If (controlHintsDefaults Is Nothing) Then
-                controlHintsDefaults = New Dictionary(Of Control, ControlHintInfo)
+            If controlHintsDefaults Is Nothing Then
+                ControlHintManager.controlHintsDefaults = New Dictionary(Of Control, ControlHintInfo)
             End If
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <summary>
-        ''' Gets the property value of an specific control through reflection.
-        ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <param name="ctrl">
-        ''' The Control.
-        ''' </param>
-        ''' 
-        ''' <param name="propName">
-        ''' The name of the property to get it's value.
-        ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
-        ''' <returns>
-        ''' If the property is not found on the Control, the return value is <see langword="Nothing"/>,
-        ''' Otherwise, the return value is the control's property value.
-        ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
-        <DebuggerStepThrough>
-        Private Shared Function GetPropertyValue(Of T)(ctrl As Control, propName As String) As T
-
-            Dim prop As PropertyInfo = ctrl.GetType().GetProperty(propName)
-
-            Select Case (prop Is Nothing)
-
-                Case False
-                    Return DirectCast(prop.GetValue(ctrl, Nothing), T)
-
-                Case Else
-                    Return Nothing
-
-            End Select
-
-        End Function
-
+        ' ReSharper disable once SuggestBaseTypeForParameter
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets the properties of an specific control.
@@ -339,7 +382,8 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub SetProperties(ctrl As Object, hintInfo As ControlHintInfo,
+        Private Shared Sub SetProperties(ctrl As Object,
+                                         hintInfo As ControlHintInfo,
                                          Optional skipProperties As String() = Nothing)
 
             ' Get the control type.
@@ -360,6 +404,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
 
         End Sub
 
+        ' ReSharper disable once SuggestBaseTypeForParameter
         ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Restores the properties of the specified control.
@@ -378,7 +423,8 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         ''' </param>
         ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
-        Private Shared Sub RestoreProperties(ctrl As Object, defaultProperties As ControlHintInfo,
+        Private Shared Sub RestoreProperties(ctrl As Object,
+                                             defaultProperties As ControlHintInfo,
                                              Optional skipProperties As String() = Nothing)
 
             Dim excludeProperties As String() = If(skipProperties, {""})
@@ -392,7 +438,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
 
                 Dim prop As PropertyInfo = ctrlType.GetProperty(defaultProp.Name)
 
-                If Not (prop Is Nothing) AndAlso Not (excludeProperties.Contains(prop.Name)) Then
+                If prop IsNot Nothing AndAlso Not excludeProperties.Contains(prop.Name) Then
                     prop.SetValue(ctrl, defaultProp.GetValue(defaultProperties, Nothing), Nothing)
                 End If
 
@@ -420,12 +466,12 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_HandleCreated(sender As Object, e As EventArgs)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
 
             Dim ctrl As Control = DirectCast(sender, Control)
-            Dim hintInfo As ControlHintInfo = controlHintsB(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
 
-            SetProperties(ctrl, hintInfo)
+            ControlHintManager.SetProperties(ctrl, hintInfo)
 
         End Sub
 
@@ -445,17 +491,17 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_Enter(sender As Object, e As EventArgs)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
 
             Dim ctrl As Control = DirectCast(sender, Control)
             Dim ctrlText As String = ctrl.Text
-            Dim ctrlDefaults As ControlHintInfo = controlHintsDefaults(ctrl)
-            Dim hintInfo As ControlHintInfo = controlHintsB(ctrl)
+            Dim ctrlDefaults As ControlHintInfo = ControlHintManager.controlHintsDefaults(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
 
             Select Case hintInfo.HintType
 
                 Case ControlHintType.Normal
-                    If (ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase)) Then
+                    If ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
                         RestoreProperties(ctrl, ctrlDefaults)
                     End If
 
@@ -479,27 +525,27 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_Leave(sender As Object, e As EventArgs)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
 
             Dim ctrl As Control = DirectCast(sender, Control)
             Dim ctrlText As String = ctrl.Text
-            Dim ctrlDefaults As ControlHintInfo = controlHintsDefaults(ctrl)
-            Dim hintInfo As ControlHintInfo = controlHintsB(ctrl)
+            Dim ctrlDefaults As ControlHintInfo = ControlHintManager.controlHintsDefaults(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
 
             Select Case hintInfo.HintType
 
                 Case ControlHintType.Normal
-                    If (ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase)) Then
-                        RestoreProperties(ctrl, ctrlDefaults)
+                    If ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+                        ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
 
                     ElseIf String.IsNullOrEmpty(ctrlText) Then
-                        SetProperties(ctrl, hintInfo)
+                        ControlHintManager.SetProperties(ctrl, hintInfo)
 
                     End If
 
                 Case ControlHintType.Persistent
                     If String.IsNullOrEmpty(ctrlText) Then
-                        SetProperties(ctrl, hintInfo)
+                        ControlHintManager.SetProperties(ctrl, hintInfo)
                     End If
 
             End Select
@@ -522,17 +568,17 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_MouseDown(sender As Object, e As MouseEventArgs)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
 
             Dim ctrl As Control = DirectCast(sender, Control)
             Dim ctrlText As String = ctrl.Text
-            Dim hintInfo As ControlHintInfo = controlHintsB(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
 
             Select Case hintInfo.HintType
 
                 Case ControlHintType.Persistent
 
-                    If (ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase)) Then
+                    If ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
 
                         ' Get the 'Select' control's method (if exist).
                         Dim method As MethodInfo =
@@ -567,30 +613,77 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
 
-            InstanceControlHintFields()
+            ControlHintManager.InstanceControlHintFields()
 
             Dim ctrl As Control = DirectCast(sender, Control)
             Dim ctrlText As String = ctrl.Text
-            Dim ctrlDefaults As ControlHintInfo = controlHintsDefaults(ctrl)
-            Dim hintInfo As ControlHintInfo = controlHintsB(ctrl)
+            Dim ctrlDefaults As ControlHintInfo = ControlHintManager.controlHintsDefaults(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
 
             Select Case hintInfo.HintType
 
                 Case ControlHintType.Persistent
-                    If (ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase)) Then
-                        RestoreProperties(ctrl, ctrlDefaults)
+                    If ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+                        ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
 
                     ElseIf String.IsNullOrEmpty(ctrlText) Then
-                        RestoreProperties(ctrl, ctrlDefaults, skipProperties:={"Text"})
+#Disable Warning CA1861 ' Avoid constant arrays as arguments
+                        ControlHintManager.RestoreProperties(ctrl, ctrlDefaults, skipProperties:={"Text"})
+#Enable Warning CA1861 ' Avoid constant arrays as arguments
 
                     End If
 
                 Case ControlHintType.Normal
                     If String.IsNullOrEmpty(ctrlText) Then
-                        RestoreProperties(ctrl, ctrlDefaults)
+                        ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
                     End If
 
             End Select
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.CausesValidationChanged"/> event of the Control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        ''' 
+        ''' <param name="e">
+        ''' The <see cref="EventArgs"/> instance containing the event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Private Shared Sub Control_CausesValidationChanged(sender As Object, e As EventArgs)
+
+            ControlHintManager.InstanceControlHintFields()
+
+            Dim ctrl As Control = DirectCast(sender, Control)
+            Dim ctrlText As String = ctrl.Text
+            Dim ctrlDefaults As ControlHintInfo = ControlHintManager.controlHintsDefaults(ctrl)
+            Dim hintInfo As ControlHintInfo = ControlHintManager.controlHintsB(ctrl)
+
+
+            Select Case hintInfo.HintType
+
+                Case ControlHintType.Normal
+                    If ctrl.GetContainerControl.ActiveControl.Equals(ctrl) AndAlso ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+                        ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
+
+                    ElseIf String.IsNullOrEmpty(ctrlText) Then
+                        ControlHintManager.SetProperties(ctrl, hintInfo)
+
+                    End If
+
+                Case ControlHintType.Persistent
+                    If String.IsNullOrEmpty(ctrlText) Then
+                        ControlHintManager.SetProperties(ctrl, hintInfo)
+                    End If
+
+            End Select
+
 
         End Sub
 
@@ -609,7 +702,7 @@ Namespace DevCase.Core.Application.UserInterface.Tools.Graphical
         <DebuggerStepThrough>
         Private Shared Sub Control_Disposed(sender As Object, e As EventArgs)
 
-            RemoveHint(DirectCast(sender, Control))
+            ControlHintManager.RemoveHint(DirectCast(sender, Control))
 
         End Sub
 

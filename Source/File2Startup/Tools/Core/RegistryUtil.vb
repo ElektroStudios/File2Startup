@@ -40,7 +40,6 @@ Option Infer Off
 
 Imports System.IO
 Imports System.Security.Permissions
-Imports System.Text
 
 Imports Microsoft.Win32
 

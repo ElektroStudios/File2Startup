@@ -1,10 +1,16 @@
 # File2Startup Change Log 📋
 
-## v1.3.2 *(current)* 🆕
+## v1.3.3 *(current)* 🆕
+
+ 🛠️ Fixes:
+ - Missing language translations for the text of some modified controls from previous release.
+ - Control hints were not updated properly when the control text was empty.
+
+## v1.3.2 🔄
 
  🛠️ Fixes:
  - Added a 'Compact Mode' check box to hide/show tabs; whose main purpose is to serve as a final workaround for issue [#2](https://github.com/ElektroStudios/File2Startup/issues/2#issuecomment-2041072015)
-    
+
 ## v1.3.1 🔄
 
  🛠️ Fixes:

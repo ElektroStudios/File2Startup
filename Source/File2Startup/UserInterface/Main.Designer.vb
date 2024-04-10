@@ -138,16 +138,16 @@ Namespace UserInterface
             '
             'ToolStripDropDownButton_Recent
             '
+            resources.ApplyResources(Me.ToolStripDropDownButton_Recent, "ToolStripDropDownButton_Recent")
             Me.ToolStripDropDownButton_Recent.AutoToolTip = False
             Me.ToolStripDropDownButton_Recent.DropDown = Me.ContextMenuStrip_Recent
-            resources.ApplyResources(Me.ToolStripDropDownButton_Recent, "ToolStripDropDownButton_Recent")
             Me.ToolStripDropDownButton_Recent.Name = "ToolStripDropDownButton_Recent"
             '
             'ContextMenuStrip_Recent
             '
+            resources.ApplyResources(Me.ContextMenuStrip_Recent, "ContextMenuStrip_Recent")
             Me.ContextMenuStrip_Recent.Name = "ContextMenuStrip_Recent"
             Me.ContextMenuStrip_Recent.OwnerItem = Me.ToolStripDropDownButton_Recent
-            resources.ApplyResources(Me.ContextMenuStrip_Recent, "ContextMenuStrip_Recent")
             '
             'Button_OpenFile
             '
@@ -158,6 +158,7 @@ Namespace UserInterface
             'OpenFileDialog1
             '
             Me.OpenFileDialog1.FileName = "OpenFileDialog1"
+            resources.ApplyResources(Me.OpenFileDialog1, "OpenFileDialog1")
             '
             'TabControl1
             '
@@ -170,6 +171,7 @@ Namespace UserInterface
             '
             'TabPage1
             '
+            resources.ApplyResources(Me.TabPage1, "TabPage1")
             Me.TabPage1.Controls.Add(Me.ToolStrip1)
             Me.TabPage1.Controls.Add(Me.Label4)
             Me.TabPage1.Controls.Add(Me.Panel1)
@@ -181,7 +183,6 @@ Namespace UserInterface
             Me.TabPage1.Controls.Add(Me.Label2)
             Me.TabPage1.Controls.Add(Me.Button_AddToStartup)
             Me.TabPage1.Controls.Add(Me.Label3)
-            resources.ApplyResources(Me.TabPage1, "TabPage1")
             Me.TabPage1.Name = "TabPage1"
             Me.TabPage1.UseVisualStyleBackColor = True
             '
@@ -192,20 +193,20 @@ Namespace UserInterface
             '
             'Panel1
             '
+            resources.ApplyResources(Me.Panel1, "Panel1")
             Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
             Me.Panel1.Controls.Add(Me.RadioButton_CurrentUser)
             Me.Panel1.Controls.Add(Me.RadioButton_AllUsers)
-            resources.ApplyResources(Me.Panel1, "Panel1")
             Me.Panel1.Name = "Panel1"
             '
             'TabPage2
             '
+            resources.ApplyResources(Me.TabPage2, "TabPage2")
             Me.TabPage2.Controls.Add(Me.Button_OpenInRegedit)
             Me.TabPage2.Controls.Add(Me.Button_RefreshList)
             Me.TabPage2.Controls.Add(Me.Button_SendtoItemBuilder)
             Me.TabPage2.Controls.Add(Me.DataGridView1)
             Me.TabPage2.Controls.Add(Me.Button_DeleteEntry)
-            resources.ApplyResources(Me.TabPage2, "TabPage2")
             Me.TabPage2.Name = "TabPage2"
             Me.TabPage2.UseVisualStyleBackColor = True
             '
@@ -229,11 +230,11 @@ Namespace UserInterface
             '
             'DataGridView1
             '
+            resources.ApplyResources(Me.DataGridView1, "DataGridView1")
             Me.DataGridView1.AllowUserToAddRows = False
             Me.DataGridView1.AllowUserToDeleteRows = False
             Me.DataGridView1.AllowUserToOrderColumns = True
             Me.DataGridView1.AllowUserToResizeRows = False
-            resources.ApplyResources(Me.DataGridView1, "DataGridView1")
             Me.DataGridView1.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells
             Me.DataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing
             Me.DataGridView1.Columns.AddRange(New System.Windows.Forms.DataGridViewColumn() {Me.ColumnType, Me.ColumnIcon, Me.ColumnName, Me.ColumnValue})
@@ -283,71 +284,71 @@ Namespace UserInterface
             '
             'ToolStrip2
             '
+            resources.ApplyResources(Me.ToolStrip2, "ToolStrip2")
             Me.ToolStrip2.AllowMerge = False
             Me.ToolStrip2.BackColor = System.Drawing.SystemColors.Control
             Me.ToolStrip2.CanOverflow = False
-            resources.ApplyResources(Me.ToolStrip2, "ToolStrip2")
             Me.ToolStrip2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden
             Me.ToolStrip2.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripButton_About, Me.ToolStripDropDownButton2, Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_StartupList, Me.ToolStripCheckBox_CompactMode})
             Me.ToolStrip2.Name = "ToolStrip2"
             '
             'ToolStripButton_About
             '
+            resources.ApplyResources(Me.ToolStripButton_About, "ToolStripButton_About")
             Me.ToolStripButton_About.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
             Me.ToolStripButton_About.Image = Global.My.Resources.Resources.communications
-            resources.ApplyResources(Me.ToolStripButton_About, "ToolStripButton_About")
             Me.ToolStripButton_About.Name = "ToolStripButton_About"
             '
             'ToolStripDropDownButton2
             '
+            resources.ApplyResources(Me.ToolStripDropDownButton2, "ToolStripDropDownButton2")
             Me.ToolStripDropDownButton2.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
             Me.ToolStripDropDownButton2.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.EnglishToolStripMenuItem, Me.SpanishToolStripMenuItem, Me.PortugueseToolStripMenuItem})
             Me.ToolStripDropDownButton2.Image = Global.My.Resources.Resources.languages
-            resources.ApplyResources(Me.ToolStripDropDownButton2, "ToolStripDropDownButton2")
             Me.ToolStripDropDownButton2.Name = "ToolStripDropDownButton2"
             '
             'EnglishToolStripMenuItem
             '
+            resources.ApplyResources(Me.EnglishToolStripMenuItem, "EnglishToolStripMenuItem")
             Me.EnglishToolStripMenuItem.Image = Global.My.Resources.Resources.united_states_of_america
             Me.EnglishToolStripMenuItem.Name = "EnglishToolStripMenuItem"
-            resources.ApplyResources(Me.EnglishToolStripMenuItem, "EnglishToolStripMenuItem")
             '
             'SpanishToolStripMenuItem
             '
+            resources.ApplyResources(Me.SpanishToolStripMenuItem, "SpanishToolStripMenuItem")
             Me.SpanishToolStripMenuItem.Image = Global.My.Resources.Resources.spain
             Me.SpanishToolStripMenuItem.Name = "SpanishToolStripMenuItem"
-            resources.ApplyResources(Me.SpanishToolStripMenuItem, "SpanishToolStripMenuItem")
             '
             'PortugueseToolStripMenuItem
             '
+            resources.ApplyResources(Me.PortugueseToolStripMenuItem, "PortugueseToolStripMenuItem")
             Me.PortugueseToolStripMenuItem.Image = Global.My.Resources.Resources.portugal
             Me.PortugueseToolStripMenuItem.Name = "PortugueseToolStripMenuItem"
-            resources.ApplyResources(Me.PortugueseToolStripMenuItem, "PortugueseToolStripMenuItem")
             '
             'ToolStripButton_ItemBuilder
             '
-            Me.ToolStripButton_ItemBuilder.Image = Global.My.Resources.Resources.plus
             resources.ApplyResources(Me.ToolStripButton_ItemBuilder, "ToolStripButton_ItemBuilder")
+            Me.ToolStripButton_ItemBuilder.Image = Global.My.Resources.Resources.plus
             Me.ToolStripButton_ItemBuilder.Name = "ToolStripButton_ItemBuilder"
             '
             'ToolStripButton_StartupList
             '
-            Me.ToolStripButton_StartupList.Image = Global.My.Resources.Resources.pencil
             resources.ApplyResources(Me.ToolStripButton_StartupList, "ToolStripButton_StartupList")
+            Me.ToolStripButton_StartupList.Image = Global.My.Resources.Resources.pencil
             Me.ToolStripButton_StartupList.Name = "ToolStripButton_StartupList"
             '
             'ToolStripCheckBox_CompactMode
             '
+            resources.ApplyResources(Me.ToolStripCheckBox_CompactMode, "ToolStripCheckBox_CompactMode")
             Me.ToolStripCheckBox_CompactMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
             Me.ToolStripCheckBox_CompactMode.BackColor = System.Drawing.Color.Transparent
             Me.ToolStripCheckBox_CompactMode.Checked = True
             Me.ToolStripCheckBox_CompactMode.Name = "ToolStripCheckBox"
-            resources.ApplyResources(Me.ToolStripCheckBox_CompactMode, "ToolStripCheckBox_CompactMode")
             '
             'Main
             '
-            Me.AllowDrop = True
             resources.ApplyResources(Me, "$this")
+            Me.AllowDrop = True
             Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
             Me.Controls.Add(Me.TabControl1)
             Me.Controls.Add(Me.ToolStrip2)

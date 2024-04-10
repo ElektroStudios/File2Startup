@@ -14,13 +14,13 @@ Imports Microsoft.Win32
 Imports System.ComponentModel
 
 Imports DevCase.Core.Application.UserInterface.Enums
-Imports DevCase.Core.Application.UserInterface.Tools.Graphical
 Imports DevCase.Core.Application.UserInterface.Types
 Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.System.Tools
 Imports System.IO
 Imports System.Globalization
 Imports System.Threading
+Imports DevCase.Core.Application.Forms
 
 #End Region
 
@@ -742,6 +742,7 @@ Namespace UserInterface
 
             resources.ApplyResources(Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_ItemBuilder.Name, culture)
             resources.ApplyResources(Me.ToolStripButton_StartupList, Me.ToolStripButton_StartupList.Name, culture)
+            resources.ApplyResources(Me.ToolStripCheckBox_CompactMode, Me.ToolStripCheckBox_CompactMode.Name, culture)
             resources.ApplyResources(Me.ToolStripButton_About, Me.ToolStripButton_About.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton2, Me.ToolStripDropDownButton2.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton_Recent, Me.ToolStripDropDownButton_Recent.Name, culture)
@@ -776,6 +777,9 @@ Namespace UserInterface
             Me.Button_SendtoItemBuilder.Bounds = boundsButton_SendtoItemBuilder
             Me.Button_OpenInRegedit.Bounds = boundsButton_OpenInRegedit
             Me.Button_RefreshList.Bounds = boundsButton_RefreshList
+
+            Me.TabPage1.Text = Me.ToolStripButton_ItemBuilder.Text
+            Me.TabPage2.Text = Me.ToolStripButton_StartupList.Text
 
             Me.RemoveControlHints()
 

@@ -36,7 +36,6 @@ Option Infer Off
 
 #Region " Imports "
 
-Imports System.ComponentModel
 Imports System.Security
 
 #End Region

@@ -39,7 +39,6 @@ Option Infer Off
 
 Imports System.IO
 Imports System.Runtime.InteropServices
-Imports System.Runtime.InteropServices.ComTypes
 Imports System.Security
 Imports System.Text
 

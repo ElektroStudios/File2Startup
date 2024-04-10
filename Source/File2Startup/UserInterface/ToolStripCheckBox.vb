@@ -1,6 +1,5 @@
 ﻿' https://www.vbforums.com/showthread.php?614155-ToolStripCheckBox
 
-Imports System.Windows.Forms
 Imports System.Windows.Forms.Design
 
 <ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip), DebuggerStepThrough()>

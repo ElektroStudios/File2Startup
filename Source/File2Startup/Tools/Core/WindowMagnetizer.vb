@@ -52,7 +52,6 @@ Option Infer Off
 Imports System.Runtime.InteropServices
 
 Imports DevCase.Interop.Win32
-Imports DevCase.Interop.Win32.Enums
 Imports DevCase.Interop.Win32.Types
 
 #End Region
