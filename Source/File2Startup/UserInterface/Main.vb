@@ -48,6 +48,7 @@ Namespace UserInterface
         Private msgq4 As String = "Do you really want to overwrite the item?."
         Private msgq5 As String = "Item successfully added to Windows startup"
         Private msgq6 As String = "Failed to add the item to Windows startup"
+        Private msgq7 As String = "Compact Mode"
 
 #End Region
 
@@ -742,7 +743,6 @@ Namespace UserInterface
 
             resources.ApplyResources(Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_ItemBuilder.Name, culture)
             resources.ApplyResources(Me.ToolStripButton_StartupList, Me.ToolStripButton_StartupList.Name, culture)
-            resources.ApplyResources(Me.ToolStripCheckBox_CompactMode, Me.ToolStripCheckBox_CompactMode.Name, culture)
             resources.ApplyResources(Me.ToolStripButton_About, Me.ToolStripButton_About.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton2, Me.ToolStripDropDownButton2.Name, culture)
             resources.ApplyResources(Me.ToolStripDropDownButton_Recent, Me.ToolStripDropDownButton_Recent.Name, culture)
@@ -794,6 +794,7 @@ Namespace UserInterface
                     Me.msgq4 = "Do you really want to overwrite the entry?."
                     Me.msgq5 = "Item successfully added to Windows startup."
                     Me.msgq6 = "Failed to add the item to Windows startup."
+                    Me.msgq7 = "Compact Mode"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Type"
                     Me.DataGridView1.Columns(1).HeaderText = "Icon"
@@ -810,6 +811,7 @@ Namespace UserInterface
                     Me.msgq4 = "¿Realmente desea sobrescribir la entrada?."
                     Me.msgq5 = "Elemento agregado exitosamente al inicio de Windows."
                     Me.msgq6 = "Error al agregar el elemento al inicio de Windows."
+                    Me.msgq7 = "Modo Compacto"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Icono"
@@ -826,6 +828,7 @@ Namespace UserInterface
                     Me.msgq4 = "Deseja realmente substituir a entrada?"
                     Me.msgq5 = "Item adicionado com sucesso na começar do Windows."
                     Me.msgq6 = "Erro ao adicionar item na começar do Windows."
+                    Me.msgq7 = "Modo Compacto"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Ícone"
@@ -833,6 +836,8 @@ Namespace UserInterface
                     Me.DataGridView1.Columns(3).HeaderText = "Valor"
 
             End Select
+            Me.ToolStripCheckBox_CompactMode.Text = Me.msgq7
+
             Me.SetControlHints()
 
             If Me.TabControl1.SelectedTab.Equals(Me.TabPage1) Then
