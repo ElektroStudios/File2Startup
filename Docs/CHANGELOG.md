@@ -1,6 +1,16 @@
 # File2Startup Change Log 📋
 
-## v1.3.3 *(current)* 🆕
+## v1.3.4 *(current)* 🆕
+
+ 🛠️ Fixes:
+ - Missing translation resource files from previous release caused an incomplete translation.
+ - Deleted orphan translation resources for "en-AS" culture from source-code.
+
+ 🌟 Improvements:
+ - Added an application manifest requiring Administrator privileges to prevent registry read/write errors.
+ - ToolStrip CheckBox's ("Compact Mode") internal logic and performance has been improved.
+
+## v1.3.3 🔄
 
  🛠️ Fixes:
  - Missing language translations for the text of some modified controls from previous release.

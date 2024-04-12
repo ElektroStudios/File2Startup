@@ -1,9 +1,11 @@
 ﻿
+Imports DevCase.UI.Components
+
 Namespace UserInterface
 
-    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+    <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
     Partial Class Main
-    Inherits System.Windows.Forms.Form
+        Inherits System.Windows.Forms.Form
 
         'Form overrides dispose to clean up the component list.
         <System.Diagnostics.DebuggerNonUserCode()> _

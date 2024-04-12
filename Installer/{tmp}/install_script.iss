@@ -1,6 +1,6 @@
 
 
-#define Version "1.3.3"
+#define Version "1.3.4"
 #define AppName "File2Startup"
 #define ExeName "File2Startup"
 #define StartMenuGroup "• ElektroStudios"
@@ -44,7 +44,7 @@ AppPublisher=ElektroStudios
 DefaultDirName={autopf}\ElektroStudios\{#AppName}
 DefaultGroupName=ElektroStudios Installers\{#StartMenuGroup}
 UninstallDisplayIcon={app}\{#ExeName}.exe
-OutputBaseFilename={#AppName} v{#Version} AnyCPU Istaller
+OutputBaseFilename={#AppName} v{#Version} AnyCPU Installer
 Compression=zip
 InternalCompressLevel=normal
 SolidCompression=false
