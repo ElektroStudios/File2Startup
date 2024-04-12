@@ -129,7 +129,7 @@ Name: {localappdata}\ElektroStudios\{#ExeName}.exe*; Type: filesandordirs
 Name: {localappdata}\ElektroStudios; Type: dirifempty
 
 [Run]
-Filename: {app}\{#ExeName}.exe; Description: {cm:LaunchProgram,{#AppName}}; Flags: postinstall unchecked skipifsilent nowait
+Filename: {app}\{#ExeName}.exe; Description: {cm:LaunchProgram,{#AppName}}; Flags: postinstall unchecked skipifsilent nowait runascurrentuser
 
 [Icons]
 Name: {autodesktop}\{#AppName}; Filename: {app}\{#ExeName}.exe; WorkingDir: {app}; IconFilename: {app}\{#ExeName}.exe; Check: IsCreateDesktopShortcutChecked

@@ -3,12 +3,14 @@
 ## v1.3.4 *(current)* 🆕
 
  🛠️ Fixes:
+ - Now the program disables read/write functionalities to HKLM registry key when the process is not running elevated.
  - Missing translation resource files from previous release caused an incomplete translation.
  - Deleted orphan translation resources for "en-AS" culture from source-code.
 
  🌟 Improvements:
- - Added an application manifest requiring Administrator privileges to prevent registry read/write errors.
+ - Added an application manifest requiring user's highest available privileges to run the app.
  - ToolStrip CheckBox's ("Compact Mode") internal logic and performance has been improved.
+ - Name value is auto-assigned when selecting a file through the file dialog, only in case the Name is empty or white spaced.
 
 ## v1.3.3 🔄
 

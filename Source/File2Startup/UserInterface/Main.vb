@@ -22,6 +22,8 @@ Imports System.Globalization
 Imports System.Threading
 Imports DevCase.Core.Application.Forms
 Imports DevCase.UI.Components
+Imports System.Security.Principal
+
 
 #End Region
 
@@ -31,6 +33,20 @@ Namespace UserInterface
     ''' The Main user interface Form.
     ''' </summary>
     Public NotInheritable Class Main
+
+#Region " Properties "
+
+        ''' <summary>
+        ''' A <see cref="Boolean" /> value indicating if the current process has full administrative rights
+        ''' </summary>
+        Public Shared ReadOnly Property IsProcessElevated As Boolean
+            Get
+                Dim owner As WindowsIdentity = WindowsIdentity.GetCurrent()
+                Return owner IsNot Nothing AndAlso New WindowsPrincipal(owner).IsInRole(WindowsBuiltInRole.Administrator)
+            End Get
+        End Property
+
+#End Region
 
 #Region " Localizable Fields "
 
@@ -50,6 +66,7 @@ Namespace UserInterface
         Private msgq5 As String = "Item successfully added to Windows startup"
         Private msgq6 As String = "Failed to add the item to Windows startup"
         Private msgq7 As String = "Compact Mode"
+        Private msgq8 As String = "Program is not running elevated, some features are disabled."
 
 #End Region
 
@@ -108,6 +125,9 @@ Namespace UserInterface
             Me.CheckRecentFiles()
             Me.ToolStripCheckBox_CompactMode.Checked = My.Settings.CompactMode
             Me.SetCompactMode(Me.ToolStripCheckBox_CompactMode.Checked)
+
+            Dim isElevated As Boolean = IsProcessElevated
+            Me.RadioButton_AllUsers.Enabled = isElevated
 
         End Sub
 
@@ -289,8 +309,16 @@ Namespace UserInterface
         Private Sub OpenFileDialog1_FileOk(sender As Object, e As CancelEventArgs) _
         Handles OpenFileDialog1.FileOk
 
+            Dim filePath As String = DirectCast(sender, OpenFileDialog).FileName
+
             ControlHintManager.RemoveHint(Me.TextBox_File)
-            Me.TextBox_File.Text = DirectCast(sender, OpenFileDialog).FileName
+            Me.TextBox_File.Text = filePath
+
+            If String.IsNullOrWhiteSpace(Me.TextBox_Name.Text) OrElse Me.TextBox_Name.Text = Me.textBoxNameHint Then
+                ControlHintManager.RemoveHint(Me.TextBox_Name)
+                Me.TextBox_Name.Text = IO.Path.GetFileNameWithoutExtension(filePath)
+            End If
+
             Me.SetControlHints()
 
         End Sub
@@ -671,6 +699,11 @@ Namespace UserInterface
             For i As Integer = 0 To Me.startupType.Values.Count - 1
 
                 Dim startupType As String = If(Me.startupType.Keys(i) = "CurrentUserKey", "Current User", "All Users")
+                If startupType = "All Users" AndAlso Not IsProcessElevated Then
+
+                    Continue For
+                End If
+
                 Dim fullKeyPath As String = Me.startupType.Values(i)
 
                 If RegistryUtil.ExistSubKey(view, fullKeyPath) Then
@@ -796,6 +829,7 @@ Namespace UserInterface
                     Me.msgq5 = "Item successfully added to Windows startup."
                     Me.msgq6 = "Failed to add the item to Windows startup."
                     Me.msgq7 = "Compact Mode"
+                    Me.msgq8 = "Program is not running elevated, some features are disabled."
 
                     Me.DataGridView1.Columns(0).HeaderText = "Type"
                     Me.DataGridView1.Columns(1).HeaderText = "Icon"
@@ -813,6 +847,7 @@ Namespace UserInterface
                     Me.msgq5 = "Elemento agregado exitosamente al inicio de Windows."
                     Me.msgq6 = "Error al agregar el elemento al inicio de Windows."
                     Me.msgq7 = "Modo Compacto"
+                    Me.msgq8 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Icono"
@@ -830,6 +865,7 @@ Namespace UserInterface
                     Me.msgq5 = "Item adicionado com sucesso na começar do Windows."
                     Me.msgq6 = "Erro ao adicionar item na começar do Windows."
                     Me.msgq7 = "Modo Compacto"
+                    Me.msgq8 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Ícone"
@@ -838,6 +874,8 @@ Namespace UserInterface
 
             End Select
             Me.ToolStripCheckBox_CompactMode.Text = Me.msgq7
+
+            Me.Text = If(Not IsProcessElevated, Me.msgq8, My.Application.Info.Title)
 
             Me.SetControlHints()
 

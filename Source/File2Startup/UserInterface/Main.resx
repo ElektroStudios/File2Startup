@@ -135,7 +135,7 @@
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;ToolStripCheckBox_CompactMode.Type" xml:space="preserve">
-    <value>ToolStripCheckBox, File2Startup, Version=1.3.3.0, Culture=neutral, PublicKeyToken=null</value>
+    <value>DevCase.UI.Components.ToolStripCheckBox, File2Startup, Version=1.3.4.0, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="Button_SendtoItemBuilder.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -155,17 +155,23 @@
   <data name="RadioButton_AllUsers.Size" type="System.Drawing.Size, System.Drawing">
     <value>77, 21</value>
   </data>
+  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
   <data name="TabControl1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;Button_RefreshList.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="ToolStrip1.Text" xml:space="preserve">
     <value>ToolStrip1</value>
   </data>
+  <data name="&gt;&gt;ToolStripCheckBox_CompactMode.Name" xml:space="preserve">
+    <value>ToolStripCheckBox_CompactMode</value>
+  </data>
   <data name="ToolStrip2.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
-  </data>
-  <data name="PortugueseToolStripMenuItem.Text" xml:space="preserve">
-    <value>Portuguese</value>
   </data>
   <data name="&gt;&gt;TabControl1.Type" xml:space="preserve">
     <value>System.Windows.Forms.TabControl, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -175,9 +181,6 @@
   </data>
   <data name="Label4.Text" xml:space="preserve">
     <value>Startup Type:</value>
-  </data>
-  <data name="&gt;&gt;TabPage1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="Label1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
@@ -192,14 +195,20 @@
   <data name="Button_RefreshList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Right</value>
   </data>
-  <data name="&gt;&gt;ToolStrip1.ZOrder" xml:space="preserve">
-    <value>0</value>
+  <data name="Button_AddToStartup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Parameters.Parent" xml:space="preserve">
+    <value>TabPage1</value>
   </data>
   <data name="SpanishToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 22</value>
   </data>
   <data name="Button_DeleteEntry.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
+  </data>
+  <data name="ToolStripDropDownButton_Recent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>114, 22</value>
   </data>
   <data name="&gt;&gt;ColumnValue.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -222,8 +231,8 @@
   <data name="&gt;&gt;RadioButton_AllUsers.Type" xml:space="preserve">
     <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
+  <data name="&gt;&gt;Button_RefreshList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="RadioButton_AllUsers.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
@@ -237,17 +246,8 @@
   <data name="ColumnName.Width" type="System.Int32, mscorlib">
     <value>68</value>
   </data>
-  <data name="Button_AddToStartup.Size" type="System.Drawing.Size, System.Drawing">
-    <value>316, 60</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="&gt;&gt;Button_DeleteEntry.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="&gt;&gt;Button_DeleteEntry.Parent" xml:space="preserve">
     <value>TabPage2</value>
@@ -258,9 +258,6 @@
   <data name="Label3.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 0, 4, 0</value>
   </data>
-  <data name="&gt;&gt;ToolStrip2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
   <data name="&gt;&gt;Button_SendtoItemBuilder.Type" xml:space="preserve">
     <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -270,8 +267,11 @@
   <data name="Button_OpenInRegedit.Location" type="System.Drawing.Point, System.Drawing">
     <value>273, 188</value>
   </data>
-  <data name="&gt;&gt;Button_RefreshList.ZOrder" xml:space="preserve">
-    <value>1</value>
+  <data name="TabPage2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 215</value>
+  </data>
+  <data name="&gt;&gt;Panel1.ZOrder" xml:space="preserve">
+    <value>2</value>
   </data>
   <data name="&gt;&gt;Button_OpenInRegedit.Parent" xml:space="preserve">
     <value>TabPage2</value>
@@ -279,14 +279,14 @@
   <data name="ToolStripDropDownButton2.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;ColumnName.Name" xml:space="preserve">
-    <value>ColumnName</value>
-  </data>
   <data name="&gt;&gt;Button_AddToStartup.Parent" xml:space="preserve">
     <value>TabPage1</value>
   </data>
   <data name="&gt;&gt;ColumnIcon.Type" xml:space="preserve">
     <value>System.Windows.Forms.DataGridViewImageColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Name.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Button_OpenFile.Location" type="System.Drawing.Point, System.Drawing">
     <value>493, 81</value>
@@ -297,14 +297,11 @@
   <data name="Button_DeleteEntry.Size" type="System.Drawing.Size, System.Drawing">
     <value>110, 25</value>
   </data>
-  <data name="&gt;&gt;ColumnValue.Name" xml:space="preserve">
-    <value>ColumnValue</value>
-  </data>
   <data name="Label3.Text" xml:space="preserve">
     <value>Args:</value>
   </data>
-  <data name="&gt;&gt;ColumnIcon.Name" xml:space="preserve">
-    <value>ColumnIcon</value>
+  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">
     <value>Main</value>
@@ -315,7 +312,7 @@
   <data name="ToolStripDropDownButton_Recent.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wAAADsABataJCQAAbIVJREFUeF7tvQd4VEeaNfzNhpndnfl3vpnd/WYn7YzHHnts44QjjuQcbGNMxgQb
+        vwAADr8BOAVTJAAAbIVJREFUeF7tvQd4VEeaNfzNhpndnfl3vpnd/WYn7YzHHnts44QjjuQcbGNMxgQb
         MDkaTDCYnJNAIAQIRBRJIoookliCyBIgCeUcyeA0M+//nupbTfVVdauFWgGp6nnOI6n79u2re+ucN9Rb
         Vf/HNNNMM80000wzzTTTTDPNNNNMM62atB8x/oHxj4x/toDf8Rreq+hmrq90rbJfn2kV2NAB/onxr4x/
         Z/zSAn7Ha3ivIjuJub7Stcp+faZVYJOd42eMXzEeY/zFAn7Ha3ivojqJub7Stcp+faZVcIML+G+M/2Y8
@@ -784,9 +781,6 @@
   <data name="&gt;&gt;Panel1.Type" xml:space="preserve">
     <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;OpenFileDialog1.Name" xml:space="preserve">
-    <value>OpenFileDialog1</value>
-  </data>
   <data name="ToolStripCheckBox_CompactMode.Text" xml:space="preserve">
     <value>Compact Mod</value>
   </data>
@@ -795,9 +789,6 @@
   </data>
   <data name="&gt;&gt;TabPage1.Parent" xml:space="preserve">
     <value>TabControl1</value>
-  </data>
-  <data name="TextBox_Parameters.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
   </data>
   <data name="&gt;&gt;ToolStripDropDownButton2.Name" xml:space="preserve">
     <value>ToolStripDropDownButton2</value>
@@ -814,14 +805,23 @@
   <data name="Button_OpenFile.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
-  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 154</value>
+  <data name="ToolStripButton_About.Size" type="System.Drawing.Size, System.Drawing">
+    <value>72, 22</value>
   </data>
   <data name="Button_DeleteEntry.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Bottom, Left</value>
   </data>
   <data name="ToolStripButton_About.Text" xml:space="preserve">
     <value>About...</value>
+  </data>
+  <data name="ToolStripDropDownButton2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>94, 22</value>
+  </data>
+  <data name="RadioButton_AllUsers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
   </data>
   <data name="RadioButton_CurrentUser.Size" type="System.Drawing.Size, System.Drawing">
     <value>100, 21</value>
@@ -856,8 +856,8 @@
   <data name="Label4.AutoSize" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="ColumnType.Width" type="System.Int32, mscorlib">
-    <value>60</value>
+  <data name="&gt;&gt;TextBox_Parameters.Name" xml:space="preserve">
+    <value>TextBox_Parameters</value>
   </data>
   <data name="Button_OpenFile.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
     <value>4, 4, 4, 4</value>
@@ -867,9 +867,6 @@
   </data>
   <data name="TextBox_Parameters.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="Button_RefreshList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>120, 25</value>
   </data>
   <data name="RadioButton_AllUsers.Text" xml:space="preserve">
     <value>All Users</value>
@@ -895,8 +892,8 @@
   <data name="&gt;&gt;Label3.Parent" xml:space="preserve">
     <value>TabPage1</value>
   </data>
-  <data name="&gt;&gt;TextBox_File.Name" xml:space="preserve">
-    <value>TextBox_File</value>
+  <data name="&gt;&gt;ToolStrip2.Parent" xml:space="preserve">
+    <value>$this</value>
   </data>
   <data name="TextBox_Name.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
@@ -907,11 +904,11 @@
   <data name="ToolStrip1.Size" type="System.Drawing.Size, System.Drawing">
     <value>524, 25</value>
   </data>
+  <data name="Button_OpenFile.Size" type="System.Drawing.Size, System.Drawing">
+    <value>28, 25</value>
+  </data>
   <data name="ColumnName.HeaderText" xml:space="preserve">
     <value>Name</value>
-  </data>
-  <data name="&gt;&gt;Button_SendtoItemBuilder.Name" xml:space="preserve">
-    <value>Button_SendtoItemBuilder</value>
   </data>
   <data name="Button_OpenInRegedit.Size" type="System.Drawing.Size, System.Drawing">
     <value>126, 25</value>
@@ -919,500 +916,11 @@
   <data name="&gt;&gt;TextBox_Parameters.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="TabPage2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 215</value>
+  <data name="RadioButton_CurrentUser.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
   </data>
   <data name="Panel1.Location" type="System.Drawing.Point, System.Drawing">
     <value>91, 149</value>
-  </data>
-  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
-    <value>Label1</value>
-  </data>
-  <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;SpanishToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="SpanishToolStripMenuItem.Text" xml:space="preserve">
-    <value>Spanish</value>
-  </data>
-  <data name="Button_OpenFile.Text" xml:space="preserve">
-    <value>...</value>
-  </data>
-  <data name="$this.Text" xml:space="preserve">
-    <value>File 2 Startup</value>
-  </data>
-  <data name="RadioButton_AllUsers.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="TextBox_File.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="&gt;&gt;Button_AddToStartup.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TextBox_Parameters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;OpenFileDialog1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="DataGridView1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="TabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 25</value>
-  </data>
-  <data name="Label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 0, 4, 0</value>
-  </data>
-  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TextBox_Parameters.Size" type="System.Drawing.Size, System.Drawing">
-    <value>455, 25</value>
-  </data>
-  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
-    <value>3</value>
-  </data>
-  <data name="Button_OpenFile.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
-    <value>7, 17</value>
-  </data>
-  <data name="&gt;&gt;TextBox_File.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Button_SendtoItemBuilder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="DataGridView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Bottom, Left, Right</value>
-  </data>
-  <data name="TabPage1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>532, 215</value>
-  </data>
-  <data name="Button_SendtoItemBuilder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="ToolStripDropDownButton_Recent.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="ToolStripDropDownButton_Recent.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="&gt;&gt;ToolStrip2.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="ToolStripButton_About.Size" type="System.Drawing.Size, System.Drawing">
-    <value>72, 22</value>
-  </data>
-  <data name="RadioButton_CurrentUser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="ToolStripCheckBox_CompactMode.Size" type="System.Drawing.Size, System.Drawing">
-    <value>111, 22</value>
-  </data>
-  <data name="TabControl1.ItemSize" type="System.Drawing.Size, System.Drawing">
-    <value>0, 1</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenFile.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 5</value>
-  </data>
-  <data name="&gt;&gt;Panel1.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="ToolStripButton_About.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="ToolStrip2.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;TabPage2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
-    <value>10</value>
-  </data>
-  <data name="&gt;&gt;ContextMenuStrip_Recent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TabControl1.Appearance" type="System.Windows.Forms.TabAppearance, System.Windows.Forms">
-    <value>FlatButtons</value>
-  </data>
-  <data name="ToolStrip2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="RadioButton_AllUsers.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="Button_OpenInRegedit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Bottom, Left</value>
-  </data>
-  <data name="&gt;&gt;ToolStrip2.Name" xml:space="preserve">
-    <value>ToolStrip2</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenInRegedit.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="Button_SendtoItemBuilder.Size" type="System.Drawing.Size, System.Drawing">
-    <value>144, 25</value>
-  </data>
-  <data name="TabControl1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>540, 224</value>
-  </data>
-  <data name="&gt;&gt;ToolStripDropDownButton2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="TextBox_File.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="&gt;&gt;EnglishToolStripMenuItem.Name" xml:space="preserve">
-    <value>EnglishToolStripMenuItem</value>
-  </data>
-  <data name="Button_DeleteEntry.Location" type="System.Drawing.Point, System.Drawing">
-    <value>7, 187</value>
-  </data>
-  <data name="Label2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="ToolStripButton_ItemBuilder.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenInRegedit.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Parameters.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripButton_About.Name" xml:space="preserve">
-    <value>ToolStripButton_About</value>
-  </data>
-  <data name="&gt;&gt;DataGridView1.Parent" xml:space="preserve">
-    <value>TabPage2</value>
-  </data>
-  <data name="Button_AddToStartup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="Button_RefreshList.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenFile.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="TextBox_File.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
-    <value>Label2</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Parameters.Name" xml:space="preserve">
-    <value>TextBox_Parameters</value>
-  </data>
-  <data name="Button_AddToStartup.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="&gt;&gt;ToolStripDropDownButton_Recent.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ColumnValue.HeaderText" xml:space="preserve">
-    <value>Value</value>
-  </data>
-  <data name="ToolStripButton_StartupList.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
-    <value>Magenta</value>
-  </data>
-  <data name="ColumnIcon.HeaderText" xml:space="preserve">
-    <value>Icon</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Name.Name" xml:space="preserve">
-    <value>TextBox_Name</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Name.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ColumnType.HeaderText" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 115</value>
-  </data>
-  <data name="ToolStripButton_StartupList.Size" type="System.Drawing.Size, System.Drawing">
-    <value>93, 22</value>
-  </data>
-  <data name="Button_DeleteEntry.Text" xml:space="preserve">
-    <value>Delete Entry</value>
-  </data>
-  <data name="&gt;&gt;ColumnType.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;TabPage1.Name" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="TextBox_Name.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="&gt;&gt;Button_SendtoItemBuilder.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="Button_OpenInRegedit.Text" xml:space="preserve">
-    <value>Open in Regedit</value>
-  </data>
-  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 25</value>
-  </data>
-  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="&gt;&gt;PortugueseToolStripMenuItem.Name" xml:space="preserve">
-    <value>PortugueseToolStripMenuItem</value>
-  </data>
-  <data name="Button_RefreshList.Text" xml:space="preserve">
-    <value>Refresh List</value>
-  </data>
-  <data name="TabPage2.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="PortugueseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>142, 22</value>
-  </data>
-  <data name="&gt;&gt;TabPage2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;ToolStripButton_ItemBuilder.Name" xml:space="preserve">
-    <value>ToolStripButton_ItemBuilder</value>
-  </data>
-  <data name="&gt;&gt;Button_RefreshList.Name" xml:space="preserve">
-    <value>Button_RefreshList</value>
-  </data>
-  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="RadioButton_AllUsers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="DataGridView1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>516, 176</value>
-  </data>
-  <data name="&gt;&gt;ToolStrip1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;DataGridView1.Name" xml:space="preserve">
-    <value>DataGridView1</value>
-  </data>
-  <data name="&gt;&gt;Button_RefreshList.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="ColumnValue.Width" type="System.Int32, mscorlib">
-    <value>64</value>
-  </data>
-  <data name="TabPage2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="ToolStrip1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="&gt;&gt;PortugueseToolStripMenuItem.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Name.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="ToolStripDropDownButton2.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="&gt;&gt;Button_DeleteEntry.Name" xml:space="preserve">
-    <value>Button_DeleteEntry</value>
-  </data>
-  <data name="Button_AddToStartup.Enabled" type="System.Boolean, mscorlib">
-    <value>False</value>
-  </data>
-  <data name="Button_RefreshList.Location" type="System.Drawing.Point, System.Drawing">
-    <value>405, 188</value>
-  </data>
-  <data name="&gt;&gt;RadioButton_CurrentUser.Type" xml:space="preserve">
-    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;Button_RefreshList.Parent" xml:space="preserve">
-    <value>TabPage2</value>
-  </data>
-  <data name="ToolStripButton_StartupList.Text" xml:space="preserve">
-    <value>Startup List</value>
-  </data>
-  <data name="&gt;&gt;RadioButton_AllUsers.Parent" xml:space="preserve">
-    <value>Panel1</value>
-  </data>
-  <data name="RadioButton_AllUsers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 32</value>
-  </data>
-  <data name="&gt;&gt;ToolStripButton_StartupList.Name" xml:space="preserve">
-    <value>ToolStripButton_StartupList</value>
-  </data>
-  <data name="ToolStripDropDownButton2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>94, 22</value>
-  </data>
-  <data name="&gt;&gt;ToolStripCheckBox_CompactMode.Name" xml:space="preserve">
-    <value>ToolStripCheckBox_CompactMode</value>
-  </data>
-  <data name="Button_OpenFile.Size" type="System.Drawing.Size, System.Drawing">
-    <value>28, 25</value>
-  </data>
-  <data name="&gt;&gt;DataGridView1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;TextBox_Parameters.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="&gt;&gt;RadioButton_CurrentUser.Name" xml:space="preserve">
-    <value>RadioButton_CurrentUser</value>
-  </data>
-  <data name="Button_AddToStartup.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="&gt;&gt;ToolStripButton_ItemBuilder.Type" xml:space="preserve">
-    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="&gt;&gt;ColumnType.Name" xml:space="preserve">
-    <value>ColumnType</value>
-  </data>
-  <data name="&gt;&gt;Label2.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="&gt;&gt;SpanishToolStripMenuItem.Name" xml:space="preserve">
-    <value>SpanishToolStripMenuItem</value>
-  </data>
-  <data name="&gt;&gt;RadioButton_AllUsers.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="Label2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TextBox_File.TabIndex" type="System.Int32, mscorlib">
-    <value>4</value>
-  </data>
-  <data name="TabControl1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="Button_RefreshList.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="TabPage1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
-  </data>
-  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="EnglishToolStripMenuItem.Text" xml:space="preserve">
-    <value>English</value>
-  </data>
-  <data name="&gt;&gt;Button_SendtoItemBuilder.Parent" xml:space="preserve">
-    <value>TabPage2</value>
-  </data>
-  <data name="TextBox_Parameters.Location" type="System.Drawing.Point, System.Drawing">
-    <value>65, 115</value>
-  </data>
-  <data name="RadioButton_CurrentUser.AutoSize" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 47</value>
-  </data>
-  <data name="Button_OpenFile.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Segoe UI, 9.75pt</value>
-  </data>
-  <data name="ColumnIcon.Width" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 5</value>
-  </data>
-  <data name="ContextMenuStrip_Recent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>61, 4</value>
-  </data>
-  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
-    <value>Label4</value>
-  </data>
-  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
-    <value>107, 59</value>
-  </data>
-  <data name="TextBox_File.Size" type="System.Drawing.Size, System.Drawing">
-    <value>420, 25</value>
-  </data>
-  <data name="ToolStripDropDownButton_Recent.Text" xml:space="preserve">
-    <value>Recent Files...</value>
-  </data>
-  <data name="ToolStrip2.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
-    <value>No</value>
-  </data>
-  <data name="&gt;&gt;TextBox_File.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
-    <value>84, 17</value>
-  </data>
-  <data name="&gt;&gt;ColumnName.Type" xml:space="preserve">
-    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 82</value>
-  </data>
-  <data name="&gt;&gt;RadioButton_CurrentUser.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="ToolStripDropDownButton2.Text" xml:space="preserve">
-    <value>Language</value>
-  </data>
-  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
-    <value>TabPage1</value>
-  </data>
-  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
-    <value>49, 23</value>
-  </data>
-  <data name="&gt;&gt;Panel1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenFile.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
-    <value>MiddleLeft</value>
-  </data>
-  <data name="&gt;&gt;Button_OpenInRegedit.Name" xml:space="preserve">
-    <value>Button_OpenInRegedit</value>
-  </data>
-  <data name="Button_SendtoItemBuilder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>123, 187</value>
-  </data>
-  <data name="RadioButton_AllUsers.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
-    <value>4, 4, 4, 4</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -3430,8 +2938,503 @@
         AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=
 </value>
   </data>
-  <data name="RadioButton_CurrentUser.Font" type="System.Drawing.Font, System.Drawing">
+  <data name="TabPage1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="&gt;&gt;Label1.Name" xml:space="preserve">
+    <value>Label1</value>
+  </data>
+  <data name="&gt;&gt;SpanishToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="SpanishToolStripMenuItem.Text" xml:space="preserve">
+    <value>Spanish</value>
+  </data>
+  <data name="Button_OpenFile.Text" xml:space="preserve">
+    <value>...</value>
+  </data>
+  <data name="$this.Text" xml:space="preserve">
+    <value>File 2 Startup</value>
+  </data>
+  <data name="RadioButton_AllUsers.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="TextBox_File.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="RadioButton_AllUsers.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 32</value>
+  </data>
+  <data name="&gt;&gt;Button_AddToStartup.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_Parameters.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;OpenFileDialog1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.OpenFileDialog, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="DataGridView1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="TabPage2.Padding" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="$this.Font" type="System.Drawing.Font, System.Drawing">
     <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="ColumnValue.Width" type="System.Int32, mscorlib">
+    <value>64</value>
+  </data>
+  <data name="ContextMenuStrip_Recent.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 4</value>
+  </data>
+  <data name="Button_SendtoItemBuilder.Location" type="System.Drawing.Point, System.Drawing">
+    <value>123, 187</value>
+  </data>
+  <data name="TextBox_Parameters.Size" type="System.Drawing.Size, System.Drawing">
+    <value>455, 25</value>
+  </data>
+  <data name="&gt;&gt;Label1.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="RadioButton_CurrentUser.Text" xml:space="preserve">
+    <value>Current User</value>
+  </data>
+  <data name="$this.AutoScaleDimensions" type="System.Drawing.SizeF, System.Drawing">
+    <value>7, 17</value>
+  </data>
+  <data name="&gt;&gt;TextBox_File.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Button_SendtoItemBuilder.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="DataGridView1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom, Left, Right</value>
+  </data>
+  <data name="TabPage1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>532, 215</value>
+  </data>
+  <data name="Button_SendtoItemBuilder.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ToolStripDropDownButton_Recent.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="&gt;&gt;TabControl1.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="ToolStripDropDownButton_Recent.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;ColumnName.Name" xml:space="preserve">
+    <value>ColumnName</value>
+  </data>
+  <data name="RadioButton_CurrentUser.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ToolStripCheckBox_CompactMode.Size" type="System.Drawing.Size, System.Drawing">
+    <value>111, 22</value>
+  </data>
+  <data name="TabControl1.ItemSize" type="System.Drawing.Size, System.Drawing">
+    <value>0, 1</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenFile.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="ToolStripButton_About.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="ToolStrip2.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ContextMenuStrip_Recent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ContextMenuStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;RadioButton_CurrentUser.Name" xml:space="preserve">
+    <value>RadioButton_CurrentUser</value>
+  </data>
+  <data name="TabControl1.Appearance" type="System.Windows.Forms.TabAppearance, System.Windows.Forms">
+    <value>FlatButtons</value>
+  </data>
+  <data name="ToolStrip2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Name" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="&gt;&gt;$this.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="RadioButton_AllUsers.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;ToolStrip1.Name" xml:space="preserve">
+    <value>ToolStrip1</value>
+  </data>
+  <data name="&gt;&gt;ToolStrip2.Name" xml:space="preserve">
+    <value>ToolStrip2</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenInRegedit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="Button_SendtoItemBuilder.Size" type="System.Drawing.Size, System.Drawing">
+    <value>144, 25</value>
+  </data>
+  <data name="TabControl1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>540, 224</value>
+  </data>
+  <data name="&gt;&gt;ToolStripDropDownButton2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_File.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;EnglishToolStripMenuItem.Name" xml:space="preserve">
+    <value>EnglishToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;DataGridView1.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="Label2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="TabControl1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Parameters.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripButton_About.Name" xml:space="preserve">
+    <value>ToolStripButton_About</value>
+  </data>
+  <data name="&gt;&gt;DataGridView1.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="Button_AddToStartup.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Button_RefreshList.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenFile.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="TextBox_File.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="&gt;&gt;Label2.Name" xml:space="preserve">
+    <value>Label2</value>
+  </data>
+  <data name="Label4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="&gt;&gt;ColumnIcon.Name" xml:space="preserve">
+    <value>ColumnIcon</value>
+  </data>
+  <data name="&gt;&gt;ToolStripDropDownButton_Recent.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripDropDownButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ColumnValue.HeaderText" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ToolStripButton_StartupList.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="ColumnIcon.HeaderText" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Name.Name" xml:space="preserve">
+    <value>TextBox_Name</value>
+  </data>
+  <data name="Button_AddToStartup.Size" type="System.Drawing.Size, System.Drawing">
+    <value>316, 60</value>
+  </data>
+  <data name="$this.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ColumnType.HeaderText" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="Label1.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="Label3.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 115</value>
+  </data>
+  <data name="ToolStripButton_StartupList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>93, 22</value>
+  </data>
+  <data name="Button_DeleteEntry.Text" xml:space="preserve">
+    <value>Delete Entry</value>
+  </data>
+  <data name="&gt;&gt;ColumnType.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Label2.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Name" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="Label2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 82</value>
+  </data>
+  <data name="TextBox_Name.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="Button_OpenInRegedit.Text" xml:space="preserve">
+    <value>Open in Regedit</value>
+  </data>
+  <data name="Label1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 25</value>
+  </data>
+  <data name="&gt;&gt;Label4.Parent" xml:space="preserve">
+    <value>TabPage1</value>
+  </data>
+  <data name="&gt;&gt;PortugueseToolStripMenuItem.Name" xml:space="preserve">
+    <value>PortugueseToolStripMenuItem</value>
+  </data>
+  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="ToolStripDropDownButton_Recent.Text" xml:space="preserve">
+    <value>Recent Files...</value>
+  </data>
+  <data name="TabPage2.TabIndex" type="System.Int32, mscorlib">
+    <value>1</value>
+  </data>
+  <data name="PortugueseToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>142, 22</value>
+  </data>
+  <data name="&gt;&gt;TabPage2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;ToolStripButton_ItemBuilder.Name" xml:space="preserve">
+    <value>ToolStripButton_ItemBuilder</value>
+  </data>
+  <data name="&gt;&gt;Label2.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="RadioButton_AllUsers.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="DataGridView1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>516, 176</value>
+  </data>
+  <data name="&gt;&gt;ToolStrip1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStrip, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;DataGridView1.Name" xml:space="preserve">
+    <value>DataGridView1</value>
+  </data>
+  <data name="&gt;&gt;ToolStrip2.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="Button_OpenInRegedit.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Bottom, Left</value>
+  </data>
+  <data name="TabPage2.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
+  </data>
+  <data name="ToolStrip1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;PortugueseToolStripMenuItem.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripMenuItem, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenInRegedit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="ToolStripDropDownButton2.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="&gt;&gt;OpenFileDialog1.Name" xml:space="preserve">
+    <value>OpenFileDialog1</value>
+  </data>
+  <data name="&gt;&gt;Button_DeleteEntry.Name" xml:space="preserve">
+    <value>Button_DeleteEntry</value>
+  </data>
+  <data name="Button_AddToStartup.Enabled" type="System.Boolean, mscorlib">
+    <value>False</value>
+  </data>
+  <data name="Button_RefreshList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>405, 188</value>
+  </data>
+  <data name="&gt;&gt;Button_RefreshList.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="ToolStripButton_StartupList.Text" xml:space="preserve">
+    <value>Startup List</value>
+  </data>
+  <data name="&gt;&gt;RadioButton_AllUsers.Parent" xml:space="preserve">
+    <value>Panel1</value>
+  </data>
+  <data name="Label1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 0, 4, 0</value>
+  </data>
+  <data name="&gt;&gt;ToolStripButton_StartupList.Name" xml:space="preserve">
+    <value>ToolStripButton_StartupList</value>
+  </data>
+  <data name="Label3.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 25</value>
+  </data>
+  <data name="Button_OpenFile.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="Button_RefreshList.Text" xml:space="preserve">
+    <value>Refresh List</value>
+  </data>
+  <data name="Button_DeleteEntry.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 187</value>
+  </data>
+  <data name="Label2.TabIndex" type="System.Int32, mscorlib">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;ToolStrip1.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;TextBox_File.Name" xml:space="preserve">
+    <value>TextBox_File</value>
+  </data>
+  <data name="Button_AddToStartup.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;ToolStripButton_ItemBuilder.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ToolStripButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Label1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Segoe UI, 9.75pt</value>
+  </data>
+  <data name="&gt;&gt;ColumnType.Name" xml:space="preserve">
+    <value>ColumnType</value>
+  </data>
+  <data name="Label4.Location" type="System.Drawing.Point, System.Drawing">
+    <value>7, 154</value>
+  </data>
+  <data name="&gt;&gt;SpanishToolStripMenuItem.Name" xml:space="preserve">
+    <value>SpanishToolStripMenuItem</value>
+  </data>
+  <data name="&gt;&gt;RadioButton_AllUsers.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;TabPage1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TabPage, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="TextBox_File.TabIndex" type="System.Int32, mscorlib">
+    <value>4</value>
+  </data>
+  <data name="Button_RefreshList.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="Button_RefreshList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>120, 25</value>
+  </data>
+  <data name="Label4.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="EnglishToolStripMenuItem.Text" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="&gt;&gt;Button_SendtoItemBuilder.Parent" xml:space="preserve">
+    <value>TabPage2</value>
+  </data>
+  <data name="TextBox_Parameters.Location" type="System.Drawing.Point, System.Drawing">
+    <value>65, 115</value>
+  </data>
+  <data name="ToolStrip1.TabIndex" type="System.Int32, mscorlib">
+    <value>0</value>
+  </data>
+  <data name="RadioButton_CurrentUser.AutoSize" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="Label1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 47</value>
+  </data>
+  <data name="&gt;&gt;Button_SendtoItemBuilder.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="ColumnIcon.Width" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="TabPage2.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 5</value>
+  </data>
+  <data name="ToolStripButton_ItemBuilder.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
+    <value>Magenta</value>
+  </data>
+  <data name="&gt;&gt;Label4.Name" xml:space="preserve">
+    <value>Label4</value>
+  </data>
+  <data name="Panel1.Size" type="System.Drawing.Size, System.Drawing">
+    <value>107, 59</value>
+  </data>
+  <data name="TextBox_File.Size" type="System.Drawing.Size, System.Drawing">
+    <value>420, 25</value>
+  </data>
+  <data name="&gt;&gt;TextBox_Name.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="ToolStrip2.RightToLeft" type="System.Windows.Forms.RightToLeft, System.Windows.Forms">
+    <value>No</value>
+  </data>
+  <data name="&gt;&gt;TextBox_File.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="Label4.Size" type="System.Drawing.Size, System.Drawing">
+    <value>84, 17</value>
+  </data>
+  <data name="&gt;&gt;ColumnName.Type" xml:space="preserve">
+    <value>System.Windows.Forms.DataGridViewTextBoxColumn, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_SendtoItemBuilder.Name" xml:space="preserve">
+    <value>Button_SendtoItemBuilder</value>
+  </data>
+  <data name="&gt;&gt;RadioButton_CurrentUser.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="ToolStripDropDownButton2.Text" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="&gt;&gt;Label3.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="Label2.Size" type="System.Drawing.Size, System.Drawing">
+    <value>49, 23</value>
+  </data>
+  <data name="&gt;&gt;RadioButton_CurrentUser.Type" xml:space="preserve">
+    <value>System.Windows.Forms.RadioButton, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenFile.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Label1.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>MiddleLeft</value>
+  </data>
+  <data name="&gt;&gt;Button_OpenInRegedit.Name" xml:space="preserve">
+    <value>Button_OpenInRegedit</value>
+  </data>
+  <data name="PortugueseToolStripMenuItem.Text" xml:space="preserve">
+    <value>Portuguese</value>
+  </data>
+  <data name="TabPage1.Location" type="System.Drawing.Point, System.Drawing">
+    <value>4, 5</value>
+  </data>
+  <data name="Button_OpenFile.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;ColumnValue.Name" xml:space="preserve">
+    <value>ColumnValue</value>
   </data>
   <data name="Button_AddToStartup.Text" xml:space="preserve">
     <value>Add file to Windows startup</value>
@@ -3439,8 +3442,8 @@
   <data name="Button_AddToStartup.Location" type="System.Drawing.Point, System.Drawing">
     <value>205, 148</value>
   </data>
-  <data name="RadioButton_CurrentUser.Text" xml:space="preserve">
-    <value>Current User</value>
+  <data name="ColumnType.Width" type="System.Int32, mscorlib">
+    <value>60</value>
   </data>
   <data name="&gt;&gt;Label2.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -3454,17 +3457,14 @@
   <data name="TabControl1.Dock" type="System.Windows.Forms.DockStyle, System.Windows.Forms">
     <value>Fill</value>
   </data>
-  <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
-    <value>TabControl1</value>
-  </data>
   <data name="Button_OpenFile.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
   <data name="ToolStrip2.Text" xml:space="preserve">
     <value>ToolStrip2</value>
   </data>
-  <data name="&gt;&gt;Label1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="&gt;&gt;TabControl1.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="TabControl1.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 25</value>
@@ -3481,23 +3481,23 @@
   <data name="ToolStripButton_About.ImageTransparentColor" type="System.Drawing.Color, System.Drawing">
     <value>Magenta</value>
   </data>
-  <data name="&gt;&gt;Label3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="TabControl1.Margin" type="System.Windows.Forms.Padding, System.Windows.Forms">
+    <value>4, 4, 4, 4</value>
   </data>
-  <data name="ToolStrip1.TabIndex" type="System.Int32, mscorlib">
-    <value>0</value>
+  <data name="&gt;&gt;TabControl1.Name" xml:space="preserve">
+    <value>TabControl1</value>
   </data>
   <data name="&gt;&gt;ToolStripDropDownButton_Recent.Name" xml:space="preserve">
     <value>ToolStripDropDownButton_Recent</value>
   </data>
-  <data name="&gt;&gt;TabPage2.Name" xml:space="preserve">
-    <value>TabPage2</value>
+  <data name="TextBox_Parameters.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
   </data>
   <data name="RadioButton_CurrentUser.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
   </data>
-  <data name="Label3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
+  <data name="&gt;&gt;Button_RefreshList.Name" xml:space="preserve">
+    <value>Button_RefreshList</value>
   </data>
   <data name="TextBox_Name.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
@@ -3505,8 +3505,8 @@
   <data name="&gt;&gt;Button_OpenFile.Name" xml:space="preserve">
     <value>Button_OpenFile</value>
   </data>
-  <data name="&gt;&gt;ToolStrip1.Name" xml:space="preserve">
-    <value>ToolStrip1</value>
+  <data name="&gt;&gt;Panel1.Parent" xml:space="preserve">
+    <value>TabPage1</value>
   </data>
   <data name="EnglishToolStripMenuItem.Size" type="System.Drawing.Size, System.Drawing">
     <value>142, 22</value>
@@ -3517,8 +3517,8 @@
   <data name="Button_OpenInRegedit.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
   </data>
-  <data name="ToolStripDropDownButton_Recent.Size" type="System.Drawing.Size, System.Drawing">
-    <value>114, 22</value>
+  <data name="&gt;&gt;Label4.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <metadata name="ContextMenuStrip_Recent.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>122, 20</value>
@@ -3580,6 +3580,9 @@
   <metadata name="Label2.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
+  <metadata name="TextBox_File.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>True</value>
+  </metadata>
   <metadata name="Button_DeleteEntry.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -3591,9 +3594,6 @@
   </metadata>
   <metadata name="Button_RefreshList.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
-  </metadata>
-  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>en</value>
   </metadata>
   <metadata name="Button_SendtoItemBuilder.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
@@ -3610,8 +3610,8 @@
   <metadata name="Label1.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="TextBox_File.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
+  <metadata name="$this.Language" type="System.Globalization.CultureInfo, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+    <value>en</value>
   </metadata>
   <metadata name="Button_AddToStartup.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>

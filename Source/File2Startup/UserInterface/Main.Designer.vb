@@ -65,7 +65,7 @@ Namespace UserInterface
             Me.PortugueseToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
             Me.ToolStripButton_ItemBuilder = New System.Windows.Forms.ToolStripButton()
             Me.ToolStripButton_StartupList = New System.Windows.Forms.ToolStripButton()
-            Me.ToolStripCheckBox_CompactMode = New ToolStripCheckBox()
+            Me.ToolStripCheckBox_CompactMode = New DevCase.UI.Components.ToolStripCheckBox()
             Me.ToolStrip1.SuspendLayout()
             Me.TabControl1.SuspendLayout()
             Me.TabPage1.SuspendLayout()
@@ -345,7 +345,8 @@ Namespace UserInterface
             Me.ToolStripCheckBox_CompactMode.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right
             Me.ToolStripCheckBox_CompactMode.BackColor = System.Drawing.Color.Transparent
             Me.ToolStripCheckBox_CompactMode.Checked = True
-            Me.ToolStripCheckBox_CompactMode.Name = "ToolStripCheckBox"
+            Me.ToolStripCheckBox_CompactMode.CheckState = System.Windows.Forms.CheckState.Checked
+            Me.ToolStripCheckBox_CompactMode.Name = "ToolStripCheckBox_CompactMode"
             '
             'Main
             '
