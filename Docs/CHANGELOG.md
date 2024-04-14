@@ -1,6 +1,12 @@
 # File2Startup Change Log 📋
 
-## v1.3.4 *(current)* 🆕
+## v1.3.5 *(current)* 🆕
+
+ 🌟 Improvements:
+ - TextBox fields are automatically cleared after successfully adding an item to Windows startup.
+ - Replaced icons to be more representative.
+
+## v1.3.4 🔄
 
  🛠️ Fixes:
  - Now the program disables read/write functionalities to HKLM registry key when the process is not running elevated.
