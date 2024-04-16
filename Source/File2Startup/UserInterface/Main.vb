@@ -21,7 +21,6 @@ Imports System.IO
 Imports System.Globalization
 Imports System.Threading
 Imports DevCase.Core.Application.Forms
-Imports DevCase.UI.Components
 Imports System.Security.Principal
 
 
@@ -65,8 +64,8 @@ Namespace UserInterface
         Private msgq4 As String = "Do you really want to overwrite the item?."
         Private msgq5 As String = "Item successfully added to Windows startup"
         Private msgq6 As String = "Failed to add the item to Windows startup"
-        Private msgq7 As String = "Compact Mode"
-        Private msgq8 As String = "Program is not running elevated, some features are disabled."
+        Private msgq7 As String = "Program is not running elevated, some features are disabled."
+        Private msgq8 As String = "Clear recent file list"
 
 #End Region
 
@@ -93,6 +92,15 @@ Namespace UserInterface
         Private SelectedStartupType As String
 
         Private ReadOnly mruDelimiter As String = $"@@{My.Application.Info.ProductName}@@"
+
+        Private ClearRecentFilesMenuItem As New ToolStripMenuItem(
+            Me.msgq8, Nothing, Sub()
+                                   My.Settings.MRU?.Clear()
+                                   Me.RenewRecentfiles()
+                               End Sub) With {
+                               .DisplayStyle = ToolStripItemDisplayStyle.ImageAndText,
+                               .Image = My.Resources.delete
+        }
 
 #End Region
 
@@ -123,8 +131,6 @@ Namespace UserInterface
 
             Me.MinimumSize = Me.Size
             Me.CheckRecentFiles()
-            Me.ToolStripCheckBox_CompactMode.Checked = My.Settings.CompactMode
-            Me.SetCompactMode(Me.ToolStripCheckBox_CompactMode.Checked)
 
             Dim isElevated As Boolean = IsProcessElevated
             Me.RadioButton_AllUsers.Enabled = isElevated
@@ -277,6 +283,7 @@ Namespace UserInterface
 
             End If
 
+            sender.Items.Insert(0, Me.ClearRecentFilesMenuItem)
         End Sub
 
         ''' <summary>
@@ -561,18 +568,6 @@ Namespace UserInterface
 
         End Sub
 
-        Private Sub ToolStripCheckBox_CompactMode_Click(sender As Object, e As EventArgs) Handles ToolStripCheckBox_CompactMode.Click
-
-            Dim cb As ToolStripCheckBox = DirectCast(sender, ToolStripCheckBox)
-            Dim compactMode As Boolean = cb.Checked
-
-            My.Settings.CompactMode = compactMode
-            My.Settings.Save()
-
-            Me.SetCompactMode(compactMode)
-
-        End Sub
-
 #End Region
 
 #Region " Methods "
@@ -839,8 +834,8 @@ Namespace UserInterface
                     Me.msgq4 = "Do you really want to overwrite the entry?."
                     Me.msgq5 = "Item successfully added to Windows startup."
                     Me.msgq6 = "Failed to add the item to Windows startup."
-                    Me.msgq7 = "Compact Mode"
-                    Me.msgq8 = "Program is not running elevated, some features are disabled."
+                    Me.msgq7 = "Program is not running elevated, some features are disabled."
+                    Me.msgq8 = "Clear recent file list"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Type"
                     Me.DataGridView1.Columns(1).HeaderText = "Icon"
@@ -857,8 +852,8 @@ Namespace UserInterface
                     Me.msgq4 = "¿Realmente desea sobrescribir la entrada?."
                     Me.msgq5 = "Elemento agregado exitosamente al inicio de Windows."
                     Me.msgq6 = "Error al agregar el elemento al inicio de Windows."
-                    Me.msgq7 = "Modo Compacto"
-                    Me.msgq8 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
+                    Me.msgq7 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
+                    Me.msgq8 = "Borrar lista de archivos recientes"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Icono"
@@ -875,8 +870,8 @@ Namespace UserInterface
                     Me.msgq4 = "Deseja realmente substituir a entrada?"
                     Me.msgq5 = "Item adicionado com sucesso na começar do Windows."
                     Me.msgq6 = "Erro ao adicionar item na começar do Windows."
-                    Me.msgq7 = "Modo Compacto"
-                    Me.msgq8 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
+                    Me.msgq7 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
+                    Me.msgq8 = "Limpar lista de arquivos recentes"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Ícone"
@@ -884,9 +879,8 @@ Namespace UserInterface
                     Me.DataGridView1.Columns(3).HeaderText = "Valor"
 
             End Select
-            Me.ToolStripCheckBox_CompactMode.Text = Me.msgq7
 
-            Me.Text = If(Not IsProcessElevated, Me.msgq8, My.Application.Info.Title)
+            Me.Text = If(Not IsProcessElevated, Me.msgq7, My.Application.Info.Title)
 
             Me.SetControlHints()
 
@@ -898,41 +892,10 @@ Namespace UserInterface
             End If
 
             Me.Button_AddToStartup.ImageAlign = ContentAlignment.MiddleLeft
+            Me.ClearRecentFilesMenuItem.Text = Me.msgq8
+            Me.ClearRecentFilesMenuItem.Enabled = True
+            Me.ToolStripDropDownButton_Recent.Enabled = My.Settings.MRU.Count > 0
 
-        End Sub
-
-        Private Sub SetCompactMode(compactMode As Boolean)
-
-            If compactMode AndAlso Me.ToolStripButton_ItemBuilder.Visible Then
-                Exit Sub
-            End If
-
-            Me.ToolStripButton_ItemBuilder.Visible = compactMode
-            Me.ToolStripButton_StartupList.Visible = compactMode
-
-            Dim tabHeaderHeigt As Integer = 22
-
-            Me.RemoveControlHints()
-
-            If compactMode Then
-                Me.TabControl1.ItemSize = New Size(0, 1)
-                Me.TabControl1.SizeMode = TabSizeMode.Fixed
-                Me.MinimumSize = New Size(Me.MinimumSize.Width, Me.MinimumSize.Height - tabHeaderHeigt)
-                Me.Height -= tabHeaderHeigt
-
-            Else
-                Me.TabControl1.SizeMode = TabSizeMode.Normal
-                Me.TabControl1.ItemSize = New Size(70, tabHeaderHeigt)
-                Me.TabControl1.TabPages(0).Text = Me.ToolStripButton_ItemBuilder.Text
-                Me.TabControl1.TabPages(1).Text = Me.ToolStripButton_StartupList.Text
-                Me.MinimumSize = New Size(Me.MinimumSize.Width, Me.MinimumSize.Height + tabHeaderHeigt)
-                If Me.Size <> Me.MinimumSize Then
-                    Me.Height += tabHeaderHeigt
-                End If
-
-            End If
-
-            Me.SetControlHints()
         End Sub
 
 #End Region

@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' Review the values of the assembly attributes
 
 <Assembly: AssemblyTitle("File2Startup")>
-<Assembly: AssemblyDescription("Easy adds executable files to run at Windows startup.")>
+<Assembly: AssemblyDescription("Add executable files to run at Windows startup with ease.")>
 <Assembly: AssemblyCompany("ElektroStudios")>
 <Assembly: AssemblyProduct("File2Startup")>
 <Assembly: AssemblyCopyright("Copyright © ElektroStudios 2015-2024")>
@@ -31,7 +31,7 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.3.5.0")>
-<Assembly: AssemblyFileVersion("1.3.5.0")>
+<Assembly: AssemblyVersion("1.4.0.0")>
+<Assembly: AssemblyFileVersion("1.4.0.0")>
 
 <Assembly: NeutralResourcesLanguageAttribute("en")>

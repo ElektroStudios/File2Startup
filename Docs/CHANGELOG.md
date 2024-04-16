@@ -1,6 +1,15 @@
 # File2Startup Change Log 📋
 
-## v1.3.5 *(current)* 🆕
+## v1.4 *(current)* 🆕
+
+ 🛠️ Fixes:
+ - Recent file list was disabled after changing application language.
+
+ 🌟 Improvements:
+ - Added a menu item to clear recent file list.
+ - Removed useless "Compact Mode".
+
+## v1.3.5 🔄
 
  🌟 Improvements:
  - TextBox fields are automatically cleared after successfully adding an item to Windows startup.

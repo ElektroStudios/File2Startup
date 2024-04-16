@@ -78,9 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tools\Core\UtilReflection.vb" />
-    <Compile Include="UserInterface\ToolStripCheckBox.vb">
-      <SubType>Generic</SubType>
-    </Compile>
     <Compile Include="Tools\Core\CenteredMessageBox.vb" />
     <Compile Include="Tools\Interop\Delegates.vb" />
     <Compile Include="Tools\Interop\NativeMethods.vb" />
@@ -172,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="App.ico" />
+    <None Include="Resources\delete.png" />
     <None Include="Resources\earth.png" />
     <None Include="Resources\information.png" />
     <None Include="Resources\to-do-list.png" />

@@ -78,6 +78,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Tools\Core\UtilReflection.vb" />
+    <Compile Include="UserInterface\ToolStripCheckBox.vb">
+      <SubType>Generic</SubType>
+    </Compile>
     <Compile Include="Tools\Core\CenteredMessageBox.vb" />
     <Compile Include="Tools\Interop\Delegates.vb" />
     <Compile Include="Tools\Interop\NativeMethods.vb" />
