@@ -66,6 +66,7 @@ Namespace UserInterface
         Private msgq6 As String = "Failed to add the item to Windows startup"
         Private msgq7 As String = "Program is not running elevated, some features are disabled."
         Private msgq8 As String = "Clear recent file list"
+        Private msgq9 As String = "Do you also want to delete the sent item from startup list?:"
 
 #End Region
 
@@ -469,6 +470,56 @@ Namespace UserInterface
                         Me.RadioButton_AllUsers.Checked = True
                     End If
 
+                    Using msgbox As New CenteredMessageBox(Me)
+                        Dim dlgResult As DialogResult =
+                            msgbox.Show(Me.msgq9 &
+                                Environment.NewLine & Environment.NewLine &
+                                $"{startupType}\{name}" &
+                                Environment.NewLine & Environment.NewLine &
+                                Me.msgq2 &
+                                Environment.NewLine & Environment.NewLine,
+                                My.Application.Info.Title,
+                                MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2)
+
+
+                        If dlgResult = DialogResult.Yes Then
+                            Try
+                                If Me.DataGridView1.SelectedRows IsNot Nothing Then
+
+                                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
+
+                                    Dim regValueExists As Boolean = RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name)
+                                    If regValueExists Then
+                                        RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
+                                    End If
+
+                                    Try
+                                        Me.LoadRegistryItemsToDataGridView()
+
+                                    Catch ex As Exception
+                                        Using msgbox2 As New CenteredMessageBox(Me)
+                                            msgbox2.Show("Error trying to parse registry values. Error message:" &
+                                                        Environment.NewLine & Environment.NewLine & ex.Message,
+                                                        My.Application.Info.Title,
+                                                        MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                        End Using
+
+                                    End Try
+                                End If
+
+                            Catch ex As Exception
+                                Using msgbox2 As New CenteredMessageBox(Me)
+                                    msgbox2.Show("Error trying to parse registry key. Error message:" &
+                                                Environment.NewLine & Environment.NewLine & ex.Message,
+                                                My.Application.Info.Title,
+                                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                End Using
+
+                            End Try
+                        End If
+
+                    End Using
+
                     Me.TabControl1.Show()
                     Me.TabControl1.SelectTab(Me.TabPage1)
                     Me.TabPage1.Show()
@@ -836,6 +887,7 @@ Namespace UserInterface
                     Me.msgq6 = "Failed to add the item to Windows startup."
                     Me.msgq7 = "Program is not running elevated, some features are disabled."
                     Me.msgq8 = "Clear recent file list"
+                    Me.msgq9 = "Do you also want to delete the sent item from startup list?:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Type"
                     Me.DataGridView1.Columns(1).HeaderText = "Icon"
@@ -854,6 +906,7 @@ Namespace UserInterface
                     Me.msgq6 = "Error al agregar el elemento al inicio de Windows."
                     Me.msgq7 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
                     Me.msgq8 = "Borrar lista de archivos recientes"
+                    Me.msgq9 = "¿Quieres además eliminar de la lista de inicio la entrada enviada?:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Icono"
@@ -861,7 +914,7 @@ Namespace UserInterface
                     Me.DataGridView1.Columns(3).HeaderText = "Valor"
 
                 Case "pt"
-                    Me.textBoxNameHint = "Nome exclusivo de entrada de começar para o arquivo (arraste um arquivo aqui para atribuí-lo automaticamente)."
+                    Me.textBoxNameHint = "Nome exclusivo de entrada de inicialização para o arquivo (arraste um arquivo aqui para atribuí-lo automaticamente)."
                     Me.textBoxFileHint = "Caminho completo para o arquivo (arraste um arquivo aqui para atribuí-lo automaticamente)."
                     Me.textBoxParametersHint = "Argumentos opcionais (apenas para um arquivo executável)."
                     Me.msgq1 = "Deseja mesmo excluir a seguinte entrada?:"
@@ -872,6 +925,7 @@ Namespace UserInterface
                     Me.msgq6 = "Erro ao adicionar item na começar do Windows."
                     Me.msgq7 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
                     Me.msgq8 = "Limpar lista de arquivos recentes"
+                    Me.msgq9 = "Deseja além remover a entrada enviada da lista de início?:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Ícone"

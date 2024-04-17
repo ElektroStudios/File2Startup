@@ -8,6 +8,7 @@
  🌟 Improvements:
  - Added a menu item to clear recent file list.
  - Removed useless "Compact Mode".
+ - Added a dialog to optionally delete from startup list a item sent to item builder.
 
 ## v1.3.5 🔄
 
