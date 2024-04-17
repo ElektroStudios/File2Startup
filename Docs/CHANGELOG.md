@@ -1,6 +1,6 @@
 # File2Startup Change Log 📋
 
-## v1.4 *(in development)* 🆕
+## v1.4 *(current)* 🆕
 
  🛠️ Fixes:
  - Recent file list was disabled after changing application language.
