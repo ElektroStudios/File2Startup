@@ -7,7 +7,7 @@
 
  🌟 Improvements:
   - Rows in the startup list are sorted by 'Name' column by default.
-  - The selected row in the starup list will remain selected after changes.
+  - The selected row in the startup list will remain selected after changes.
   - The program will warn if a file path could not be parsed from a startup entry, thus preventing data loss.
 
 ## v1.4 🔄
