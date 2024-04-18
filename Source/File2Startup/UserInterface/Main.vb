@@ -67,6 +67,7 @@ Namespace UserInterface
         Private msgq7 As String = "Program is not running elevated, some features are disabled."
         Private msgq8 As String = "Clear recent file list"
         Private msgq9 As String = "Do you also want to delete the sent item from startup list?:"
+        Private msgq10 As String = "Failed to parse entry file path, the full value has been retrieved instead:"
 
 #End Region
 
@@ -102,6 +103,12 @@ Namespace UserInterface
                                .DisplayStyle = ToolStripItemDisplayStyle.ImageAndText,
                                .Image = My.Resources.delete
         }
+
+        ' keeps track of the last row selected by the user..
+        Private lastSelectedRowNameAndStartupType As String()
+
+        ' Flag to determine an arbitrary rows updating in the datagridview.
+        Private isRefreshingDataGridViewItems As Boolean
 
 #End Region
 
@@ -388,6 +395,7 @@ Namespace UserInterface
                 If Me.DataGridView1.SelectedRows IsNot Nothing Then
 
                     Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                    Dim selectedRowIndex As Integer = selectedRow.Index
                     Dim startupType As String = selectedRow.Cells(0).Value
                     Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
                     Dim name As String = selectedRow.Cells(2).Value
@@ -411,7 +419,13 @@ Namespace UserInterface
                     End If
 
                     Try
+                        Me.lastSelectedRowNameAndStartupType = Nothing
                         Me.LoadRegistryItemsToDataGridView()
+                        Try
+                            Me.DataGridView1.Rows(selectedRowIndex - 1).Selected = True
+                            Me.DataGridView1.FirstDisplayedScrollingRowIndex = selectedRowIndex - 1
+                        Catch ex As Exception ' Do nothing.
+                        End Try
 
                     Catch ex As Exception
                         Using msgbox As New CenteredMessageBox(Me)
@@ -440,6 +454,7 @@ Namespace UserInterface
 
             Try
                 If Me.DataGridView1.SelectedRows IsNot Nothing Then
+                    Dim failedToParseFilePath As Boolean
                     Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
                     Dim startupType As String = selectedRow.Cells(0).Value
                     Dim name As String = selectedRow.Cells(2).Value
@@ -448,20 +463,42 @@ Namespace UserInterface
                     Dim filePath As String = value
                     If value.Contains(ControlChars.Quote) Then
                         Try
-                            filePath = IO.Path.GetFullPath(value.TrimStart({ControlChars.Quote, " "c}).Substring(0, value.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
+                            filePath = value.TrimStart({ControlChars.Quote, " "c}).Substring(0, value.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote)
+                            failedToParseFilePath = Not FileSystemUtil.IsValidWindowsFileName(filePath.Replace("\"c, "-")) AndAlso
+                                                Not FileSystemUtil.IsValidWindowsDirectoryPath(filePath)
+
                         Catch ex As Exception
                         End Try
                     End If
 
-                    Dim parameters As String =
-                        If(value.Contains(ControlChars.Quote),
-                           value?.TrimStart({ControlChars.Quote, " "c}).Substring(filePath.Length).TrimStart({ControlChars.Quote, " "c}),
-                           value?.Substring(value.IndexOf(filePath) + filePath.Length))
+                    Dim parameters As String = ""
+                    If Not failedToParseFilePath Then
+                        parameters =
+                            If(value.Contains(ControlChars.Quote),
+                               value?.TrimStart({ControlChars.Quote, " "c}).Substring(filePath.Length).TrimStart({ControlChars.Quote, " "c}),
+                               value?.Substring(value.IndexOf(filePath) + filePath.Length))
+                    End If
 
                     Me.RemoveControlHints()
-                    Me.TextBox_Name.Text = name
-                    Me.TextBox_File.Text = filePath
-                    Me.TextBox_Parameters.Text = parameters
+                    If failedToParseFilePath Then
+                        Me.TextBox_Name.Text = name
+                        Me.TextBox_File.Text = value
+                        Me.TextBox_Parameters.Text = Nothing
+
+                        Using msgbox As New CenteredMessageBox(Me)
+                            msgbox.Show("Failed to parse entry file path, the full value has been retrieved instead:" &
+                                    Environment.NewLine & Environment.NewLine &
+                                    $"{value}",
+                                    My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
+                        End Using
+
+                    Else
+                        Me.TextBox_Name.Text = name
+                        Me.TextBox_File.Text = filePath
+                        Me.TextBox_Parameters.Text = parameters
+
+                    End If
                     Me.SetControlHints()
 
                     If startupType = "Current User" Then
@@ -472,15 +509,14 @@ Namespace UserInterface
 
                     Using msgbox As New CenteredMessageBox(Me)
                         Dim dlgResult As DialogResult =
-                            msgbox.Show(Me.msgq9 &
-                                Environment.NewLine & Environment.NewLine &
-                                $"{startupType}\{name}" &
-                                Environment.NewLine & Environment.NewLine &
-                                Me.msgq2 &
-                                Environment.NewLine & Environment.NewLine,
-                                My.Application.Info.Title,
-                                MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2)
-
+                        msgbox.Show(Me.msgq9 &
+                            Environment.NewLine & Environment.NewLine &
+                            $"{startupType}\{name}" &
+                            Environment.NewLine & Environment.NewLine &
+                            Me.msgq2 &
+                            Environment.NewLine & Environment.NewLine,
+                            My.Application.Info.Title,
+                            MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2)
 
                         If dlgResult = DialogResult.Yes Then
                             Try
@@ -499,20 +535,21 @@ Namespace UserInterface
                                     Catch ex As Exception
                                         Using msgbox2 As New CenteredMessageBox(Me)
                                             msgbox2.Show("Error trying to parse registry values. Error message:" &
-                                                        Environment.NewLine & Environment.NewLine & ex.Message,
-                                                        My.Application.Info.Title,
-                                                        MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                                    Environment.NewLine & Environment.NewLine & ex.Message,
+                                                    My.Application.Info.Title,
+                                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
                                         End Using
 
                                     End Try
                                 End If
+                                Me.lastSelectedRowNameAndStartupType = Nothing
 
                             Catch ex As Exception
                                 Using msgbox2 As New CenteredMessageBox(Me)
                                     msgbox2.Show("Error trying to parse registry key. Error message:" &
-                                                Environment.NewLine & Environment.NewLine & ex.Message,
-                                                My.Application.Info.Title,
-                                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                                            Environment.NewLine & Environment.NewLine & ex.Message,
+                                            My.Application.Info.Title,
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error)
                                 End Using
 
                             End Try
@@ -528,11 +565,11 @@ Namespace UserInterface
 
             Catch ex As Exception
                 Using msgbox As New CenteredMessageBox(Me)
-                    msgbox.Show("Error trying to parse registry key. Error message:" &
-                                Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title,
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Using
+                msgbox.Show("Error trying to parse registry key. Error message:" &
+                  Environment.NewLine & Environment.NewLine & ex.Message,
+                                     My.Application.Info.Title,
+                  MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Using
 
             End Try
 
@@ -586,6 +623,15 @@ Namespace UserInterface
 
             Dim dgv As DataGridView = DirectCast(sender, DataGridView)
             Dim hasSelectedrow As Boolean = dgv.SelectedRows IsNot Nothing
+
+            If Not Me.isRefreshingDataGridViewItems Then
+                If hasSelectedrow Then
+                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows.Cast(Of DataGridViewRow).FirstOrDefault()
+                    If selectedRow?.Cells(0).Value IsNot Nothing AndAlso selectedRow?.Cells(2).Value IsNot Nothing Then
+                        Me.lastSelectedRowNameAndStartupType = {selectedRow.Cells(2).Value, selectedRow.Cells(0).Value}
+                    End If
+                End If
+            End If
 
             Me.Button_DeleteEntry.Enabled = hasSelectedrow
             Me.Button_SendtoItemBuilder.Enabled = hasSelectedrow
@@ -747,6 +793,7 @@ Namespace UserInterface
 
         Private Sub LoadRegistryItemsToDataGridView()
 
+            Me.isRefreshingDataGridViewItems = True
             ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
             ' Me.DataGridView1.SuspendLayout()
             Me.DataGridView1.Rows.Clear()
@@ -804,6 +851,7 @@ Namespace UserInterface
 
             Next
 
+            Me.isRefreshingDataGridViewItems = False
             ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
             ' Me.DataGridView1.ResumeLayout()
             ' Me.DataGridView1.PerformLayout()
@@ -888,6 +936,7 @@ Namespace UserInterface
                     Me.msgq7 = "Program is not running elevated, some features are disabled."
                     Me.msgq8 = "Clear recent file list"
                     Me.msgq9 = "Do you also want to delete the sent item from startup list?:"
+                    Me.msgq10 = "Failed to parse entry file path, the full value has been retrieved instead:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Type"
                     Me.DataGridView1.Columns(1).HeaderText = "Icon"
@@ -907,6 +956,7 @@ Namespace UserInterface
                     Me.msgq7 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
                     Me.msgq8 = "Borrar lista de archivos recientes"
                     Me.msgq9 = "¿Quieres además eliminar de la lista de inicio la entrada enviada?:"
+                    Me.msgq10 = "No se pudo analizar la ruta del archivo de entrada; en su lugar, se recuperó el valor completo:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Icono"
@@ -926,6 +976,7 @@ Namespace UserInterface
                     Me.msgq7 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
                     Me.msgq8 = "Limpar lista de arquivos recentes"
                     Me.msgq9 = "Deseja além remover a entrada enviada da lista de início?:"
+                    Me.msgq10 = "Falha ao analisar o caminho do arquivo de entrada. Em vez disso, o valor completo foi recuperado:"
 
                     Me.DataGridView1.Columns(0).HeaderText = "Tipo"
                     Me.DataGridView1.Columns(1).HeaderText = "Ícone"
@@ -949,6 +1000,25 @@ Namespace UserInterface
             Me.ClearRecentFilesMenuItem.Text = Me.msgq8
             Me.ClearRecentFilesMenuItem.Enabled = True
             Me.ToolStripDropDownButton_Recent.Enabled = My.Settings.MRU.Count > 0
+
+        End Sub
+
+        Private Sub DataGridView1_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles DataGridView1.RowsAdded
+
+            Me.DataGridView1.Sort(Me.DataGridView1.Columns(2), ListSortDirection.Ascending)
+
+            If Me.lastSelectedRowNameAndStartupType IsNot Nothing Then
+                For Each row As DataGridViewRow In Me.DataGridView1.Rows
+                    If row.Cells(0).Value = Me.lastSelectedRowNameAndStartupType(1) AndAlso row.Cells(2).Value.ToString().ToLower() = Me.lastSelectedRowNameAndStartupType(0).ToLower() Then
+                        row.Selected = True
+                        Me.DataGridView1.FirstDisplayedScrollingRowIndex = row.Index
+                        Exit For
+                    End If
+                Next
+            Else
+                Me.DataGridView1.Rows(0).Selected = True
+
+            End If
 
         End Sub
 

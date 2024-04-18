@@ -1,6 +1,16 @@
 # File2Startup Change Log 📋
 
-## v1.4 *(current)* 🆕
+## v1.5 *(current)* 🆕
+
+ 🛠️ Fixes:
+ - The file path and arguments of some startup entries were not properly parsed.
+
+ 🌟 Improvements:
+  - Rows in the startup list are sorted by 'Name' column by default.
+  - The selected row in the starup list will remain selected after changes.
+  - The program will warn if a file path could not be parsed from a startup entry, thus preventing data loss.
+
+## v1.4 🔄
 
  🛠️ Fixes:
  - Recent file list was disabled after changing application language.
