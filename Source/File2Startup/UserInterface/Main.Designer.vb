@@ -1,6 +1,4 @@
 ﻿
-Imports DevCase.UI.Components
-
 Namespace UserInterface
 
     <Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
