@@ -74,7 +74,7 @@ winforms
 
 ## 🚀 Getting Started
 
-1. Navigate to the **[Releases page](https://github.com/ElektroStudios/PROJECT_NAME/releases/latest)**.
+1. Navigate to the **[Releases page](https://github.com/ElektroStudios/File2Startup/releases/latest)**.
 2. Download the latest `.zip` archive or the `.exe` setup installer, depending on your preference.
 3. If you downloaded the `.zip` archive, extract its contents to your preferred directory.
    <br> 
