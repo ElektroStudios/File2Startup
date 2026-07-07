@@ -1,4 +1,4 @@
-# File2Startup Change Log 📋
+﻿# File2Startup Change Log 📋
 
 ## v1.5 *(current)* 🆕
 
