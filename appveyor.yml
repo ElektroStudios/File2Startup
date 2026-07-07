@@ -29,9 +29,8 @@ install:
 before_build:
   - >-
     nuget restore "Source\%APP_DIR_NAME%.%SOLUTION_EXT%"
-build:
-  project: Source\%APP_DIR_NAME%.%SOLUTION_EXT%
-  parallel: true
+build_script:
+  - msbuild "Source\%APP_DIR_NAME%.%SOLUTION_EXT%" /p:Configuration=%configuration% /m /logger:"C:\Program Files\AppVeyor\BuildAgent\Appveyor.MSBuildLogger.dll"
 after_build:
   - >-
     7z a -r "%APPVEYOR_PROJECT_NAME%_Build_%APPVEYOR_BUILD_NUMBER%.zip" ^
