@@ -41,11 +41,11 @@ winforms
     <a href="https://github.com/ElektroStudios/File2Startup/releases/latest"><img src="https://img.shields.io/github/v/release/ElektroStudios/File2Startup" alt="Latest Release"></a>
     <a href="https://learn.microsoft.com/en-us/dotnet/visual-basic/"><img src="https://img.shields.io/badge/language-VB.NET-purple.svg?logo=visualbasic" alt="Language"></a>
     <a href="https://learn.microsoft.com/en-us/windows/apps/"><img src="https://img.shields.io/badge/platform-Windows-lightgray.svg" alt="Platform"></a>
-    <a href="License.md"><img src="https://img.shields.io/github/license/ElektroStudios/File2Startup" alt="License"></a>
+    <a href="LICENSE"><img src="https://img.shields.io/github/license/ElektroStudios/File2Startup" alt="License"></a>
   <br>
-    <a href="https://github.com/ElektroStudios/File2Startup/archive/refs/heads/main.zip"><img src="https://img.shields.io/github/repo-size/ElektroStudios/File2Startup" alt="Repo size"></a>
+    <a href="https://api.github.com/repos/ElektroStudios/File2Startup/zipball"><img src="https://img.shields.io/github/repo-size/ElektroStudios/File2Startup" alt="Repo size"></a>
     <a href="https://somsubhra.github.io/github-release-stats/?username=ElektroStudios&repository=File2Startup"><img src="https://img.shields.io/github/downloads/ElektroStudios/File2Startup/total.svg?label=total%20downloads" alt="Total Downloads"></a>
-    <a href="https://github.com/ElektroStudios/File2Startup/commits/main"><img src="https://img.shields.io/github/last-commit/ElektroStudios/File2Startup" alt="Last commit"></a>
+    <a href="https://github.com/ElektroStudios/File2Startup/commits"><img src="https://img.shields.io/github/last-commit/ElektroStudios/File2Startup" alt="Last commit"></a>
     <a href="https://github.com/ElektroStudios/File2Startup/pulls"><img src="https://img.shields.io/github/issues-pr/ElektroStudios/File2Startup" alt="Pull Requests"></a>
     <a href="https://github.com/ElektroStudios/File2Startup/issues?q=is%3Aissue+is%3Aopen"><img src="https://img.shields.io/github/issues/ElektroStudios/File2Startup?color=blue" alt="Open Issues"></a><a href="https://github.com/ElektroStudios/File2Startup/issues?q=is%3Aissue+is%3Aclosed"><img src="https://img.shields.io/github/issues-closed/ElektroStudios/File2Startup?label=&color=28a745" alt="Closed Issues"></a>
     <a href="https://github.com/ElektroStudios/File2Startup/pulse"><img src="https://img.shields.io/badge/maintained-yes-green.svg" alt="Maintenance"></a>
