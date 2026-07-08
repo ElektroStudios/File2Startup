@@ -56,6 +56,17 @@ winforms
 
 ------------------
 
+## 👋 Introduction
+
+**File 2 Startup** is a lightweight Windows utility that simplifies the process of configuring applications to launch automatically when you boot your system. Instead of manually digging through obscure Windows registry keys or hunting for the hidden startup folder, this tool provides a direct interface to manage your startup entries and ensures your chosen executables run exactly when you need them.
+
+## 💡 Motivation
+
+Managing startup programs in Windows has become a fragmented mess. Some applications live in the registry, others in various user or system-level startup folders, and many use proprietary methods that are a pain to track down. When you need to ensure a specific tool or script launches on boot, you shouldn't have to navigate through layers of system menus or perform manual registry edits. I built this tool to centralize that management into a single, straightforward workspace where you can add, remove, and monitor startup items with zero overhead.
+
+##### ⚡ The Real Question
+###### Why waste time manually editing registry keys or searching for hidden system folders just to launch a file on startup, when you can handle it instantly with a simple, dedicated desktop tool?.
+
 ## 🖼️ Screenshots
 
 <div align="center">
