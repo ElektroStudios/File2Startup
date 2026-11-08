@@ -27,13 +27,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the shared members of the <see cref="Global.UserInterface.Main"/> form.
     ''' <para></para>
     ''' The form itself is not instantiated, because its constructor reads and saves the user settings.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class MainTests
 

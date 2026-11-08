@@ -27,34 +27,28 @@ Imports System.Globalization
 
 Namespace UserInterface.Localization
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains the localized texts of the user interface, for English (default), Spanish and Portuguese.
     ''' <para></para>
     ''' The layout of the forms is language-independent (it adapts to the length of the texts), 
     ''' so a language only needs its texts.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class UIStrings
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The two-letter name of the default language (English).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const DefaultCultureName As String = "en"
 
 #End Region
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the two-letter name of the language of these texts (<c>en</c>, <c>es</c> or <c>pt</c>).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property CultureName As String
 
         ''' <summary>Gets the text of the navigation button of the item builder page.</summary>
@@ -202,11 +196,9 @@ Namespace UserInterface.Localization
 
 #Region " Shared Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the two-letter names of the supported languages.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property SupportedCultureNames As ReadOnlyCollection(Of String) =
             New ReadOnlyCollection(Of String)({"en", "es", "pt"})
 
@@ -214,11 +206,9 @@ Namespace UserInterface.Localization
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="UIStrings"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="cultureName">
         ''' The two-letter name of the language.
         ''' </param>
@@ -226,11 +216,9 @@ Namespace UserInterface.Localization
         ''' <param name="table">
         ''' The string table of the language.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="KeyNotFoundException">
         ''' <paramref name="table"/> does not contain a text.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub New(cultureName As String, table As Dictionary(Of String, String))
 
             Me.CultureName = cultureName
@@ -288,23 +276,18 @@ Namespace UserInterface.Localization
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Formats the number of entries of the startup list (e.g. <c>1 entry</c>, <c>5 entries</c>).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="count">
         ''' The number of entries.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The formatted text.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentOutOfRangeException">
         ''' <paramref name="count"/> is negative.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function FormatEntryCount(count As Integer) As String
 
             If count < 0 Then
@@ -321,19 +304,15 @@ Namespace UserInterface.Localization
 
 #Region " Public Shared Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the texts of the specified language.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="cultureName">
         ''' The name of the culture (e.g. <c>es</c> or <c>es-ES</c>). Only its neutral (two-letter) language is used.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The texts of the language, or the English texts if the language is not supported.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function FromCulture(cultureName As String) As UIStrings
 
             Dim language As String = UIStrings.GetNeutralLanguage(cultureName)
@@ -349,34 +328,27 @@ Namespace UserInterface.Localization
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the texts of the current user interface language of the current thread.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The texts of the language, or the English texts if the language is not supported.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function FromCurrentUICulture() As UIStrings
 
             Return UIStrings.FromCulture(CultureInfo.CurrentUICulture.Name)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the supported two-letter language of the specified culture name.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="cultureName">
         ''' The name of the culture (e.g. <c>es</c> or <c>es-ES</c>), or <see langword="Nothing"/>.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <c>en</c>, <c>es</c> or <c>pt</c>; <c>en</c> if the language is not supported.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function GetNeutralLanguage(cultureName As String) As String
 
             If String.IsNullOrWhiteSpace(cultureName) Then
@@ -392,11 +364,9 @@ Namespace UserInterface.Localization
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets a text from a string table, failing if it is missing or empty.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="table">
         ''' The string table.
         ''' </param>
@@ -404,15 +374,12 @@ Namespace UserInterface.Localization
         ''' <param name="key">
         ''' The key of the text.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The text.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="KeyNotFoundException">
         ''' The text is missing or empty.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetEntry(table As Dictionary(Of String, String), key As String) As String
 
             Dim value As String = Nothing
@@ -424,15 +391,12 @@ Namespace UserInterface.Localization
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates the English string table.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The string table.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function CreateEnglishTable() As Dictionary(Of String, String)
 
             Return New Dictionary(Of String, String)(StringComparer.Ordinal) From {
@@ -487,15 +451,12 @@ Namespace UserInterface.Localization
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates the Spanish string table.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The string table.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function CreateSpanishTable() As Dictionary(Of String, String)
 
             Return New Dictionary(Of String, String)(StringComparer.Ordinal) From {
@@ -550,15 +511,12 @@ Namespace UserInterface.Localization
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates the Portuguese string table.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The string table.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function CreatePortugueseTable() As Dictionary(Of String, String)
 
             Return New Dictionary(Of String, String)(StringComparer.Ordinal) From {

@@ -28,27 +28,22 @@ Imports System.Windows.Forms
 
 Namespace UserInterface.Controls
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' An owner-drawn on/off switch (like the toggle switches of the Windows Settings app),
     ''' with an animated thumb and optional sun/moon glyphs to switch between a light and a dark theme.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' The switch can be toggled with the mouse, with the Space key, and through UI Automation (default action).
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <DefaultEvent(NameOf(ToggleSwitch.CheckedChanged))>
     <DefaultProperty(NameOf(ToggleSwitch.Checked))>
     Public Class ToggleSwitch : Inherits Control
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The duration, in milliseconds, of the thumb animation.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const AnimationDurationMs As Double = 120.0R
 
 #End Region
@@ -95,11 +90,9 @@ Namespace UserInterface.Controls
 
 #Region " Events "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Occurs when the value of the <see cref="ToggleSwitch.Checked"/> property changes.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Action")>
         <Description("Occurs when the value of the Checked property changes.")>
         Public Event CheckedChanged As EventHandler
@@ -108,11 +101,9 @@ Namespace UserInterface.Controls
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets a value indicating whether the switch is on.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <DefaultValue(False)>
         <Bindable(True)>
@@ -133,11 +124,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the track color when the switch is on.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The track color when the switch is on.")>
         Public Property OnColor As Color
@@ -150,11 +139,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the track color when the switch is off.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The track color when the switch is off.")>
         Public Property OffColor As Color
@@ -167,11 +154,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the track border color when the switch is off.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The track border color when the switch is off.")>
         Public Property BorderColor As Color
@@ -184,11 +169,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the thumb color when the switch is on.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The thumb color when the switch is on.")>
         Public Property ThumbOnColor As Color
@@ -201,11 +184,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the thumb color when the switch is off.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The thumb color when the switch is off.")>
         Public Property ThumbOffColor As Color
@@ -218,11 +199,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the glyphs drawn inside the thumb.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <DefaultValue(GetType(ToggleSwitchGlyphs), "SunAndMoon")>
         <Description("The glyphs drawn inside the thumb.")>
@@ -236,11 +215,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets a value indicating whether the thumb animation is running.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Browsable(False)>
         <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
         Public ReadOnly Property IsAnimating As Boolean
@@ -249,11 +226,9 @@ Namespace UserInterface.Controls
             End Get
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the default size of the control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides ReadOnly Property DefaultSize As Size
             Get
                 Return New Size(44, 22)
@@ -264,11 +239,9 @@ Namespace UserInterface.Controls
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ToggleSwitch"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New()
 
             Me.SetStyle(ControlStyles.UserPaint Or
@@ -294,11 +267,9 @@ Namespace UserInterface.Controls
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Inverts the value of the <see cref="ToggleSwitch.Checked"/> property.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub Toggle()
 
             Me.Checked = Not Me.Checked
@@ -309,30 +280,24 @@ Namespace UserInterface.Controls
 
 #Region " Overridden Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Raises the <see cref="ToggleSwitch.CheckedChanged"/> event.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overridable Sub OnCheckedChanged(e As EventArgs)
 
             RaiseEvent CheckedChanged(Me, e)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Toggles the switch when it is clicked with the left mouse button.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnMouseClick(e As MouseEventArgs)
 
             MyBase.OnMouseClick(e)
@@ -343,15 +308,12 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Toggles the switch when the Space key is released.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnKeyUp(e As KeyEventArgs)
 
             MyBase.OnKeyUp(e)
@@ -404,15 +366,12 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Paints the switch.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnPaint(e As PaintEventArgs)
 
             MyBase.OnPaint(e)
@@ -474,30 +433,24 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates the accessibility object of the control, that exposes the checked state and the toggle action.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The accessibility object.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Function CreateAccessibilityInstance() As AccessibleObject
 
             Return New ToggleSwitchAccessibleObject(Me)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Releases the unmanaged resources used by the control and optionally releases the managed resources.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="disposing">
         ''' <see langword="True"/> to release both managed and unmanaged resources.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub Dispose(disposing As Boolean)
 
             If disposing Then
@@ -511,12 +464,10 @@ Namespace UserInterface.Controls
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Starts the thumb animation towards the position of the current <see cref="ToggleSwitch.Checked"/> value,
         ''' or moves the thumb directly if the control is not visible.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub StartThumbAnimation()
 
             Dim target As Double = If(Me.checkedValue, 1.0R, 0.0R)
@@ -538,11 +489,9 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Timer.Tick"/> event of the animation timer.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -550,7 +499,6 @@ Namespace UserInterface.Controls
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub AnimationTimer_Tick(sender As Object, e As EventArgs)
 
             Dim target As Double = If(Me.checkedValue, 1.0R, 0.0R)
@@ -569,11 +517,9 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Linearly interpolates two colors.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="color1">
         ''' The color at amount zero.
         ''' </param>
@@ -585,11 +531,9 @@ Namespace UserInterface.Controls
         ''' <param name="amount">
         ''' The interpolation amount, from 0 to 1.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The interpolated color.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Friend Shared Function Blend(color1 As Color, color2 As Color, amount As Double) As Color
 
             Dim t As Double = Math.Max(0.0R, Math.Min(1.0R, amount))
@@ -600,19 +544,15 @@ Namespace UserInterface.Controls
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates a capsule (rectangle with fully rounded ends) path.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="bounds">
         ''' The bounds of the capsule.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function CreateCapsule(bounds As RectangleF) As GraphicsPath
 
             Dim diameter As Single = Math.Min(bounds.Width, bounds.Height)
@@ -624,11 +564,9 @@ Namespace UserInterface.Controls
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Draws a sun glyph (a disc with eight rays) inside the thumb.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="g">
         ''' The graphics.
         ''' </param>
@@ -640,7 +578,6 @@ Namespace UserInterface.Controls
         ''' <param name="color">
         ''' The glyph color.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub DrawSunGlyph(g As Graphics, thumb As RectangleF, color As Color)
 
             Dim center As New PointF(thumb.X + thumb.Width / 2.0F, thumb.Y + thumb.Height / 2.0F)
@@ -666,11 +603,9 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Draws a crescent moon glyph inside the thumb.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="g">
         ''' The graphics.
         ''' </param>
@@ -686,7 +621,6 @@ Namespace UserInterface.Controls
         ''' <param name="thumbColor">
         ''' The thumb color, used to cut the crescent.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub DrawMoonGlyph(g As Graphics, thumb As RectangleF, color As Color, thumbColor As Color)
 
             Dim size As Single = thumb.Width
@@ -720,11 +654,9 @@ Namespace UserInterface.Controls
 
 #Region " ToggleSwitchAccessibleObject "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The accessibility object of a <see cref="ToggleSwitch"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private NotInheritable Class ToggleSwitchAccessibleObject : Inherits ControlAccessibleObject
 
             ''' <summary>The owner switch.</summary>

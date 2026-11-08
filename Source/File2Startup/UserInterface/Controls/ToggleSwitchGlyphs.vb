@@ -19,11 +19,9 @@ Option Infer Off
 
 Namespace UserInterface.Controls
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Specifies the glyphs drawn inside the thumb of a <see cref="ToggleSwitch"/>.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Enum ToggleSwitchGlyphs As Integer
 
         ''' <summary>

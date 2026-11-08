@@ -34,11 +34,9 @@ Imports UserInterface.Theming
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="IconButton"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class IconButtonTests

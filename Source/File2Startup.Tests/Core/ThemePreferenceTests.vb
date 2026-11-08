@@ -30,11 +30,9 @@ Imports Microsoft.Win32
 
 Namespace Core
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="ThemePreference"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class ThemePreferenceTests
 

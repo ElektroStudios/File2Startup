@@ -32,13 +32,11 @@ Imports Microsoft.Win32
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the registry path formatting and argument validation of the <see cref="RegistryUtil"/> class.
     ''' <para></para>
     ''' These tests do not write to the registry.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class RegistryUtilPathTests
 

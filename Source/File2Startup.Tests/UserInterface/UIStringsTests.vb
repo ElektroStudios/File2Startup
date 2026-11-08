@@ -33,11 +33,9 @@ Imports UserInterface.Localization
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="UIStrings"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class UIStringsTests
 

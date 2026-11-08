@@ -34,12 +34,10 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Interop
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Verifies the Win32 enumeration values and structure layouts against the values documented in the Windows SDK,
     ''' so a typo in a P/Invoke definition is detected.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class Win32DefinitionsTests
 

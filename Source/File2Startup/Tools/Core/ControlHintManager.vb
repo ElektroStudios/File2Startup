@@ -95,11 +95,9 @@ Imports DevCase.Core.Diagnostics.Assembly.Reflection
 
 Namespace DevCase.Core.Application.Forms
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Manages the control-hints of the edit-controls of a <see cref="Form"/>.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <example> This is a code example.
     ''' <code language="VB.NET">
     ''' Dim hintInfo1 As New ControlHintInfo("I'm a persistent hint.", Nothing,
@@ -116,40 +114,32 @@ Namespace DevCase.Core.Application.Forms
     ''' SetHint(RichTextBox1, hintInfo3)
     ''' </code>
     ''' </example>
-    ''' ----------------------------------------------------------------------------------------------------
     <CodeAnalysis.SuppressMessage("CodeQuality", "IDE0079:Remove unnecessary suppression", Justification:="Required to migrate this code to .NET Core")>
     Public NotInheritable Class ControlHintManager
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the control-hints that has been created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The control-hints that has been created.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property ControlHints As Dictionary(Of Control, ControlHintInfo)
             Get
                 Return controlHintsB
             End Get
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' The control-hints that has been created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared controlHintsB As Dictionary(Of Control, ControlHintInfo)
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' Remembers the handled controls and they default property values.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared controlHintsDefaults As Dictionary(Of Control, ControlHintInfo)
 
 #End Region
@@ -167,11 +157,9 @@ Namespace DevCase.Core.Application.Forms
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets a new control-hint for an specific control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The control.
         ''' </param>
@@ -179,11 +167,9 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="hintInfo">
         ''' The text-hint properties.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="Exception">
         ''' control-hint text can't be null or empty.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub SetHint(ctrl As Control,
                                   hintInfo As ControlHintInfo)
@@ -251,11 +237,9 @@ Namespace DevCase.Core.Application.Forms
 
 
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets a new control-hint for multiple controls at once.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="controls">
         ''' The controls.
         ''' </param>
@@ -263,7 +247,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="hintInfo">
         ''' The control-hint properties.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub SetHint(controls As Control(),
                                   hintInfo As ControlHintInfo)
@@ -274,15 +257,12 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Removes a control-hint from a control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The control.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub RemoveHint(ctrl As Control)
 
@@ -323,15 +303,12 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Removes a control-hint from a control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrls">
         ''' The controls.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub RemoveHint(ctrls As Control())
 
@@ -345,12 +322,10 @@ Namespace DevCase.Core.Application.Forms
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Instances the <see cref="controlHintsB"/> 
         ''' and/or <see cref="controlHintsDefaults"/> members.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub InstanceControlHintFields()
 
             If controlHintsB Is Nothing Then
@@ -364,11 +339,9 @@ Namespace DevCase.Core.Application.Forms
         End Sub
 
         ' ReSharper disable once SuggestBaseTypeForParameter
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets the properties of an specific control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The Control.
         ''' </param>
@@ -380,7 +353,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="skipProperties">
         ''' The properties to skip.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub SetProperties(ctrl As Object,
                                          hintInfo As ControlHintInfo,
@@ -405,11 +377,9 @@ Namespace DevCase.Core.Application.Forms
         End Sub
 
         ' ReSharper disable once SuggestBaseTypeForParameter
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Restores the properties of the specified control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The Control.
         ''' </param>
@@ -421,7 +391,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="skipProperties">
         ''' The properties to skip.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub RestoreProperties(ctrl As Object,
                                              defaultProperties As ControlHintInfo,
@@ -450,11 +419,9 @@ Namespace DevCase.Core.Application.Forms
 
 #Region "Event Handlers "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.HandleCreated"/> event of the Control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -462,7 +429,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_HandleCreated(sender As Object, e As EventArgs)
 
@@ -475,11 +441,9 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Enter"/> event of the Control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -487,7 +451,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_Enter(sender As Object, e As EventArgs)
 
@@ -525,11 +488,9 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Leave"/> event of the control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -537,7 +498,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_Leave(sender As Object, e As EventArgs)
 
@@ -568,11 +528,9 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.MouseDown"/> event of the control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -580,7 +538,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="MouseEventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_MouseDown(sender As Object, e As MouseEventArgs)
 
@@ -613,11 +570,9 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.KeyDown"/> event of the Control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -625,7 +580,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="KeyEventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_KeyDown(sender As Object, e As KeyEventArgs)
 
@@ -658,11 +612,9 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.CausesValidationChanged"/> event of the Control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -670,7 +622,6 @@ Namespace DevCase.Core.Application.Forms
         ''' <param name="e">
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_CausesValidationChanged(sender As Object, e As EventArgs)
 
@@ -707,18 +658,15 @@ Namespace DevCase.Core.Application.Forms
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Disposed"/> event of the control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.</param>
         ''' 
         ''' <param name="e">
         ''' The <see cref="EventArgs"/> instance containing the event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Sub Control_Disposed(sender As Object, e As EventArgs)
 

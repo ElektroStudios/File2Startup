@@ -29,39 +29,31 @@ Imports DevCase.Interop.Win32.Enums
 
 Namespace UserInterface.Theming
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Applies the dark/light mode to the native parts of the windows
     ''' that cannot be colored through Windows Forms: the title bar and the scroll bars.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class WindowThemeUtil
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The visual style application name that provides the dark scroll bars of the Windows Explorer.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const DarkVisualStyleName As String = "DarkMode_Explorer"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The visual style application name that provides the default (light) scroll bars of the Windows Explorer.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const LightVisualStyleName As String = "Explorer"
 
 #End Region
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="WindowThemeUtil"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -70,20 +62,17 @@ Namespace UserInterface.Theming
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Enables or disables the dark title bar (and window frame) of the specified form,
         ''' using the <c>DWMWA_USE_IMMERSIVE_DARK_MODE</c> attribute of <c>DwmSetWindowAttribute</c>.
         ''' <para></para>
         ''' If the form is already visible, its non-client area is repainted so the change takes effect immediately.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' This method must be called once the window handle exists, that is, from <see cref="Form.OnHandleCreated"/>
         ''' (calling it from the <see cref="Form.Load"/> event has no effect on the first paint of the title bar),
         ''' and again each time the theme changes.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="form">
         ''' The form.
         ''' </param>
@@ -91,12 +80,10 @@ Namespace UserInterface.Theming
         ''' <param name="useDarkMode">
         ''' <see langword="True"/> to use the dark title bar; <see langword="False"/> to use the default (light) title bar.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the attribute was applied;
         ''' <see langword="False"/> if the operating system does not support it (Windows versions prior to Windows 10 1809).
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="form"/> is <see langword="Nothing"/>.
         ''' </exception>
@@ -104,7 +91,6 @@ Namespace UserInterface.Theming
         ''' <exception cref="InvalidOperationException">
         ''' The window handle of <paramref name="form"/> is not created yet.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function SetDarkTitleBar(form As Form, useDarkMode As Boolean) As Boolean
 
             If form Is Nothing Then
@@ -139,12 +125,10 @@ Namespace UserInterface.Theming
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the dark or the light visual style to the scroll bars of the specified control
         ''' (for example, the scroll bars of a <see cref="DataGridView"/>).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="control">
         ''' The control.
         ''' </param>
@@ -152,12 +136,10 @@ Namespace UserInterface.Theming
         ''' <param name="useDarkMode">
         ''' <see langword="True"/> to use the dark visual style; <see langword="False"/> to use the default visual style.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the visual style was applied;
         ''' <see langword="False"/> if the operating system does not support it.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="control"/> is <see langword="Nothing"/>.
         ''' </exception>
@@ -165,7 +147,6 @@ Namespace UserInterface.Theming
         ''' <exception cref="InvalidOperationException">
         ''' The window handle of <paramref name="control"/> is not created yet.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function SetDarkScrollBars(control As Control, useDarkMode As Boolean) As Boolean
 
             If control Is Nothing Then
@@ -196,18 +177,15 @@ Namespace UserInterface.Theming
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Forces the repaint of the non-client area (title bar and frame) of a visible form.
         ''' <para></para>
         ''' On Windows 10, the title bar does not reflect a change of the dark mode attribute
         ''' until the window activation state changes, so the activation is toggled to repaint it.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="window">
         ''' The form.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub RepaintNonClientArea(window As Form)
 
             Dim isActive As Boolean = Form.ActiveForm Is window

@@ -32,21 +32,17 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Core
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="RecentFileList"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class RecentFileListTests
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The same delimiter used by the application (<c>@@{ProductName}@@</c>).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const Delimiter As String = "@@File2Startup@@"
 
 #End Region

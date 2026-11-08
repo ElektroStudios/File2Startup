@@ -30,11 +30,9 @@ Imports UserInterface.Theming
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="WindowThemeUtil"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class WindowThemeUtilTests

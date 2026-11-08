@@ -27,44 +27,36 @@ Imports System.Linq
 
 Namespace Core
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Represents the command-line of a Windows startup entry
     ''' (the data of a value stored in a <c>...\CurrentVersion\Run</c> registry key),
     ''' split into the target file path and its optional arguments.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' This type is immutable.
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <DebuggerDisplay("{ToCommandLine(),nq}")>
     Public NotInheritable Class StartupCommand
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The file name extensions that are considered executable (or launchable) by the unquoted command-line parser
         ''' when the target file of the command-line does not exist on the current system.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared ReadOnly LaunchableExtensions As String() = {
             ".exe", ".com", ".bat", ".cmd", ".lnk", ".pif", ".scr", ".cpl",
             ".msc", ".vbs", ".vbe", ".js", ".jse", ".wsf", ".wsh", ".ps1", ".hta"
         }
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The characters that are not allowed in a Windows file path:
         ''' the double quote, <c>&lt;</c>, <c>&gt;</c>, <c>|</c> and the control characters (0 to 31).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' This set is defined explicitly instead of using <see cref="Path.GetInvalidPathChars()"/>,
         ''' because the result of that method differs between .NET Framework, modern .NET and the operating system.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared ReadOnly InvalidPathChars As Char() =
             $"{ControlChars.Quote}<>|".ToCharArray().
             Concat(Enumerable.Range(0, 32).Select(Function(code As Integer) ChrW(code))).
@@ -74,26 +66,20 @@ Namespace Core
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the target file path of this command-line,
         ''' exactly as it is stored (environment variables are not expanded).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property FilePath As String
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the arguments of this command-line, or <see cref="String.Empty"/> if it has no arguments.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property Arguments As String
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets a value indicating whether this command-line has arguments.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property HasArguments As Boolean
             Get
                 Return Me.Arguments.Length <> 0
@@ -104,11 +90,9 @@ Namespace Core
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="StartupCommand"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filePath">
         ''' The target file path. Leading and trailing white-spaces are removed.
         ''' </param>
@@ -116,7 +100,6 @@ Namespace Core
         ''' <param name="arguments">
         ''' The arguments, or <see cref="String.Empty"/> for none. Leading and trailing white-spaces are removed.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="filePath"/> is <see langword="Nothing"/>, empty or white-spaced,
         ''' or <paramref name="arguments"/> is <see langword="Nothing"/>.
@@ -125,7 +108,6 @@ Namespace Core
         ''' <exception cref="ArgumentException">
         ''' <paramref name="filePath"/> contains invalid path characters (for example a quotation mark).
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New(filePath As String, arguments As String)
 
             If String.IsNullOrWhiteSpace(filePath) Then
@@ -150,7 +132,6 @@ Namespace Core
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Builds the command-line string that represents this instance,
         ''' in the format used to store Windows startup entries: <c>"FilePath" Arguments</c>.
@@ -158,11 +139,9 @@ Namespace Core
         ''' The file path is always enclosed in double quotes,
         ''' and no trailing white-space is added when there are no arguments.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resulting command-line string.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function ToCommandLine() As String
 
             Dim quotedFilePath As String = $"{ControlChars.Quote}{Me.FilePath}{ControlChars.Quote}"
@@ -170,30 +149,24 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the target file path with any environment variable (e.g. <c>%WINDIR%</c>) expanded.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The expanded file path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function GetExpandedFilePath() As String
 
             Return Environment.ExpandEnvironmentVariables(Me.FilePath)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Returns the command-line string that represents this instance.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The same value as <see cref="StartupCommand.ToCommandLine()"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overrides Function ToString() As String
 
             Return Me.ToCommandLine()
@@ -204,20 +177,16 @@ Namespace Core
 
 #Region " Public Shared Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Parses the command-line of a Windows startup entry,
         ''' checking the existence of candidate file paths on the local file system.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The command-line to parse.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resulting <see cref="StartupCommand"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="commandLine"/> is <see langword="Nothing"/>.
         ''' </exception>
@@ -225,18 +194,15 @@ Namespace Core
         ''' <exception cref="FormatException">
         ''' The file path could not be parsed from <paramref name="commandLine"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function Parse(commandLine As String) As StartupCommand
 
             Return StartupCommand.Parse(commandLine, AddressOf File.Exists)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Parses the command-line of a Windows startup entry.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' Parsing rules:
         ''' <list type="number">
@@ -258,7 +224,6 @@ Namespace Core
         ''' </list>
         ''' Environment variables are expanded only to check the file existence; the resulting file path keeps them unexpanded.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The command-line to parse.
         ''' </param>
@@ -266,11 +231,9 @@ Namespace Core
         ''' <param name="fileExists">
         ''' A function that determines whether a (environment-expanded) file path exists.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resulting <see cref="StartupCommand"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="commandLine"/> or <paramref name="fileExists"/> is <see langword="Nothing"/>.
         ''' </exception>
@@ -278,7 +241,6 @@ Namespace Core
         ''' <exception cref="FormatException">
         ''' The file path could not be parsed from <paramref name="commandLine"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function Parse(commandLine As String, fileExists As Func(Of String, Boolean)) As StartupCommand
 
             If commandLine Is Nothing Then
@@ -299,12 +261,10 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Tries to parse the command-line of a Windows startup entry,
         ''' checking the existence of candidate file paths on the local file system.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The command-line to parse.
         ''' </param>
@@ -313,28 +273,23 @@ Namespace Core
         ''' When this method returns <see langword="True"/>, contains the resulting <see cref="StartupCommand"/>;
         ''' otherwise, <see langword="Nothing"/>.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the command-line was successfully parsed; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="commandLine"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function TryParse(commandLine As String, ByRef result As StartupCommand) As Boolean
 
             Return StartupCommand.TryParse(commandLine, AddressOf File.Exists, result)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Tries to parse the command-line of a Windows startup entry.
         ''' <para></para>
         ''' See <see cref="StartupCommand.Parse(String, Func(Of String, Boolean))"/> for the parsing rules.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The command-line to parse.
         ''' </param>
@@ -347,15 +302,12 @@ Namespace Core
         ''' When this method returns <see langword="True"/>, contains the resulting <see cref="StartupCommand"/>;
         ''' otherwise, <see langword="Nothing"/>.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the command-line was successfully parsed; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="commandLine"/> or <paramref name="fileExists"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function TryParse(commandLine As String, fileExists As Func(Of String, Boolean), ByRef result As StartupCommand) As Boolean
 
             If commandLine Is Nothing Then
@@ -372,24 +324,19 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether the specified file path does not contain invalid Windows path characters.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filePath">
         ''' The file path to validate.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if <paramref name="filePath"/> is not empty and has no invalid path characters;
         ''' otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="filePath"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function IsValidFilePath(filePath As String) As Boolean
 
             If filePath Is Nothing Then
@@ -401,24 +348,19 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Removes the leading and trailing white-spaces of a file path typed by the user,
         ''' and then a single pair of enclosing double quotes, if any.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filePath">
         ''' The file path to normalize.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The normalized file path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="filePath"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function NormalizeUserFilePath(filePath As String) As String
 
             If filePath Is Nothing Then
@@ -441,12 +383,10 @@ Namespace Core
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Implements the parsing logic shared by <see cref="StartupCommand.Parse(String, Func(Of String, Boolean))"/>
         ''' and <see cref="StartupCommand.TryParse(String, Func(Of String, Boolean), ByRef StartupCommand)"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The command-line to parse. Must not be <see langword="Nothing"/>.
         ''' </param>
@@ -458,11 +398,9 @@ Namespace Core
         ''' <param name="errorMessage">
         ''' When this method returns <see langword="Nothing"/>, contains the reason of the failure.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resulting <see cref="StartupCommand"/>, or <see langword="Nothing"/> if the command-line could not be parsed.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function ParseCore(commandLine As String, fileExists As Func(Of String, Boolean),
                                           ByRef errorMessage As String) As StartupCommand
 
@@ -504,11 +442,9 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Finds the character index where the file path of an unquoted (and already trimmed) command-line ends.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The trimmed, unquoted command-line.
         ''' </param>
@@ -516,11 +452,9 @@ Namespace Core
         ''' <param name="fileExists">
         ''' A function that determines whether a (environment-expanded) file path exists.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The length of the file path portion of <paramref name="commandLine"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function FindUnquotedFilePathEnd(commandLine As String, fileExists As Func(Of String, Boolean)) As Integer
 
             Dim candidateEnds As List(Of Integer) = StartupCommand.GetCandidateEnds(commandLine)
@@ -553,20 +487,16 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the candidate end indices of the file path of an unquoted command-line:
         ''' the index of every white-space that follows a non white-space character, plus the command-line length.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="commandLine">
         ''' The trimmed, unquoted command-line.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The candidate end indices, in ascending order.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetCandidateEnds(commandLine As String) As List(Of Integer)
 
             Dim candidateEnds As New List(Of Integer)

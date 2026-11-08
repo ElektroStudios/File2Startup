@@ -27,22 +27,18 @@ Imports System.Windows.Forms.Design
 
 Namespace UserInterface.Controls
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' A tool strip item that hosts a <see cref="ToggleSwitch"/>.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <ToolStripItemDesignerAvailability(ToolStripItemDesignerAvailability.ToolStrip Or ToolStripItemDesignerAvailability.StatusStrip)>
     <DefaultEvent(NameOf(ToolStripToggleSwitch.CheckedChanged))>
     Public Class ToolStripToggleSwitch : Inherits ToolStripControlHost
 
 #Region " Events "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Occurs when the value of the <see cref="ToolStripToggleSwitch.Checked"/> property changes.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Action")>
         Public Event CheckedChanged As EventHandler
 
@@ -50,11 +46,9 @@ Namespace UserInterface.Controls
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the hosted <see cref="ToggleSwitch"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Browsable(False)>
         <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
         Public ReadOnly Property ToggleSwitch As ToggleSwitch
@@ -63,11 +57,9 @@ Namespace UserInterface.Controls
             End Get
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets a value indicating whether the switch is on.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <DefaultValue(False)>
         Public Property Checked As Boolean
@@ -83,11 +75,9 @@ Namespace UserInterface.Controls
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ToolStripToggleSwitch"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New()
 
             MyBase.New(New ToggleSwitch())
@@ -100,15 +90,12 @@ Namespace UserInterface.Controls
 
 #Region " Overridden Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Subscribes to the events of the hosted control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="control">
         ''' The hosted control.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnSubscribeControlEvents(control As Control)
 
             MyBase.OnSubscribeControlEvents(control)
@@ -116,15 +103,12 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Unsubscribes from the events of the hosted control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="control">
         ''' The hosted control.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnUnsubscribeControlEvents(control As Control)
 
             RemoveHandler DirectCast(control, ToggleSwitch).CheckedChanged, AddressOf Me.HostedToggleSwitch_CheckedChanged
@@ -136,11 +120,9 @@ Namespace UserInterface.Controls
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToggleSwitch.CheckedChanged"/> event of the hosted control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -148,7 +130,6 @@ Namespace UserInterface.Controls
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub HostedToggleSwitch_CheckedChanged(sender As Object, e As EventArgs)
 
             RaiseEvent CheckedChanged(Me, e)

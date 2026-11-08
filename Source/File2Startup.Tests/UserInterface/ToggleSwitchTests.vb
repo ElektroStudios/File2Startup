@@ -32,21 +32,17 @@ Imports UserInterface.Controls
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="ToggleSwitch"/>, <see cref="ToggleSwitchLayout"/> and <see cref="ToolStripToggleSwitch"/> types.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class ToggleSwitchTests
 
 #Region " Testable Switch "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A <see cref="ToggleSwitch"/> that exposes its input methods to the tests.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private NotInheritable Class TestableToggleSwitch : Inherits ToggleSwitch
 
             ''' <summary>Simulates a mouse click.</summary>

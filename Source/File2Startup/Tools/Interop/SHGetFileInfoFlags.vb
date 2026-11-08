@@ -23,15 +23,12 @@ Imports DevCase.Win32.Structures
 
 Namespace DevCase.Win32.Enums
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Flags to use with the <see cref="NativeMethods.SHGetFileInfo"/> function.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb762179(v=vs.85).aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <Flags>
     Public Enum SHGetFileInfoFlags As Integer ' SHGFI
 

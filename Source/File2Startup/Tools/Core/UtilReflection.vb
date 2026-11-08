@@ -119,24 +119,19 @@ Imports System.Reflection
 
 Namespace DevCase.Core.Diagnostics.Assembly.Reflection
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains Reflection related utilites.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/aa383751%28v=vs.85%29.aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class UtilReflection
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="UtilReflection"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -145,11 +140,9 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Searches for the specified property in the specified object.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
         ''' <code language="VB.NET">
         ''' Dim prop As PropertyInfo = GetProperty(Me, "Text")
@@ -158,7 +151,6 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' Console.WriteLine(text)
         ''' </code>
         ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="obj">
         ''' The source object from which to retrieve the property.
         ''' </param>
@@ -170,15 +162,12 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' <param name="bindingFlags">
         ''' Flags that controls binding and the way in which the search for members and types is conducted by Reflection.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' A <see cref="PropertyInfo"/> instance that represents the obtained property.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentException">
         ''' Property not found using the current flags.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetProperty(obj As Object,
                                            propName As String,
@@ -194,11 +183,9 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Searches for the specified property in the specified <see cref="Type"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
         ''' <code language="VB.NET">
         ''' Dim prop As PropertyInfo = GetProperty(GetType(Form), "Text")
@@ -207,7 +194,6 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' Console.WriteLine(text)
         ''' </code>
         ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="type">
         ''' The source type to search for the property.
         ''' </param>
@@ -219,18 +205,15 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' <param name="bindingFlags">
         ''' Flags that controls binding and the way in which the search for members and types is conducted by Reflection.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' A <see cref="PropertyInfo"/> instance that represents the obtained property.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' </exception>
         ''' 
         ''' <exception cref="ArgumentException">
         ''' Property not found using the current flags.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetProperty(type As Type,
                                            propName As String,
@@ -262,11 +245,9 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Searches for the specified property in the specified object, and returns the property value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
         ''' <code language="VB.NET">
         ''' Dim text As String = GetPropertyValue(Of String)(Me, "Text")
@@ -274,7 +255,6 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' Console.WriteLine(text)
         ''' </code>
         ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type of the property to be returned.
         ''' </typeparam>
@@ -290,18 +270,15 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' <param name="bindingFlags">
         ''' Flags that controls binding and the way in which the search for members and types is conducted by Reflection.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The property value.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' </exception>
         ''' 
         ''' <exception cref="ArgumentException">
         ''' Property not found using the current flags.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetPropertyValue(Of T)(obj As Object,
                                                       propName As String,
@@ -317,11 +294,9 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Searches for the specified property in the specified object, and returns the property value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
         ''' <code language="VB.NET">
         ''' Dim text As String = GetPropertyValue(Of String)(Me, "Text", String.Empty)
@@ -329,7 +304,6 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' Console.WriteLine(text)
         ''' </code>
         ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type of the property to be returned.
         ''' </typeparam>
@@ -349,18 +323,15 @@ Namespace DevCase.Core.Diagnostics.Assembly.Reflection
         ''' <param name="bindingFlags">
         ''' Flags that controls binding and the way in which the search for members and types is conducted by Reflection.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The property value.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' </exception>
         ''' 
         ''' <exception cref="ArgumentException">
         ''' Property not found using the current flags.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetPropertyValue(Of T)(obj As Object,
                                                       propName As String,

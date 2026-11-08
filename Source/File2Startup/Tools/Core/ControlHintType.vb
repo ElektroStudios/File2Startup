@@ -39,11 +39,9 @@ Option Infer Off
 
 Namespace DevCase.Core.Application.UserInterface.Enums
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Specifies a type of control-hint.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Enum ControlHintType As Integer
 
         ''' <summary>

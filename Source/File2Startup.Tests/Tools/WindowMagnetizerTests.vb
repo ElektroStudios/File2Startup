@@ -34,22 +34,18 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="WindowMagnetizer"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class WindowMagnetizerTests
 
 #Region " Testable Magnetizer "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A <see cref="WindowMagnetizer"/> that exposes its window procedure and resizing state to the tests.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private NotInheritable Class TestableWindowMagnetizer : Inherits WindowMagnetizer
 
             ''' <summary>Initializes a new instance of the <see cref="TestableWindowMagnetizer"/> class.</summary>

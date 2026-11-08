@@ -34,33 +34,27 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="ControlHintManager"/> and <see cref="ControlHintInfo"/> classes.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class ControlHintManagerTests
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The hint text used by the tests.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const HintText As String = "Full path to the file."
 
 #End Region
 
 #Region " Fields "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The controls created by the current test, to remove their hints and dispose them after the test.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly createdControls As New List(Of Control)
 
 #End Region

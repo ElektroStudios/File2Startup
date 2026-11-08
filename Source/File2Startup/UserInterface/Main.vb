@@ -47,41 +47,33 @@ Imports UserInterface.Theming
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' The main user interface form.
     ''' <para></para>
     ''' It has two pages, selected from the header tool bar: the item builder (to add a file to Windows startup)
     ''' and the startup list (to manage the existing startup entries).
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class Main
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The registry key where Regedit stores the last key it showed, which it opens on start.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const RegeditAppletKeyPath As String = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The size, in pixels at 96 DPI, of the button images.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const ButtonImageSize As Integer = 16
 
 #End Region
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets a value indicating whether the current process has full administrative rights.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property IsProcessElevated As Boolean
             Get
                 Using identity As WindowsIdentity = WindowsIdentity.GetCurrent()
@@ -94,90 +86,68 @@ Namespace UserInterface
 
 #Region " Fields "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The localized texts of the current language.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private strings As UIStrings = UIStrings.FromCulture(UIStrings.DefaultCultureName)
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The current visual theme.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private currentTheme As AppTheme = AppTheme.Light
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A value indicating whether the theme is being applied,
         ''' to ignore the <see cref="ToolStripToggleSwitch_Theme"/> state changes made by code.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private isApplyingTheme As Boolean
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="WindowMagnetizer"/> instance that docks the form to the screen borders.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private windowSticker As WindowMagnetizer
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The registry keys of the startup types (current user only, or all users).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly startupType As New Dictionary(Of String, String) From
         {
             {StartupRegistryKeys.CurrentUserId, StartupRegistryKeys.CurrentUserRunKeyPath},
             {StartupRegistryKeys.AllUsersId, StartupRegistryKeys.AllUsersRunKeyPath}
         }
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The selected startup type (<see cref="StartupRegistryKeys.CurrentUserId"/> or <see cref="StartupRegistryKeys.AllUsersId"/>).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private selectedStartupType As String = StartupRegistryKeys.CurrentUserId
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The field delimiter of the serialized recent file list entries.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly mruDelimiter As String = $"@@{My.Application.Info.ProductName}@@"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The menu item that clears the recent file list.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly clearRecentFilesMenuItem As ToolStripMenuItem
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The name and startup type identifier of the last row selected by the user in the startup list.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private lastSelectedRowNameAndStartupType As String()
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A value indicating whether the rows of the startup list are being reloaded.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private isRefreshingDataGridViewItems As Boolean
 
 #End Region
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="Main"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New()
 
             ' This call is required by the designer.
@@ -198,20 +168,16 @@ Namespace UserInterface
 
 #Region " Overridden Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Raises the <see cref="Control.HandleCreated"/> event, and applies the dark/light title bar.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' The title bar attribute is applied here because the window handle is required,
         ''' and applying it in the <see cref="Form.Load"/> event has no effect on the first paint of the title bar.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnHandleCreated(e As EventArgs)
 
             MyBase.OnHandleCreated(e)
@@ -223,11 +189,9 @@ Namespace UserInterface
 
 #Region " Event Handlers "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Form.Load"/> event of the form.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -235,7 +199,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
             Me.FitClientHeightToItemBuilder()
@@ -245,11 +208,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Form.Shown"/> event of the form.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -257,7 +218,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Main_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
 
             Me.windowSticker = New WindowMagnetizer(window:=Me) With {.Threshold = 35, .AllowOffscreen = True, .Enabled = True}
@@ -271,11 +231,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.DragEnter"/> event of the form.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -283,7 +241,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Form_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter
 
             Dim filePath As String = Main.GetDroppedFilePath(e.Data)
@@ -293,11 +250,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.DragDrop"/> event of the form.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -305,7 +260,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Form_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
 
             Dim filePath As String = Main.GetDroppedFilePath(e.Data)
@@ -316,11 +270,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.TextChanged"/> event of the name and file text boxes.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -328,7 +280,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub TextBoxes_TextChanged(sender As Object, e As EventArgs) _
         Handles TextBox_Name.TextChanged, TextBox_File.TextChanged
 
@@ -339,11 +290,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="RadioButton.CheckedChanged"/> event of the startup type radio buttons.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -351,7 +300,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RadioButtons_CheckedChanged(sender As Object, e As EventArgs) _
         Handles RadioButton_CurrentUser.CheckedChanged, RadioButton_AllUsers.CheckedChanged
 
@@ -369,11 +317,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_AddToStartup"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -381,7 +327,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_AddToStartup_Click(sender As Object, e As EventArgs) Handles Button_AddToStartup.Click
 
             Dim success As Boolean = Me.AddFileToWindowsStartup()
@@ -397,11 +342,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripDropDown.Opening"/> event of the <see cref="ContextMenuStrip_Recent"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -409,7 +352,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ContextMenuStrip_Recent_Opening(sender As Object, e As CancelEventArgs) _
         Handles ContextMenuStrip_Recent.Opening
 
@@ -447,11 +389,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of a recent file menu item.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -459,7 +399,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RecentFileMenuItem_Click(sender As Object, e As EventArgs)
 
             Dim entry As RecentFileEntry = DirectCast(DirectCast(sender, ToolStripMenuItem).Tag, RecentFileEntry)
@@ -472,11 +411,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of the menu item that clears the recent file list.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -484,7 +421,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ClearRecentFilesMenuItem_Click(sender As Object, e As EventArgs)
 
             My.Settings.MRU.Clear()
@@ -493,11 +429,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_OpenFile"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -505,18 +439,15 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_OpenFile_Click(sender As Object, e As EventArgs) Handles Button_OpenFile.Click
 
             Me.OpenFileDialog1.ShowDialog(Me)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="FileDialog.FileOk"/> event of the <see cref="OpenFileDialog1"/> component.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -524,7 +455,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub OpenFileDialog1_FileOk(sender As Object, e As CancelEventArgs) Handles OpenFileDialog1.FileOk
 
             Dim filePath As String = DirectCast(sender, OpenFileDialog).FileName
@@ -541,11 +471,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_ItemBuilder"/> item.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -553,18 +481,15 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ToolStripButton_ItemBuilder_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ItemBuilder.Click
 
             Me.ShowPage(Me.Panel_ItemBuilder)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_StartupList"/> item.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -572,18 +497,15 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ToolStripButton_StartupList_Click(sender As Object, e As EventArgs) Handles ToolStripButton_StartupList.Click
 
             Me.ShowPage(Me.Panel_StartupList)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_DeleteEntry"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -591,7 +513,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_DeleteEntry_Click(sender As Object, e As EventArgs) Handles Button_DeleteEntry.Click
 
             If Me.DataGridView1.SelectedRows.Count = 0 Then
@@ -636,11 +557,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_SendtoItemBuilder"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -648,7 +567,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_SendtoItemBuilder_Click(sender As Object, e As EventArgs) Handles Button_SendtoItemBuilder.Click
 
             If Me.DataGridView1.SelectedRows.Count = 0 Then
@@ -716,11 +634,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_OpenInRegedit"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -728,7 +644,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_OpenInRegedit_Click(sender As Object, e As EventArgs) Handles Button_OpenInRegedit.Click
 
             If Me.DataGridView1.SelectedRows.Count = 0 Then
@@ -750,11 +665,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_RefreshList"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -762,18 +675,15 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_RefreshList_Click(sender As Object, e As EventArgs) Handles Button_RefreshList.Click
 
             Me.TryLoadRegistryItemsToDataGridView()
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="DataGridView.SelectionChanged"/> event of the <see cref="DataGridView1"/> control.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -781,7 +691,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
 
             If Me.DataGridView1.SelectedRows.Count > 0 AndAlso Not Me.isRefreshingDataGridViewItems Then
@@ -794,11 +703,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_About"/> item.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -806,7 +713,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ToolStripButton_About_Click(sender As Object, e As EventArgs) Handles ToolStripButton_About.Click
 
             Using aboutBox As New AboutForm()
@@ -815,11 +721,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripItem.Click"/> event of the language menu items.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -827,7 +731,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub LanguageMenuItems_Click(sender As Object, e As EventArgs) _
         Handles EnglishToolStripMenuItem.Click, SpanishToolStripMenuItem.Click, PortugueseToolStripMenuItem.Click
 
@@ -844,11 +747,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="ToolStripToggleSwitch.CheckedChanged"/> event of the theme switch.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -856,7 +757,6 @@ Namespace UserInterface
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ToolStripToggleSwitch_Theme_CheckedChanged(sender As Object, e As EventArgs) _
         Handles ToolStripToggleSwitch_Theme.CheckedChanged
 
@@ -877,20 +777,16 @@ Namespace UserInterface
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Shows the specified page (<see cref="Panel_ItemBuilder"/> or <see cref="Panel_StartupList"/>),
         ''' and marks its navigation button as the active one.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="page">
         ''' The page to show.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentException">
         ''' <paramref name="page"/> is not one of the pages of the form.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ShowPage(page As Panel)
 
             Dim isStartupList As Boolean
@@ -915,12 +811,10 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Adjusts the height of the form so the item builder page fits its content exactly, 
         ''' without empty space at the bottom (the form is already scaled to the current DPI and font).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub FitClientHeightToItemBuilder()
 
             Dim builderHeight As Integer = Me.TableLayoutPanel_ItemBuilder.GetPreferredSize(New Size(Me.TableLayoutPanel_ItemBuilder.Width, 0)).Height
@@ -934,17 +828,14 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Loads the theme stored in the user settings (or the Windows theme, if there is no stored theme).
         ''' <para></para>
         ''' A corrupted setting value is discarded.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The theme to apply.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Function LoadThemeSetting() As AppTheme
 
             Dim isSystemDarkTheme As Boolean = ThemePreference.IsSystemDarkTheme()
@@ -961,16 +852,13 @@ Namespace UserInterface
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the specified visual theme to the form, its menus, its title bar and the text hints,
         ''' and updates the state of the theme switch.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="theme">
         ''' The theme to apply.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ApplyTheme(theme As AppTheme)
 
             Me.isApplyingTheme = True
@@ -993,11 +881,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Assigns the images of the buttons, resized for the current DPI.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ApplyButtonImages()
 
             ' The form scales by font; the designer font height (17 pixels) corresponds to 96 DPI.
@@ -1013,15 +899,12 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the texts of the specified language to the user interface, and saves the language in the user settings.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="cultureName">
         ''' The name of the culture (<c>en</c>, <c>es</c> or <c>pt</c>). An unsupported language falls back to English.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ApplyFormLanguage(cultureName As String)
 
             Dim language As String = UIStrings.GetNeutralLanguage(cultureName)
@@ -1092,11 +975,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Updates the elevation notice of the status bar.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub UpdateElevationStatus()
 
             Dim isElevated As Boolean = Main.IsProcessElevated
@@ -1105,22 +986,18 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Updates the number of startup entries shown in the status bar.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub UpdateEntryCount()
 
             Me.ToolStripStatusLabel_EntryCount.Text = Me.strings.FormatEntryCount(Me.DataGridView1.Rows.Count)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets the text hints of the item builder text boxes, with the hint color of the current theme.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub SetControlHints()
 
             Dim hintColor As Color = ThemePalette.FromTheme(Me.currentTheme).HintText
@@ -1131,11 +1008,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Removes the text hints of the item builder text boxes.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RemoveControlHints()
 
             ControlHintManager.RemoveHint(Me.TextBox_Name)
@@ -1144,15 +1019,12 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Loads the specified (dropped) file into the item builder text boxes.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="file">
         ''' The file to load.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub LoadDragDropFile(file As FileInfo)
 
             Me.RemoveControlHints()
@@ -1162,15 +1034,12 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Adds the file of the item builder to Windows startup.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the entry was added; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Function AddFileToWindowsStartup() As Boolean
 
             Dim name As String = Me.TextBox_Name.Text
@@ -1226,11 +1095,9 @@ Namespace UserInterface
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Ensures that the recent file list of the user settings exists, and renews it.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub CheckRecentFiles()
 
             If My.Settings.MRU Is Nothing Then
@@ -1241,11 +1108,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Limits the recent file list to its maximum number of entries, and updates the recent files button.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RenewRecentFiles()
 
             If RecentFileList.TrimToMaxCount(My.Settings.MRU, RecentFileList.MaxCount) Then
@@ -1256,15 +1121,12 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Loads the startup entries into the startup list, showing an error message if the registry cannot be read.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the entries were loaded; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Function TryLoadRegistryItemsToDataGridView() As Boolean
 
             Try
@@ -1279,11 +1141,9 @@ Namespace UserInterface
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Loads the startup entries into the startup list.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub LoadRegistryItemsToDataGridView()
 
             Me.isRefreshingDataGridViewItems = True
@@ -1351,12 +1211,10 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Selects the row of the startup list that the user selected before the list was reloaded, 
         ''' or the first row if there is no previous selection (or the previous row no longer exists).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RestoreStartupListSelection()
 
             Me.DataGridView1.ClearSelection()
@@ -1382,11 +1240,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Shows an error message box.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="message">
         ''' The localized message.
         ''' </param>
@@ -1394,7 +1250,6 @@ Namespace UserInterface
         ''' <param name="ex">
         ''' The exception, whose message is appended.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ShowErrorMessage(message As String, ex As Exception)
 
             Using msgbox As New CenteredMessageBox(Me)
@@ -1405,11 +1260,9 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the text of the specified cell of a startup list row.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="row">
         ''' The row.
         ''' </param>
@@ -1417,35 +1270,28 @@ Namespace UserInterface
         ''' <param name="column">
         ''' The column.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The cell text, or <see cref="String.Empty"/> if the cell has no value.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetCellText(row As DataGridViewRow, column As DataGridViewColumn) As String
 
             Return Convert.ToString(row.Cells(column.Index).Value, CultureInfo.InvariantCulture)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the startup type identifier of a startup list row 
         ''' (the type cell shows a localized name, and stores the identifier in its tag).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="row">
         ''' The row.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see cref="StartupRegistryKeys.CurrentUserId"/> or <see cref="StartupRegistryKeys.AllUsersId"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="InvalidOperationException">
         ''' The row has no startup type identifier.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Function GetStartupTypeId(row As DataGridViewRow) As String
 
             Dim id As String = TryCast(row.Cells(Me.ColumnType.Index).Tag, String)
@@ -1457,11 +1303,9 @@ Namespace UserInterface
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Enables the startup list buttons that require a selected row only when there is a selected row.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub UpdateStartupListButtons()
 
             Dim hasSelectedRow As Boolean = Me.DataGridView1.SelectedRows.Count > 0
@@ -1472,19 +1316,15 @@ Namespace UserInterface
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the path of the first file of a drag and drop operation.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="data">
         ''' The data of the drag and drop operation.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The path of the first dropped file, or <see langword="Nothing"/> if the data does not contain files.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetDroppedFilePath(data As IDataObject) As String
 
             If data Is Nothing OrElse Not data.GetDataPresent(DataFormats.FileDrop) Then

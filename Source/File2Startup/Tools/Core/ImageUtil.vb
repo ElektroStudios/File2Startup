@@ -52,20 +52,17 @@ Imports DevCase.Win32.Structures
 
 Namespace DevCase.Core.Imaging.Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains image related utilities.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------   
+   
     Public NotInheritable Class ImageUtil
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="ImageUtil"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -74,13 +71,11 @@ Namespace DevCase.Core.Imaging.Tools
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Extracts the icon associated for the specified file.
         ''' <para></para>
         ''' Note: the maximum size of the returned icon only can be 32x32.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <example> This is a code example.
         ''' <code language="VB.NET">
         ''' Dim path As String = "C:\File.ext"
@@ -89,15 +84,12 @@ Namespace DevCase.Core.Imaging.Tools
         ''' PictureBox1.BackgroundImage = bmp
         ''' </code>
         ''' </example>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="filepath">
         ''' The full path to a file.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resulting icon.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ExtractIconFromFile(filepath As String) As Icon
 
@@ -122,11 +114,9 @@ Namespace DevCase.Core.Imaging.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates a high quality resized copy of the specified image.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="image">
         ''' The source image.
         ''' </param>
@@ -134,11 +124,9 @@ Namespace DevCase.Core.Imaging.Tools
         ''' <param name="size">
         ''' The size of the resulting image.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The resized image. The caller is responsible for disposing it.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="image"/> is <see langword="Nothing"/>.
         ''' </exception>
@@ -146,7 +134,6 @@ Namespace DevCase.Core.Imaging.Tools
         ''' <exception cref="ArgumentOutOfRangeException">
         ''' <paramref name="size"/> has a width or height lower than 1.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ResizeImage(image As Image, size As Size) As Bitmap
 

@@ -54,7 +54,6 @@ Imports DevCase.Win32.Structures
 
 Namespace DevCase.Interop.Win32
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Platform Invocation methods (P/Invoke), access unmanaged code.
     ''' <para></para>
@@ -63,20 +62,16 @@ Namespace DevCase.Interop.Win32
     ''' <para></para>
     ''' This class is for methods that can be used anywhere because a stack walk will be performed.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="http://msdn.microsoft.com/en-us/library/ms182161.aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class NativeMethods
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="NativeMethods"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -85,19 +80,15 @@ Namespace DevCase.Interop.Win32
 
 #Region " Kernel32.dll "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the thread identifier of the calling thread.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms683183%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The thread identifier of the calling thread.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Kernel32.dll", SetLastError:=False)>
         Public Shared Function GetCurrentThreadId(
@@ -108,16 +99,13 @@ Namespace DevCase.Interop.Win32
 
 #Region " Shell32.dll "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Retrieves information about an object in the file system, 
         ''' such as a file, folder, directory, or drive root.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb762179(v=vs.85).aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="path">
         ''' A pointer to a null-terminated string of maximum length <c>MAX_PATH</c> that contains the path and file name. 
         ''' Both absolute and relative paths are valid. 
@@ -154,7 +142,6 @@ Namespace DevCase.Interop.Win32
         ''' <param name="flags">
         ''' The flags that specify the file information to retrieve.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' Returns a value whose meaning depends on the <paramref name="flags"/> parameter.
         ''' <para></para>
@@ -164,7 +151,6 @@ Namespace DevCase.Interop.Win32
         ''' If <paramref name="flags"/> parameter contains the <see cref="SHGetFileInfoFlags.ExeType"/> flag, 
         ''' the return value specifies the type of the executable.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Shell32.dll", CharSet:=CharSet.Auto, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Public Shared Function SHGetFileInfo(path As String,
@@ -179,21 +165,17 @@ Namespace DevCase.Interop.Win32
 
 #Region " User32.dll "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Destroys an icon and frees any memory the icon occupied.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms648063%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hIcon">
         ''' A handle to the icon to be destroyed.
         ''' <para></para>
         ''' The icon must not be in use. 
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, the return value is <see langword="True"/>.
         ''' <para></para>
@@ -201,24 +183,20 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error"/>. 
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
         Public Shared Function DestroyIcon(hIcon As IntPtr
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Retrieves the dimensions of the bounding rectangle of the specified window. 
         ''' <para></para>
         ''' The dimensions are given in screen coordinates that are relative to the upper-left corner of the screen.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/es-es/library/windows/desktop/ms633519%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A <see cref="IntPtr"/> handle to the window.
         ''' </param>
@@ -227,11 +205,9 @@ Namespace DevCase.Interop.Win32
         ''' A pointer to a <see cref="NativeRectangle"/> structure that receives the screen coordinates of the 
         ''' upper-left and lower-right corners of the window.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the function succeeds, <see langword="False"/> otherwise.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
         Public Shared Function GetWindowRect(hwnd As IntPtr,
@@ -239,7 +215,6 @@ Namespace DevCase.Interop.Win32
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Enumerates all nonchild windows associated with a thread by passing the handle to each window, 
         ''' in turn, to an application-defined callback function.
@@ -249,11 +224,9 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' To enumerate child windows of a particular window, use the EnumChildWindows function.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633495%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="dwThreadId">
         ''' The identifier of the thread whose windows are to be enumerated.
         ''' </param>
@@ -265,7 +238,6 @@ Namespace DevCase.Interop.Win32
         ''' <param name="lParam">
         ''' An application-defined value to be passed to the callback function. 
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the callback function returns <see langword="True"/> for all windows in the thread specified by dwThreadId, 
         ''' the return value is <see langword="True"/>.
@@ -274,22 +246,18 @@ Namespace DevCase.Interop.Win32
         ''' or if there are no windows found in the thread specified by dwThreadId, 
         ''' the return value is <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
         Public Shared Function EnumThreadWindows(dwThreadId As UInteger, lpEnumFunc As EnumThreadWindowsProc, lParam As IntPtr
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Retrieves the name of the class to which the specified window belongs.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms633582(v=vs.85).aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A handle to the window and, indirectly, the class to which the window belongs.
         ''' </param>
@@ -304,7 +272,6 @@ Namespace DevCase.Interop.Win32
         ''' The buffer must be large enough to include the terminating null character; 
         ''' otherwise, the class name string is truncated to <paramref name="maxCount"/>-1 characters. 
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, the return value is the number of characters copied to the buffer, 
         ''' not including the terminating null character.
@@ -313,22 +280,18 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", CharSet:=CharSet.Auto, SetLastError:=True, BestFitMapping:=False, ThrowOnUnmappableChar:=True)>
         Public Shared Function GetClassName(hwnd As IntPtr, className As StringBuilder, maxCount As Integer
         ) As Integer
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Retrieves a handle to a control in the specified dialog box.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms645481%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A handle to the dialog box that contains the control
         ''' .</param>
@@ -336,21 +299,18 @@ Namespace DevCase.Interop.Win32
         ''' <param name="index">
         ''' The index of the item to be retrieved.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, the return value is the window handle of the specified control.
         ''' <para></para>
         ''' If the function fails, the return value is <see cref="IntPtr.Zero"/>, 
         ''' indicating an invalid dialog box handle or a nonexistent control.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("user32.dll", SetLastError:=False)>
         Public Shared Function GetDlgItem(hwnd As IntPtr, index As Integer
         ) As IntPtr
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Destroys the specified window.
         ''' The function sends WindowsMessages.WM_Destroy and WindowsMessages.WM_NcDestroy messages to the window 
@@ -367,15 +327,12 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' <see cref="NativeMethods.DestroyWindow"/> also destroys modeless dialog boxes created by the <c>CreateDialog</c> function.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632682%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A handle to the window to be destroyed. 
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, the return value is <see cref="IntPtr.Zero"/>.
         ''' <para></para>
@@ -383,7 +340,6 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>. 
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", EntryPoint:="DestroyWindow", SetLastError:=True,
                    CallingConvention:=CallingConvention.StdCall)>
@@ -391,7 +347,6 @@ Namespace DevCase.Interop.Win32
         ) As IntPtr
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Changes the size, position, and Z order of a child, pop-up, or top-level window.
         ''' <para></para>
@@ -399,11 +354,9 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' The topmost window receives the highest rank and is the first window in the Z order.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/es-es/library/windows/desktop/ms633545(v=vs.85).aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A handle to the window.
         ''' </param>
@@ -431,7 +384,6 @@ Namespace DevCase.Interop.Win32
         ''' <param name="uFlags">
         ''' The window sizing and positioning flags.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, the return value is <see langword="True"/>.
         ''' <para></para>
@@ -439,22 +391,18 @@ Namespace DevCase.Interop.Win32
         ''' <para></para>
         ''' To get extended error information, call <see cref="Marshal.GetLastWin32Error()"/>. 
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", SetLastError:=True)>
         Public Shared Function SetWindowPos(hwnd As IntPtr, hwndInsertAfter As IntPtr, x As Integer, y As Integer, cx As Integer, cy As Integer, uFlags As SetWindowPosFlags
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sends the specified message to a window and does not return until the window procedure has processed the message.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagew"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' A handle to the window whose window procedure will receive the message.
         ''' </param>
@@ -470,26 +418,21 @@ Namespace DevCase.Interop.Win32
         ''' <param name="lParam">
         ''' Additional message-specific information.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The result of the message processing; it depends on the message sent.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("User32.dll", EntryPoint:="SendMessageW", SetLastError:=False)>
         Public Shared Function SendMessage(hwnd As IntPtr, msg As WindowsMessages, wParam As IntPtr, lParam As IntPtr
         ) As IntPtr
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' The handle to the window for which the attribute value is to be set.
         ''' </param>
@@ -505,26 +448,21 @@ Namespace DevCase.Interop.Win32
         ''' <param name="attributeSize">
         ''' The size, in bytes, of the attribute value.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, it returns <c>S_OK</c> (zero). Otherwise, it returns an <c>HRESULT</c> error code.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("Dwmapi.dll", SetLastError:=False)>
         Public Shared Function DwmSetWindowAttribute(hwnd As IntPtr, attribute As DwmWindowAttribute, ByRef attributeValue As Integer, attributeSize As Integer
         ) As Integer
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Causes a window to use a different set of visual style information than its class normally uses.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="hwnd">
         ''' Handle to the window whose visual style information is to be changed.
         ''' </param>
@@ -536,11 +474,9 @@ Namespace DevCase.Interop.Win32
         ''' <param name="subIdList">
         ''' A semicolon-separated list of class identifier names, or <see langword="Nothing"/>.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' If the function succeeds, it returns <c>S_OK</c> (zero). Otherwise, it returns an <c>HRESULT</c> error code.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <SuppressUnmanagedCodeSecurity>
         <DllImport("UxTheme.dll", CharSet:=CharSet.Unicode, SetLastError:=False)>
         Public Shared Function SetWindowTheme(hwnd As IntPtr, subAppName As String, subIdList As String

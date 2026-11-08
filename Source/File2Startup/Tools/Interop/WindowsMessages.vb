@@ -38,7 +38,6 @@ Option Infer Off
 
 Namespace DevCase.Interop.Win32.Enums
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' The system sends or posts a system-defined message when it communicates with an application. 
     ''' <para></para>
@@ -48,11 +47,9 @@ Namespace DevCase.Interop.Win32.Enums
     ''' <para></para>
     ''' Applications generally use these messages to control the operation of control windows created by using preregistered window classes.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms644927%28v=vs.85%29.aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Enum WindowsMessages As Integer
 
         ' *****************************************************************************
@@ -61,17 +58,14 @@ Namespace DevCase.Interop.Win32.Enums
         '  THIS ENUMERATION IS PARTIALLY DEFINED TO MEET THE PURPOSES OF THIS API
         ' *****************************************************************************
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="Null"/> message performs no operation.
         ''' <para></para>
         ''' An application sends the <see cref="Null"/> message if it wants to 
         ''' post a message that the recipient window will ignore.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Null = &H0
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sent to a window that the user is resizing.
         ''' <para></para>
@@ -88,14 +82,11 @@ Namespace DevCase.Interop.Win32.Enums
         ''' <para></para>
         ''' To change the size or position of the drag rectangle, an application must change the members of this structure.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632647%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         WM_Sizing = &H214
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sent one time to a window, after it has exited the moving or sizing modal loop.
         ''' <para></para>
@@ -115,14 +106,11 @@ Namespace DevCase.Interop.Win32.Enums
         ''' <c>lParam</c> 
         ''' This parameter is not used.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632623%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         WM_ExitSizeMove = &H232
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sent to a window whose size, position, or place in the Z order is about to change as a 
         ''' result of a call to the <see cref="NativeMethods.SetWindowPos"/> function or another window-management function.
@@ -135,14 +123,11 @@ Namespace DevCase.Interop.Win32.Enums
         ''' <c>lParam</c> 
         ''' A pointer to a <c>WINDOWPOS</c> structure that contains information about the window's new size and position.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632653%28v=vs.85%29.aspx"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         WM_WindowPosChanging = &H46
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Sent to a window when its non-client area needs to be changed to indicate an active or inactive state.
         ''' <para></para>
@@ -154,11 +139,9 @@ Namespace DevCase.Interop.Win32.Enums
         ''' <c>lParam</c> 
         ''' Zero to repaint the non-client area normally.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' <see href="https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-ncactivate"/>
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         WM_NCActivate = &H86
 
     End Enum

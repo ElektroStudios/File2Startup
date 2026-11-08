@@ -49,7 +49,6 @@ Imports Microsoft.Win32
 
 Namespace DevCase.Core.System.Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains registry related utilities.
     ''' </summary>
@@ -58,11 +57,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="RegistryUtil"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -73,11 +70,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Create Value "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates or replaces a registry value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type.
         ''' </typeparam>
@@ -101,11 +96,9 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="valueType">
         ''' The registry value type.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' rootKeyName or subKeyPath or valueName
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub CreateValue(Of T)(view As RegistryView, rootKeyName As String, subKeyPath As String, valueName As String, valueData As T,
                                             Optional valueType As RegistryValueKind = RegistryValueKind.String)
@@ -125,11 +118,9 @@ Namespace DevCase.Core.System.Tools
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates or replaces a registry value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type.
         ''' </typeparam>
@@ -149,7 +140,6 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="valueType">
         ''' The registry value type.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub CreateValue(Of T)(view As RegistryView, fullKeyPath As String, valueName As String, valueData As T,
                                             Optional valueType As RegistryValueKind = RegistryValueKind.String)
@@ -162,11 +152,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Delete Value "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Deletes a registry subkey.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="rootKeyName">
         ''' The rootkey name.
         ''' </param>
@@ -182,11 +170,9 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="throwOnMissingValue">
         ''' If set to <see langword="True"/>, throws an exception on missing value.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' rootKeyName or subKeyPath or valueName
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub DeleteValue(view As RegistryView, rootKeyName As String, subKeyPath As String, valueName As String,
                                       Optional throwOnMissingValue As Boolean = False)
@@ -209,11 +195,9 @@ Namespace DevCase.Core.System.Tools
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Deletes a registry subkey.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="fullKeyPath">
         ''' The registry key full path.
         ''' </param>
@@ -225,7 +209,6 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="throwOnMissingValue">
         ''' If set to <see langword="True"/>, throws an exception on missing value.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Sub DeleteValue(view As RegistryView, fullKeyPath As String, valueName As String,
                                       Optional throwOnMissingValue As Boolean = False)
@@ -238,11 +221,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Get ValueData "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the data of a registry value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type.
         ''' </typeparam>
@@ -266,15 +247,12 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="registryValueOptions">
         ''' The registry value options.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The value data.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' rootKeyName or subKeyPath
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetValueData(Of T)(view As RegistryView, rootKeyName As String,
                                                   subKeyPath As String,
@@ -301,11 +279,9 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the data of a registry value.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <typeparam name="T">
         ''' The type.
         ''' </typeparam>
@@ -321,11 +297,9 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="registryValueOptions">
         ''' The registry value options.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The value data.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetValueData(Of T)(view As RegistryView, fullKeyPath As String, valueName As String,
                                                   Optional registryValueOptions As RegistryValueOptions =
@@ -339,11 +313,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Validation "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether a registry subkey exists.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="rootKeyName">
         ''' The rootkey name.
         ''' </param>
@@ -351,15 +323,12 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="subKeyPath">
         ''' The subkey path.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if subkey exist, <see langword="False"/> otherwise.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' rootKeyName or subKeyPath
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ExistSubKey(view As RegistryView, rootKeyName As String, subKeyPath As String) As Boolean
 
@@ -378,19 +347,15 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether a registry subkey exists.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="fullKeyPath">
         ''' The registry key full path.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if subkey exist, <see langword="False"/> otherwise.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ExistSubKey(view As RegistryView, fullKeyPath As String) As Boolean
 
@@ -398,11 +363,9 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether a registry value exists.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="rootKeyName">
         ''' The rootkey name.
         ''' </param>
@@ -414,15 +377,12 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="valueName">
         ''' The value name.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if value exist, <see langword="False"/> otherwise.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' rootKeyName or subKeyPath or valueName
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ExistValue(view As RegistryView, rootKeyName As String,
                                           subKeyPath As String,
@@ -446,11 +406,9 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether a registry subkey exists.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="fullKeyPath">
         ''' The registry key full path.
         ''' </param>
@@ -458,11 +416,9 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="valueName">
         ''' The value name.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if subkey exist, <see langword="False"/> otherwise.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function ExistValue(view As RegistryView, fullKeyPath As String, valueName As String) As Boolean
 
@@ -474,15 +430,12 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Registry Path Formatting "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the root <see cref="RegistryKey"/> of a registry path.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The root <see cref="RegistryKey"/> of a registry path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetRootKey(registryPath As String, view As RegistryView) As RegistryKey
 
@@ -516,15 +469,12 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the root key name of a registry path.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The root key name of a registry path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetRootKeyName(registryPath As String) As String
 
@@ -558,15 +508,12 @@ Namespace DevCase.Core.System.Tools
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the subkey path of a registry path.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The subkey path of a registry path.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Shared Function GetSubKeyPath(registryPath As String) As String
 
@@ -595,11 +542,9 @@ Namespace DevCase.Core.System.Tools
 
 #Region " Collectors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Collects the subkeys on the specified registry path.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="srcRegistryKey">
         ''' The source registry key.
         ''' </param>
@@ -607,11 +552,9 @@ Namespace DevCase.Core.System.Tools
         ''' <param name="searchOption">
         ''' The search mode.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see cref="IEnumerable(Of String)"/>
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Private Shared Iterator Function CollectSubKeys(srcRegistryKey As RegistryKey, searchOption As SearchOption) As IEnumerable(Of String)
 

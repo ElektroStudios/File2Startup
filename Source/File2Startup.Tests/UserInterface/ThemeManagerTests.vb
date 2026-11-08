@@ -34,22 +34,18 @@ Imports UserInterface.Theming
 
 Namespace UserInterface
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="ThemeManager"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class ThemeManagerTests
 
 #Region " Sample Form "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A form with one control of each type supported by <see cref="ThemeManager"/>, some of them nested.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private NotInheritable Class SampleForm : Inherits Form
 
             ''' <summary>A nested container.</summary>

@@ -27,11 +27,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="FileSystemUtil"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class FileSystemUtilTests
 

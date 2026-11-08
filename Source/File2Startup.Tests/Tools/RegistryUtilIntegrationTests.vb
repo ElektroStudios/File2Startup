@@ -32,43 +32,35 @@ Imports Microsoft.Win32
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Integration tests for the <see cref="RegistryUtil"/> class.
     ''' <para></para>
     ''' Each test works on its own temporary key under <c>HKEY_CURRENT_USER\Software\File2Startup.Tests</c>,
     ''' which is deleted after the test. The real Windows startup keys are never modified.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("Integration")>
     Public NotInheritable Class RegistryUtilIntegrationTests
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The parent subkey (relative to <c>HKEY_CURRENT_USER</c>) of the temporary test keys.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const TestsParentSubKey As String = "Software\File2Startup.Tests"
 
 #End Region
 
 #Region " Fields "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The subkey path (relative to <c>HKEY_CURRENT_USER</c>) of the temporary key of the current test.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private testSubKey As String
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The full path (with abbreviated root key) of the temporary key of the current test.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private testKeyFullPath As String
 
 #End Region

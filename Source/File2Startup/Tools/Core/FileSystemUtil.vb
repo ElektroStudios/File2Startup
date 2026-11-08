@@ -46,20 +46,17 @@ Imports System.IO
 
 Namespace DevCase.Core.Imaging.Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains file-system related utilities.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------   
+   
     Public NotInheritable Class FileSystemUtil
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="FileSystemUtil"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub

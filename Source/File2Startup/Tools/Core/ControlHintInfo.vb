@@ -47,11 +47,9 @@ Imports DevCase.Core.Application.UserInterface.Enums
 
 Namespace DevCase.Core.Application.UserInterface.Types
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Represents a control-hint and it's personalization.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <DebuggerStepThrough>
     <Serializable>
     <XmlRoot("HintInfo")>
@@ -59,84 +57,66 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the control-hint type.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The control-hint type.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property HintType As ControlHintType
             <DebuggerStepThrough>
             Get
                 Return Me.hintTypeB
             End Get
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Baking field )
         ''' The control-hint type.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly hintTypeB As ControlHintType
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the hint text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The hint text.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property Text As String
             <DebuggerStepThrough>
             Get
                 Return Me.textB
             End Get
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Baking field )
         ''' The hint text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly textB As String
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the text font.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The text font.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property Font As Font
             <DebuggerStepThrough>
             Get
                 Return Me.fontB
             End Get
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Baking field )
         ''' The hint text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly fontB As Font
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the text color.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The text color.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public ReadOnly Property ForeColor As Color
             <DebuggerStepThrough>
             Get
@@ -149,19 +129,15 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="ControlHintInfo"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub New()
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ControlHintInfo"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="text">
         ''' The hint text.
         ''' </param>
@@ -177,7 +153,6 @@ Namespace DevCase.Core.Application.UserInterface.Types
         ''' <param name="hintType">
         ''' The control-hint type.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Sub New(text As String, font As Font, forecolor As Color, hintType As ControlHintType)
 

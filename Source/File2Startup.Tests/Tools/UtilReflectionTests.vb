@@ -30,21 +30,17 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="UtilReflection"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class UtilReflectionTests
 
 #Region " Sample Type "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A sample type with properties of different visibility and type.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private NotInheritable Class Sample
 
             ''' <summary>Gets or sets a public string property.</summary>

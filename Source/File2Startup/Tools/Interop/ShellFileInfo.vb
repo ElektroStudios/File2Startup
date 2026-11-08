@@ -23,15 +23,12 @@ Imports System.Runtime.InteropServices
 
 Namespace DevCase.Win32.Structures
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains information about a file object.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="https://msdn.microsoft.com/es-es/library/windows/desktop/bb759792(v=vs.85).aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <StructLayout(LayoutKind.Sequential, CharSet:=CharSet.Auto)>
     Public Structure ShellFileInfo
 

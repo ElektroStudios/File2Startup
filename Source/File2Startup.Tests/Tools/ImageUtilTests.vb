@@ -31,11 +31,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="ImageUtil"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("Integration")>
     Public NotInheritable Class ImageUtilTests

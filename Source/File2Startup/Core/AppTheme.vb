@@ -19,11 +19,9 @@ Option Infer Off
 
 Namespace Core
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Specifies the visual theme of the application.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Enum AppTheme As Integer
 
         ''' <summary>

@@ -44,15 +44,12 @@ Imports System.Runtime.InteropServices
 
 Namespace DevCase.Interop.Win32.Types
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Contains information about the size and position of a window.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' <see href="http://msdn.microsoft.com/en-us/library/windows/desktop/ms632612%28v=vs.85%29.aspx"/>
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <DebuggerStepThrough>
     <StructLayout(LayoutKind.Sequential)>
     Public Structure WindowPos

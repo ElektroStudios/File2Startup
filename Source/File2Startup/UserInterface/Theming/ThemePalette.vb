@@ -27,14 +27,12 @@ Imports Core
 
 Namespace UserInterface.Theming
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Defines the colors of a visual theme.
     ''' <para></para>
     ''' The <see cref="ThemePalette.Light"/> palette uses the default Windows system colors (<see cref="SystemColors"/>),
     ''' so it follows the colors of the user's Windows configuration (including high contrast themes).
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class ThemePalette
 
 #Region " Properties "
@@ -113,15 +111,12 @@ Namespace UserInterface.Theming
 
 #Region " Shared Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the light palette, built from the current Windows system colors.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' A new instance is returned on each call, so a change of the system colors is reflected.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property Light As ThemePalette
             Get
                 Return New ThemePalette(
@@ -149,11 +144,9 @@ Namespace UserInterface.Theming
             End Get
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the dark palette (colors similar to the dark mode of Windows 11).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property Dark As ThemePalette
             Get
                 Return New ThemePalette(
@@ -185,11 +178,9 @@ Namespace UserInterface.Theming
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ThemePalette"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub New(theme As AppTheme,
                         background As Color, surface As Color, inputBackground As Color, alternateInputBackground As Color,
                         border As Color, text As Color, secondaryText As Color, hintText As Color, disabledText As Color,
@@ -225,23 +216,18 @@ Namespace UserInterface.Theming
 
 #Region " Public Shared Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the palette of the specified theme.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="theme">
         ''' The theme.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The palette.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentOutOfRangeException">
         ''' <paramref name="theme"/> is not a defined <see cref="AppTheme"/> value.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function FromTheme(theme As AppTheme) As ThemePalette
 
             Select Case theme
@@ -255,11 +241,9 @@ Namespace UserInterface.Theming
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Calculates the WCAG 2.x contrast ratio between two colors.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="color1">
         ''' The first color.
         ''' </param>
@@ -267,11 +251,9 @@ Namespace UserInterface.Theming
         ''' <param name="color2">
         ''' The second color.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The contrast ratio, from 1 (no contrast) to 21 (black on white).
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function GetContrastRatio(color1 As Color, color2 As Color) As Double
 
             Dim luminance1 As Double = ThemePalette.GetRelativeLuminance(color1)
@@ -287,19 +269,15 @@ Namespace UserInterface.Theming
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Calculates the WCAG 2.x relative luminance of a color.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="color">
         ''' The color.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The relative luminance, from 0 (black) to 1 (white).
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetRelativeLuminance(color As Color) As Double
 
             Dim linearize As Func(Of Byte, Double) =

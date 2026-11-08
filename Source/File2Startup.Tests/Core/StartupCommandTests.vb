@@ -30,41 +30,33 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Core
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="StartupCommand"/> class.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class StartupCommandTests
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The name of a process environment variable used by the tests.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Const TestEnvironmentVariable As String = "FILE2STARTUP_TESTS_DIR"
 
 #End Region
 
 #Region " Helpers "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Creates a file existence predicate that only returns <see langword="True"/>
         ''' for the specified file paths (case-insensitive).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="existingFiles">
         ''' The file paths that are considered to exist.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The predicate.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function FilesThatExist(ParamArray existingFiles As String()) As Func(Of String, Boolean)
 
             Dim fileSet As New HashSet(Of String)(existingFiles, StringComparer.OrdinalIgnoreCase)
@@ -72,18 +64,14 @@ Namespace Core
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' A file existence predicate that always returns <see langword="False"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared ReadOnly NoFileExists As Func(Of String, Boolean) = Function(path As String) False
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Removes the process environment variable used by the tests.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <TestCleanup>
         Public Sub Cleanup()
 

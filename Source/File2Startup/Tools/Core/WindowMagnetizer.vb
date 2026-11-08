@@ -62,12 +62,10 @@ Imports DevCase.Interop.Win32.Types
 
 Namespace DevCase.Core.Application.UserInterface.Types
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Add magnetism to the edges of a window,
     ''' in this way, by bringing the window to a screen edge, the edge of the window adheres it to the edge of the screen.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <example> This is a code example.
     ''' <code>
     ''' Private magnetizer As New WindowMagnetizer(Me) With
@@ -78,54 +76,43 @@ Namespace DevCase.Core.Application.UserInterface.Types
     '''     }
     ''' </code>
     ''' </example>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Class WindowMagnetizer : Inherits NativeWindow : Implements IDisposable
 
 #Region " Private Fields "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether the owner window is being resized by one of its edges.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected isResizing As Boolean
 
 #End Region
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the window that owns this <see cref="WindowMagnetizer"/> instance.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The window.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overridable ReadOnly Property OwnerWindow As IWin32Window
             <DebuggerStepThrough>
             Get
                 Return Me.ownerWindowB
             End Get
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' The window that owns this <see cref="WindowMagnetizer"/> instance.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected ownerWindowB As IWin32Window
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the handle for the window that owns this <see cref="WindowMagnetizer"/> instance.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The handle.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overridable Shadows ReadOnly Property Handle As IntPtr
             <DebuggerStepThrough>
             Get
@@ -133,17 +120,14 @@ Namespace DevCase.Core.Application.UserInterface.Types
             End Get
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets, in pixels, the minimum threshold that the magnetic window needs to dock it on the nearest window border.
         ''' <para></para>
         ''' (Default value is <c>20</c>))
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' The minimum threshold that the magnetic window needs to dock it on the nearest window border.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overridable Property Threshold As Integer
             <DebuggerStepThrough>
             Get
@@ -154,23 +138,18 @@ Namespace DevCase.Core.Application.UserInterface.Types
                 Me.thresholdB = value
             End Set
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' The minimum threshold that the magnetic window needs to dock it on the nearest window border.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected thresholdB As Integer
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets a value indicating whether the magnetizer is enabled.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' <see langword="True"/> if the magnetizer is enabled, otherwise, <see langword="False"/>.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overridable Property Enabled As Boolean
             <DebuggerStepThrough>
             Get
@@ -181,25 +160,20 @@ Namespace DevCase.Core.Application.UserInterface.Types
                 Me.enabledB = value
             End Set
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' A value indicating whether the magnetizer is enabled.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected enabledB As Boolean
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets a value indicating whether the window can be moved off-screen.
         ''' <para></para>
         ''' Default value is <see langword="True"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <value>
         ''' <see langword="True"/> if the window can be moved off-screen, otherwise, <see langword="False"/>.
         ''' </value>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overridable Property AllowOffscreen As Boolean
             <DebuggerStepThrough>
             Get
@@ -210,36 +184,29 @@ Namespace DevCase.Core.Application.UserInterface.Types
                 Me.allowOffscreenB = value
             End Set
         End Property
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' ( Backing field )
         ''' A value indicating whether the window can be moved off-screen.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected allowOffscreenB As Boolean
 
 #End Region
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="WindowMagnetizer"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="WindowMagnetizer"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="window">
         ''' The <see cref="IWin32Window"/> window that owns this instance (eg. a <see cref="Form"/> window).
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Sub New(window As IWin32Window)
 
@@ -255,13 +222,11 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' If the margin between the specified <paramref name="window"/> 
         ''' and the nearest border of the active screeen is lower than the value specified in <paramref name="threshold"/>,
         ''' then it docks the window to the border. 
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="window">
         ''' The magnetic window.
         ''' </param>
@@ -274,7 +239,6 @@ Namespace DevCase.Core.Application.UserInterface.Types
         ''' <param name="threshold">
         ''' The minimum threshold that the window needs to dock it on the nearest desktop border.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overridable Sub DockToNearestScreenBorder(window As IWin32Window, windowPosHandle As IntPtr,
                                                             Optional threshold As Integer = 0I)
 
@@ -358,7 +322,6 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " Window Procedure (WndProc) "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Invokes the default window procedure associated with this window.
         ''' <para></para>
@@ -366,11 +329,9 @@ Namespace DevCase.Core.Application.UserInterface.Types
         ''' it intercepts the <see cref="WindowsMessages.WM_WindowPosChanging"/> message of a moving window 
         ''' to dock it to the nearest screen border.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="m">
         ''' A <see cref="Message"/> that is associated with the current window message.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Protected Overrides Sub WndProc(ByRef m As Message)
 
@@ -397,24 +358,19 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Determines whether the <see cref="WindowPos"/> structure pointed by the specified handle 
         ''' has the <see cref="SetWindowPosFlags.IgnoreMove"/> flag, meaning that the window position is not changing.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="windowPosHandle">
         ''' A pointer to a <see cref="WindowPos"/> structure.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' <see langword="True"/> if the move is ignored; otherwise, <see langword="False"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="windowPosHandle"/> is <see cref="IntPtr.Zero"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Protected Shared Function IsMoveIgnored(windowPosHandle As IntPtr) As Boolean
 
@@ -431,18 +387,14 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
 #Region " IDisposable Implementation "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Flag to detect redundant calls when disposing.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected isDisposed As Boolean
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Releases all the resources used by this instance.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Public Sub Dispose() Implements IDisposable.Dispose
 
@@ -451,17 +403,14 @@ Namespace DevCase.Core.Application.UserInterface.Types
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
         ''' Releases unmanaged and, optionally, managed resources.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="isDisposing">
         ''' <see langword="True"/>  to release both managed and unmanaged resources; 
         ''' <see langword="False"/> to release only unmanaged resources.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerStepThrough>
         Protected Overridable Sub Dispose(isDisposing As Boolean)
 

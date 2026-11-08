@@ -25,34 +25,26 @@ Imports System.Drawing
 
 Namespace UserInterface.Controls
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Calculates the geometry (track and thumb bounds) of a <see cref="ToggleSwitch"/>.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     Public Structure ToggleSwitchLayout
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The minimum width/height ratio of the track.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const TrackAspectRatio As Single = 1.8F
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The space between the track edge and the thumb, relative to the track height.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const ThumbInsetRatio As Single = 0.16F
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The margin, in pixels, between the client area edge and the track (room for the focus rectangle).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const Margin As Single = 1.0F
 
 #End Region
@@ -69,11 +61,9 @@ Namespace UserInterface.Controls
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="ToggleSwitchLayout"/> structure.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="track">
         ''' The bounds of the track.
         ''' </param>
@@ -81,7 +71,6 @@ Namespace UserInterface.Controls
         ''' <param name="thumb">
         ''' The bounds of the thumb.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New(track As RectangleF, thumb As RectangleF)
 
             Me.Track = track
@@ -93,7 +82,6 @@ Namespace UserInterface.Controls
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Calculates the layout of a switch.
         ''' <para></para>
@@ -101,7 +89,6 @@ Namespace UserInterface.Controls
         ''' (its height is limited so the track is never narrower than <see cref="ToggleSwitchLayout.TrackAspectRatio"/>).
         ''' The thumb is a circle that moves from the left end (off) to the right end (on) of the track.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="clientSize">
         ''' The size of the client area of the switch.
         ''' </param>
@@ -109,11 +96,9 @@ Namespace UserInterface.Controls
         ''' <param name="thumbPosition">
         ''' The thumb position: 0 is the off position and 1 is the on position. Values out of range are clamped.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The layout. The rectangles are empty if the client area is too small.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Function Calculate(clientSize As Size, thumbPosition As Double) As ToggleSwitchLayout
 
             Dim availableWidth As Single = clientSize.Width - ToggleSwitchLayout.Margin * 2.0F

@@ -32,7 +32,6 @@ Imports UserInterface.Controls
 
 Namespace UserInterface.Theming
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Applies a visual theme (<see cref="AppTheme"/>) to a tree of Windows Forms controls.
     ''' <para></para>
@@ -40,7 +39,6 @@ Namespace UserInterface.Theming
     ''' (forms, containers, labels, text boxes, buttons, radio buttons, grids, tool bars, menus, scroll bars
     ''' and <see cref="ToggleSwitch"/>) is painted with the colors of the theme's <see cref="ThemePalette"/>.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' The <see cref="Control.Tag"/> of labels, buttons and tool strip items can mark a special role:
     ''' <see cref="ThemeManager.CaptionTag"/> (field caption label),
@@ -48,86 +46,67 @@ Namespace UserInterface.Theming
     ''' <see cref="ThemeManager.WarningTag"/> (warning text) and 
     ''' <see cref="ThemeManager.PageToolBarTag"/> (tool bar inside a page).
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class ThemeManager
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="Control.Tag"/> value that marks a label as a field caption.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const CaptionTag As String = "Theme:Caption"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="Control.Tag"/> value that marks a button as the primary (accent) button.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const AccentTag As String = "Theme:Accent"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="Control.Tag"/> or <see cref="ToolStripItem.Tag"/> value that marks a warning text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const WarningTag As String = "Theme:Warning"
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The <see cref="ToolStrip.Tag"/> value that marks a tool bar placed inside a page, 
         ''' which is painted with the page background and without border, so it blends with the page.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const PageToolBarTag As String = "Theme:PageToolBar"
 
 #End Region
 
 #Region " Fields "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The controls whose <see cref="Control.HandleCreated"/> event is already handled to apply
         ''' the native visual style once their window handle exists.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared ReadOnly handleCreatedHooks As New ConditionalWeakTable(Of Control, Object)
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The accent buttons whose <see cref="Control.EnabledChanged"/> event is already handled.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared ReadOnly enabledChangedHooks As New ConditionalWeakTable(Of Control, Object)
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The last theme applied by <see cref="ThemeManager.Apply"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared currentThemeValue As AppTheme = AppTheme.Light
 
 #End Region
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the last theme applied by <see cref="ThemeManager.Apply"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property CurrentTheme As AppTheme
             Get
                 Return ThemeManager.currentThemeValue
             End Get
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the palette of the last theme applied by <see cref="ThemeManager.Apply"/>.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property CurrentPalette As ThemePalette
             Get
                 Return ThemePalette.FromTheme(ThemeManager.CurrentTheme)
@@ -138,11 +117,9 @@ Namespace UserInterface.Theming
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Prevents a default instance of the <see cref="ThemeManager"/> class from being created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <DebuggerNonUserCode>
         Private Sub New()
         End Sub
@@ -151,12 +128,10 @@ Namespace UserInterface.Theming
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the specified theme to a control and all its child controls (including the drop-down menus
         ''' of its tool bars and, for a form, its title bar).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="root">
         ''' The root control (usually a <see cref="Form"/>).
         ''' </param>
@@ -164,11 +139,9 @@ Namespace UserInterface.Theming
         ''' <param name="theme">
         ''' The theme to apply.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="root"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Sub Apply(root As Control, theme As AppTheme)
 
             If root Is Nothing Then
@@ -201,12 +174,10 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the specified theme to a stand-alone tool strip drop-down
         ''' (for example, a <see cref="ContextMenuStrip"/> that is not part of the control tree of a form).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="dropDown">
         ''' The drop-down.
         ''' </param>
@@ -214,11 +185,9 @@ Namespace UserInterface.Theming
         ''' <param name="theme">
         ''' The theme to apply.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentNullException">
         ''' <paramref name="dropDown"/> is <see langword="Nothing"/>.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Shared Sub ApplyToDropDown(dropDown As ToolStripDropDown, theme As AppTheme)
 
             If dropDown Is Nothing Then
@@ -233,11 +202,9 @@ Namespace UserInterface.Theming
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the palette to a single control (not to its children).
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The control.
         ''' </param>
@@ -245,7 +212,6 @@ Namespace UserInterface.Theming
         ''' <param name="palette">
         ''' The palette.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyToControl(ctrl As Control, palette As ThemePalette)
 
             If TypeOf ctrl Is Form Then
@@ -313,11 +279,9 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the text color of a label according to the role marked in its tag.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="tag">
         ''' The tag of the label.
         ''' </param>
@@ -325,11 +289,9 @@ Namespace UserInterface.Theming
         ''' <param name="palette">
         ''' The palette.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The text color.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetLabelColor(tag As Object, palette As ThemePalette) As Color
 
             If ThemeManager.CaptionTag.Equals(tag) Then
@@ -342,14 +304,12 @@ Namespace UserInterface.Theming
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the palette to a button.
         ''' <para></para>
         ''' With the light palette, the button gets the default Windows look (system button with visual styles);
         ''' with the dark palette, the button is flat.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="button">
         ''' The button.
         ''' </param>
@@ -357,7 +317,6 @@ Namespace UserInterface.Theming
         ''' <param name="palette">
         ''' The palette.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyToButton(button As ButtonBase, palette As ThemePalette)
 
             Dim iconButton As IconButton = TryCast(button, IconButton)
@@ -391,16 +350,13 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles (once) the <see cref="Control.EnabledChanged"/> event of an accent button, 
         ''' to repaint it with the current palette when it is enabled or disabled.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="button">
         ''' The button.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub HookEnabledChanged(button As ButtonBase)
 
             Dim hook As Object = Nothing
@@ -411,11 +367,9 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.EnabledChanged"/> event of an accent button.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -423,18 +377,15 @@ Namespace UserInterface.Theming
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub AccentButton_EnabledChanged(sender As Object, e As EventArgs)
 
             ThemeManager.ApplyToButton(DirectCast(sender, ButtonBase), ThemeManager.CurrentPalette)
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the palette to a tool strip (tool bar, status bar or menu) and to the drop-down menus of its items.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="toolStrip">
         ''' The tool strip.
         ''' </param>
@@ -442,7 +393,6 @@ Namespace UserInterface.Theming
         ''' <param name="palette">
         ''' The palette.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyToToolStrip(toolStrip As ToolStrip, palette As ThemePalette)
 
             Dim renderer As New ThemedToolStripRenderer(palette)
@@ -468,11 +418,9 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the palette to a grid.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="grid">
         ''' The grid.
         ''' </param>
@@ -480,7 +428,6 @@ Namespace UserInterface.Theming
         ''' <param name="palette">
         ''' The palette.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyToDataGridView(grid As DataGridView, palette As ThemePalette)
 
             grid.BackgroundColor = palette.InputBackground
@@ -513,16 +460,13 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Applies the native dark/light visual style of the current theme to a control (e.g. a scroll bar),
         ''' now if its window handle exists, and each time its window handle is created.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="ctrl">
         ''' The control.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyNativeVisualStyle(ctrl As Control)
 
             Dim hook As Object = Nothing
@@ -537,11 +481,9 @@ Namespace UserInterface.Theming
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Handles the <see cref="Control.HandleCreated"/> event of a control that uses the native visual style.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="sender">
         ''' The source of the event.
         ''' </param>
@@ -549,7 +491,6 @@ Namespace UserInterface.Theming
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub NativeVisualStyleControl_HandleCreated(sender As Object, e As EventArgs)
 
             WindowThemeUtil.SetDarkScrollBars(DirectCast(sender, Control), ThemeManager.CurrentTheme = AppTheme.Dark)

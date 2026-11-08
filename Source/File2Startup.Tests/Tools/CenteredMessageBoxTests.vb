@@ -31,13 +31,11 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Tools
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="CenteredMessageBox"/> class.
     ''' <para></para>
     ''' The message box itself is never shown, because it would block the test run.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     <TestCategory("UI")>
     Public NotInheritable Class CenteredMessageBoxTests

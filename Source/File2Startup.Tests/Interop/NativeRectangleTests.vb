@@ -30,11 +30,9 @@ Imports Microsoft.VisualStudio.TestTools.UnitTesting
 
 Namespace Interop
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Tests for the <see cref="NativeRectangle"/> structure.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     <TestClass>
     Public NotInheritable Class NativeRectangleTests
 

@@ -27,12 +27,10 @@ Imports System.Windows.Forms
 
 Namespace UserInterface.Controls
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' A <see cref="Button"/> that draws an icon before its text, separated by a configurable space,
     ''' and centers the icon and the text together as a single block.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <remarks>
     ''' The standard <see cref="Button"/> places the image right next to the text
     ''' (<see cref="TextImageRelation.ImageBeforeText"/> has no spacing option), and with
@@ -43,17 +41,14 @@ Namespace UserInterface.Controls
     ''' <para></para>
     ''' Use <see cref="IconButton.Icon"/> instead of <see cref="ButtonBase.Image"/>.
     ''' </remarks>
-    ''' ----------------------------------------------------------------------------------------------------
     <DesignerCategory("Code")>
     Public Class IconButton : Inherits Button
 
 #Region " Constants "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' The default space, in pixels at 96 DPI, between the icon and the text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Const DefaultIconTextSpacing As Integer = 8
 
 #End Region
@@ -82,11 +77,9 @@ Namespace UserInterface.Controls
 
 #Region " Properties "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the icon drawn before the text. It is drawn at its own size.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <DefaultValue(GetType(Image), Nothing)>
         <Description("The icon drawn before the text.")>
@@ -100,15 +93,12 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the space, in pixels at 96 DPI, between the icon and the text. It is scaled to the system DPI.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <exception cref="ArgumentOutOfRangeException">
         ''' The value is negative.
         ''' </exception>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <DefaultValue(IconButton.DefaultIconTextSpacing)>
         <Description("The space, in pixels at 96 DPI, between the icon and the text.")>
@@ -125,11 +115,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the text color when the button is disabled.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Category("Appearance")>
         <Description("The text color when the button is disabled.")>
         Public Property DisabledForeColor As Color
@@ -142,15 +130,12 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets or sets the text of the button.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' While the base class paints the button, an empty string is returned, so only this class draws the text.
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         <Bindable(True)>
         <Localizable(True)>
         Public Overrides Property Text As String
@@ -162,11 +147,9 @@ Namespace UserInterface.Controls
             End Set
         End Property
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the space, in device pixels, between the icon and the text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         <Browsable(False)>
         <DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)>
         Public ReadOnly Property ScaledIconTextSpacing As Integer
@@ -179,17 +162,14 @@ Namespace UserInterface.Controls
 
 #Region " Constructors "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="IconButton"/> class.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' The auto-size mode is <see cref="AutoSizeMode.GrowAndShrink"/>, so the preferred size is calculated 
         ''' from the content only (with <see cref="AutoSizeMode.GrowOnly"/> the current size is part of the preferred size, 
         ''' and adding the icon width to it would grow the button on every layout).
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New()
 
             Me.AutoSizeMode = AutoSizeMode.GrowAndShrink
@@ -200,42 +180,35 @@ Namespace UserInterface.Controls
 
 #Region " Public Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Calculates the bounds of the icon and the drawing bounds of the text inside the specified client size, 
         ''' measuring the text with the screen device context.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="clientSize">
         ''' The client size of the button.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The icon bounds (empty if there is no icon) and the text drawing bounds.
         ''' See <see cref="IconButton.GetContentLayout(Size, IDeviceContext)"/>.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function GetContentLayout(clientSize As Size) As Tuple(Of Rectangle, Rectangle)
 
             Return Me.GetContentLayout(clientSize, Nothing)
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Calculates the bounds of the icon and the drawing bounds of the text inside the specified client size.
         ''' <para></para>
         ''' The icon and the text are centered together horizontally (using the measured text width) 
         ''' within the client area minus the <see cref="Control.Padding"/>, and the icon is centered vertically.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <remarks>
         ''' The text drawing bounds span the whole height of the content area and extend to its right edge, 
         ''' and the text is drawn vertically centered inside them. 
         ''' So the text is never clipped when the measured size is slightly smaller than the drawn text 
         ''' (for example, with the Windows text scale factor, the screen and the paint device contexts can differ).
         ''' </remarks>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="clientSize">
         ''' The client size of the button.
         ''' </param>
@@ -244,11 +217,9 @@ Namespace UserInterface.Controls
         ''' The device context used to measure the text (the paint graphics), 
         ''' or <see langword="Nothing"/> to use the screen device context.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The icon bounds (empty if there is no icon) and the text drawing bounds.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function GetContentLayout(clientSize As Size, deviceContext As IDeviceContext) As Tuple(Of Rectangle, Rectangle)
 
             Dim textSize As Size = Me.MeasureTextSize(deviceContext)
@@ -274,19 +245,15 @@ Namespace UserInterface.Controls
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Measures the size of the text, with the same format flags used to draw it.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="deviceContext">
         ''' The device context used to measure the text, or <see langword="Nothing"/> to use the screen device context.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The text size, or <see cref="Size.Empty"/> if the button has no text.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Function MeasureTextSize(deviceContext As IDeviceContext) As Size
 
             Dim text As String = MyBase.Text
@@ -301,20 +268,16 @@ Namespace UserInterface.Controls
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Retrieves the size of a rectangular area into which the button can be fitted,
         ''' including the icon and the icon-text spacing.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="proposedSize">
         ''' The custom-sized area for the button.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The preferred size.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Public Overrides Function GetPreferredSize(proposedSize As Size) As Size
 
             Dim preferred As Size = MyBase.GetPreferredSize(proposedSize)
@@ -333,16 +296,13 @@ Namespace UserInterface.Controls
 
 #Region " Overridden Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Paints the button: the base class paints the background, border and focus cues,
         ''' and then the icon and the text are drawn.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <param name="e">
         ''' The event data.
         ''' </param>
-        ''' ----------------------------------------------------------------------------------------------------
         Protected Overrides Sub OnPaint(e As PaintEventArgs)
 
             Me.isBasePainting = True
@@ -399,15 +359,12 @@ Namespace UserInterface.Controls
 
 #Region " Private Methods "
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the text format flags used to measure and draw the text.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The flags.
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Function GetTextFormatFlags() As TextFormatFlags
 
             Dim flags As TextFormatFlags = TextFormatFlags.SingleLine Or TextFormatFlags.NoPadding Or
@@ -424,12 +381,10 @@ Namespace UserInterface.Controls
 
         End Function
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Recalculates the layout of the parent (for auto-sized buttons) and repaints the button,
         ''' after a change of the content size.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Sub OnContentSizeChanged()
 
             If Me.Parent IsNot Nothing Then
@@ -439,15 +394,12 @@ Namespace UserInterface.Controls
 
         End Sub
 
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Gets the scale factor of the system DPI relative to 96 DPI.
         ''' </summary>
-        ''' ----------------------------------------------------------------------------------------------------
         ''' <returns>
         ''' The scale factor (1 at 96 DPI).
         ''' </returns>
-        ''' ----------------------------------------------------------------------------------------------------
         Private Shared Function GetSystemDpiScale() As Single
 
             Using g As Graphics = Graphics.FromHwnd(IntPtr.Zero)

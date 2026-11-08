@@ -25,15 +25,12 @@ Partial Friend NotInheritable Class AboutForm : Inherits Form
 
 #Region " Overridden Methods "
 
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
     ''' Raises the <see cref="Control.HandleCreated"/> event, and applies the dark/light title bar of the current theme.
     ''' </summary>
-    ''' ----------------------------------------------------------------------------------------------------
     ''' <param name="e">
     ''' The event data.
     ''' </param>
-    ''' ----------------------------------------------------------------------------------------------------
     Protected Overrides Sub OnHandleCreated(e As EventArgs)
 
         MyBase.OnHandleCreated(e)
