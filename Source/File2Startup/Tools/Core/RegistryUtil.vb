@@ -576,7 +576,12 @@ Namespace DevCase.Core.System.Tools
                     Return registryPath.TrimStart("\"c).TrimEnd("\"c)
 
                 Case Else
-                    Return registryPath.Substring(registryPath.IndexOf("\"c)).TrimStart("\"c).TrimEnd("\"c)
+                    ' A path that only contains the root key name (e.g. "HKCU") has an empty subkey path.
+                    Dim separatorIndex As Integer = registryPath.IndexOf("\"c)
+                    If separatorIndex = -1 Then
+                        Return String.Empty
+                    End If
+                    Return registryPath.Substring(separatorIndex).TrimStart("\"c).TrimEnd("\"c)
 
             End Select
 

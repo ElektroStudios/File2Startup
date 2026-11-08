@@ -1,128 +1,221 @@
 ﻿' ***********************************************************************
-' Author   : Administrador
-' Modified : 06-April-2024
+' Author   : ElektroStudios
+' Modified : 07-November-2026
 ' ***********************************************************************
 ' <copyright file="Main.vb" company="Elektro Studios">
 '     Copyright (c) Elektro Studios. All rights reserved.
 ' </copyright>
 ' ***********************************************************************
 
+#Region " Option Statements "
+
+Option Strict On
+Option Explicit On
+Option Infer Off
+
+#End Region
+
 #Region " Imports "
+
+Imports System.Collections.Generic
+Imports System.Collections.Specialized
+Imports System.ComponentModel
+Imports System.Drawing
+Imports System.Globalization
+Imports System.IO
+Imports System.Linq
+Imports System.Security.Principal
+Imports System.Threading
+Imports System.Windows.Forms
 
 Imports Microsoft.Win32
 
-Imports System.ComponentModel
+Imports Core
 
+Imports DevCase.Core.Application.Forms
 Imports DevCase.Core.Application.UserInterface.Enums
 Imports DevCase.Core.Application.UserInterface.Types
 Imports DevCase.Core.Imaging.Tools
 Imports DevCase.Core.System.Tools
-Imports System.IO
-Imports System.Globalization
-Imports System.Threading
-Imports DevCase.Core.Application.Forms
-Imports System.Security.Principal
 
+Imports UserInterface.Localization
+Imports UserInterface.Theming
 
 #End Region
 
+#Region " Main "
+
 Namespace UserInterface
 
+    ''' ----------------------------------------------------------------------------------------------------
     ''' <summary>
-    ''' The Main user interface Form.
+    ''' The main user interface form.
+    ''' <para></para>
+    ''' It has two pages, selected from the header tool bar: the item builder (to add a file to Windows startup)
+    ''' and the startup list (to manage the existing startup entries).
     ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
     Public NotInheritable Class Main
+
+#Region " Constants "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The registry key where Regedit stores the last key it showed, which it opens on start.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Const RegeditAppletKeyPath As String = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The size, in pixels at 96 DPI, of the button images.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Const ButtonImageSize As Integer = 16
+
+#End Region
 
 #Region " Properties "
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' A <see cref="Boolean" /> value indicating if the current process has full administrative rights
+        ''' Gets a value indicating whether the current process has full administrative rights.
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Public Shared ReadOnly Property IsProcessElevated As Boolean
             Get
-                Dim owner As WindowsIdentity = WindowsIdentity.GetCurrent()
-                Return owner IsNot Nothing AndAlso New WindowsPrincipal(owner).IsInRole(WindowsBuiltInRole.Administrator)
+                Using identity As WindowsIdentity = WindowsIdentity.GetCurrent()
+                    Return New WindowsPrincipal(identity).IsInRole(WindowsBuiltInRole.Administrator)
+                End Using
             End Get
         End Property
 
 #End Region
 
-#Region " Localizable Fields "
-
-        Private textBoxNameHint As String =
-            "Unique startup entry name for the file (Drop a file here to auto-assign)."
-
-        Private textBoxFileHint As String =
-            "Full path to the file (Drop a file here to auto-assign)."
-
-        Private textBoxParametersHint As String =
-            "Optional arguments (for an executable file only)."
-
-        Private msgq1 As String = "Do you really want to delete the following entry?:"
-        Private msgq2 As String = "This action cannot be undone."
-        Private msgq3 As String = "An item with the same name already exists in Windows startup."
-        Private msgq4 As String = "Do you really want to overwrite the item?."
-        Private msgq5 As String = "Item successfully added to Windows startup"
-        Private msgq6 As String = "Failed to add the item to Windows startup"
-        Private msgq7 As String = "Program is not running elevated, some features are disabled."
-        Private msgq8 As String = "Clear recent file list"
-        Private msgq9 As String = "Do you also want to delete the sent item from startup list?:"
-        Private msgq10 As String = "Failed to parse entry file path, the full value has been retrieved instead:"
-
-#End Region
-
 #Region " Fields "
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' The <see cref="WindowSticker"/> instance that sticks the Form on the Desktop screen.
+        ''' The localized texts of the current language.
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private strings As UIStrings = UIStrings.FromCulture(UIStrings.DefaultCultureName)
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The current visual theme.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private currentTheme As AppTheme = AppTheme.Light
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' A value indicating whether the theme is being applied,
+        ''' to ignore the <see cref="ToolStripToggleSwitch_Theme"/> state changes made by code.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private isApplyingTheme As Boolean
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The <see cref="WindowMagnetizer"/> instance that docks the form to the screen borders.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private windowSticker As WindowMagnetizer
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Indicates the startup type, for current user only or for all users.
+        ''' The registry keys of the startup types (current user only, or all users).
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly startupType As New Dictionary(Of String, String) From
         {
-            {"CurrentUserKey", "HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"},
-            {"AllUsersKey", "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run"}
+            {StartupRegistryKeys.CurrentUserId, StartupRegistryKeys.CurrentUserRunKeyPath},
+            {StartupRegistryKeys.AllUsersId, StartupRegistryKeys.AllUsersRunKeyPath}
         }
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' The startup type ("CurrentUserKey" or "AllUsersKey").
+        ''' The selected startup type (<see cref="StartupRegistryKeys.CurrentUserId"/> or <see cref="StartupRegistryKeys.AllUsersId"/>).
         ''' </summary>
-        ''' <value>The startup type.</value>
-        Private SelectedStartupType As String
+        ''' ----------------------------------------------------------------------------------------------------
+        Private selectedStartupType As String = StartupRegistryKeys.CurrentUserId
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The field delimiter of the serialized recent file list entries.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private ReadOnly mruDelimiter As String = $"@@{My.Application.Info.ProductName}@@"
 
-        Private ClearRecentFilesMenuItem As New ToolStripMenuItem(
-            Me.msgq8, Nothing, Sub()
-                                   My.Settings.MRU?.Clear()
-                                   Me.RenewRecentfiles()
-                               End Sub) With {
-                               .DisplayStyle = ToolStripItemDisplayStyle.ImageAndText,
-                               .Image = My.Resources.delete
-        }
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The menu item that clears the recent file list.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private ReadOnly clearRecentFilesMenuItem As ToolStripMenuItem
 
-        ' keeps track of the last row selected by the user..
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' The name and startup type identifier of the last row selected by the user in the startup list.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private lastSelectedRowNameAndStartupType As String()
 
-        ' Flag to determine an arbitrary rows updating in the datagridview.
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' A value indicating whether the rows of the startup list are being reloaded.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private isRefreshingDataGridViewItems As Boolean
 
 #End Region
 
 #Region " Constructors "
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
         ''' Initializes a new instance of the <see cref="Main"/> class.
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Public Sub New()
 
             ' This call is required by the designer.
             Me.InitializeComponent()
 
+            Me.clearRecentFilesMenuItem = New ToolStripMenuItem(String.Empty, My.Resources.delete, AddressOf Me.ClearRecentFilesMenuItem_Click) With {
+                .DisplayStyle = ToolStripItemDisplayStyle.ImageAndText
+            }
+
+            Me.ApplyButtonImages()
             Me.ApplyFormLanguage(My.Settings.Culture)
+            Me.ApplyTheme(Me.LoadThemeSetting())
+            Me.ShowPage(Me.Panel_ItemBuilder)
+
+        End Sub
+
+#End Region
+
+#Region " Overridden Methods "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Raises the <see cref="Control.HandleCreated"/> event, and applies the dark/light title bar.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' The title bar attribute is applied here because the window handle is required,
+        ''' and applying it in the <see cref="Form.Load"/> event has no effect on the first paint of the title bar.
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Protected Overrides Sub OnHandleCreated(e As EventArgs)
+
+            MyBase.OnHandleCreated(e)
+            WindowThemeUtil.SetDarkTitleBar(Me, Me.currentTheme = AppTheme.Dark)
 
         End Sub
 
@@ -130,110 +223,166 @@ Namespace UserInterface
 
 #Region " Event Handlers "
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Load event of the Form.
+        ''' Handles the <see cref="Form.Load"/> event of the form.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Main_Load(sender As Object, e As EventArgs) Handles MyBase.Load
 
+            Me.FitClientHeightToItemBuilder()
             Me.MinimumSize = Me.Size
             Me.CheckRecentFiles()
-
-            Dim isElevated As Boolean = IsProcessElevated
-            Me.RadioButton_AllUsers.Enabled = isElevated
+            Me.RadioButton_AllUsers.Enabled = Main.IsProcessElevated
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Shown event of the Form.
+        ''' Handles the <see cref="Form.Shown"/> event of the form.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Main_Shown(sender As Object, e As EventArgs) Handles MyBase.Shown
 
             Me.windowSticker = New WindowMagnetizer(window:=Me) With {.Threshold = 35, .AllowOffscreen = True, .Enabled = True}
 
             If My.Application.CommandLineArgs.Count <> 0 Then
-
-                If IO.File.Exists(My.Application.CommandLineArgs.First) Then
-                    Me.LoadDragDropFile(New IO.FileInfo(My.Application.CommandLineArgs.First))
-                End If
-
-            End If
-
-        End Sub
-
-        ''' <summary>
-        ''' Handles the DragEnter event of the Form.
-        ''' </summary>
-        ''' <param name="sender">The source of the event.</param>
-        ''' <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
-        Private Sub Form_DragEnter(sender As Object, e As DragEventArgs) _
-        Handles Me.DragEnter
-
-            If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-                Dim item As String = e.Data.GetData(DataFormats.FileDrop)(0)
-                If File.Exists(item) Then
-                    e.Effect = DragDropEffects.All
+                Dim filePath As String = My.Application.CommandLineArgs.First()
+                If File.Exists(filePath) Then
+                    Me.LoadDragDropFile(New FileInfo(filePath))
                 End If
             End If
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the DragDrop event of the Form.
+        ''' Handles the <see cref="Control.DragEnter"/> event of the form.
         ''' </summary>
-        ''' <param name="sender">The source of the event.</param>
-        ''' <param name="e">The <see cref="DragEventArgs"/> instance containing the event data.</param>
-        Private Sub Form_DragDrop(sender As Object, e As DragEventArgs) _
-        Handles Me.DragDrop
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Form_DragEnter(sender As Object, e As DragEventArgs) Handles Me.DragEnter
 
-            If e.Data.GetDataPresent(DataFormats.FileDrop) Then
-                Dim item As String = e.Data.GetData(DataFormats.FileDrop)(0)
-                Me.LoadDragDropFile(New IO.FileInfo(item))
+            Dim filePath As String = Main.GetDroppedFilePath(e.Data)
+            If filePath IsNot Nothing AndAlso File.Exists(filePath) Then
+                e.Effect = DragDropEffects.All
             End If
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the _TextChanged event of the RadioButtonsTextBoxes.
+        ''' Handles the <see cref="Control.DragDrop"/> event of the form.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Form_DragDrop(sender As Object, e As DragEventArgs) Handles Me.DragDrop
+
+            Dim filePath As String = Main.GetDroppedFilePath(e.Data)
+            If filePath IsNot Nothing Then
+                Me.ShowPage(Me.Panel_ItemBuilder)
+                Me.LoadDragDropFile(New FileInfo(filePath))
+            End If
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.TextChanged"/> event of the name and file text boxes.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub TextBoxes_TextChanged(sender As Object, e As EventArgs) _
         Handles TextBox_Name.TextChanged, TextBox_File.TextChanged
 
-            Me.Button_AddToStartup.Enabled = (Not String.IsNullOrEmpty(Me.TextBox_File.Text) AndAlso
-            Not String.IsNullOrEmpty(Me.TextBox_Name.Text) AndAlso
-            Not Me.TextBox_File.Text = Me.textBoxFileHint AndAlso
-            Not Me.TextBox_Name.Text = Me.textBoxNameHint)
+            Me.Button_AddToStartup.Enabled = Not String.IsNullOrEmpty(Me.TextBox_File.Text) AndAlso
+                                             Not String.IsNullOrEmpty(Me.TextBox_Name.Text) AndAlso
+                                             Me.TextBox_File.Text <> Me.strings.FileHint AndAlso
+                                             Me.TextBox_Name.Text <> Me.strings.NameHint
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the CheckedChanged event of the RadioButtons.
+        ''' Handles the <see cref="RadioButton.CheckedChanged"/> event of the startup type radio buttons.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RadioButtons_CheckedChanged(sender As Object, e As EventArgs) _
         Handles RadioButton_CurrentUser.CheckedChanged, RadioButton_AllUsers.CheckedChanged
 
-            Me.SelectedStartupType = CStr(sender.tag)
+            ' Only the radio button that becomes checked determines the startup type.
+            Dim radioButton As RadioButton = DirectCast(sender, RadioButton)
+            If Not radioButton.Checked Then
+                Exit Sub
+            End If
 
-            If String.IsNullOrEmpty(Me.SelectedStartupType) Then
-                Me.SelectedStartupType = "CurrentUserKey"
+            Me.selectedStartupType = CStr(radioButton.Tag)
+
+            If String.IsNullOrEmpty(Me.selectedStartupType) Then
+                Me.selectedStartupType = StartupRegistryKeys.CurrentUserId
             End If
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Click event of the Button_AddToStartup control.
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_AddToStartup"/> control.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs" /> instance containing the event data.</param>
-        Private Sub Button_AddToStartup_Click(sender As Object, e As EventArgs) _
-        Handles Button_AddToStartup.Click
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Button_AddToStartup_Click(sender As Object, e As EventArgs) Handles Button_AddToStartup.Click
 
             Dim success As Boolean = Me.AddFileToWindowsStartup()
             If success Then
@@ -243,455 +392,766 @@ Namespace UserInterface
                 Me.TextBox_Parameters.Clear()
                 Me.SetControlHints()
 
-                Me.RenewRecentfiles()
+                Me.RenewRecentFiles()
             End If
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Opening event of the ContextMenuStrip_Recent control.
+        ''' Handles the <see cref="ToolStripDropDown.Opening"/> event of the <see cref="ContextMenuStrip_Recent"/> control.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.ComponentModel.CancelEventArgs"/> instance containing the event data.</param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ContextMenuStrip_Recent_Opening(sender As Object, e As CancelEventArgs) _
         Handles ContextMenuStrip_Recent.Opening
 
-            sender.Items.Clear()
+            Dim contextMenu As ContextMenuStrip = DirectCast(sender, ContextMenuStrip)
+            contextMenu.Items.Clear()
 
-            If My.Settings.MRU.Count <> 0I Then
-
-                For index As Integer = 0 To (My.Settings.MRU.Count - 1)
-
-                    Dim name As String = My.Settings.MRU(index).Split({Me.mruDelimiter}, StringSplitOptions.None)(0)
-                    Dim path As String = My.Settings.MRU(index).Split({Me.mruDelimiter}, StringSplitOptions.None)(1)
-                    Dim parameters As String = My.Settings.MRU(index).Split({Me.mruDelimiter}, StringSplitOptions.None)(2)
-
-                    Dim menuItem As New ToolStripMenuItem
-                    With menuItem
-                        .Text = name
-                        .Tag = index
-                        Try
-                            Dim ico As Icon = ImageUtil.ExtractIconFromFile(path)
-                            .Image = ico.ToBitmap()
-                            ico?.Dispose()
-                        Catch ex As Exception
-                        End Try
-                    End With
-
-                    AddHandler menuItem.Click, AddressOf Me.IToolStripMenuItem_Click
-
-                    sender.Items.Insert(0, menuItem)
-
-                Next index
-
-                e.Cancel = False
-
-            Else
+            ' Malformed (corrupted) entries stored in the user settings are skipped.
+            Dim entries As List(Of RecentFileEntry) = RecentFileList.GetEntries(My.Settings.MRU, Me.mruDelimiter)
+            If entries.Count = 0 Then
                 e.Cancel = True
-
+                Exit Sub
             End If
 
-            sender.Items.Insert(0, Me.ClearRecentFilesMenuItem)
+            For Each entry As RecentFileEntry In entries
+                Dim menuItem As New ToolStripMenuItem(entry.Name) With {.Tag = entry}
+                Try
+                    Using ico As Icon = ImageUtil.ExtractIconFromFile(Environment.ExpandEnvironmentVariables(entry.FilePath))
+                        If ico IsNot Nothing Then
+                            menuItem.Image = ico.ToBitmap()
+                        End If
+                    End Using
+                Catch ex As Exception
+                    ' The icon is merely decorative; a menu item without icon is acceptable.
+                End Try
+
+                AddHandler menuItem.Click, AddressOf Me.RecentFileMenuItem_Click
+                contextMenu.Items.Insert(0, menuItem)
+            Next entry
+
+            contextMenu.Items.Insert(0, New ToolStripSeparator())
+            contextMenu.Items.Insert(0, Me.clearRecentFilesMenuItem)
+
+            ThemeManager.ApplyToDropDown(contextMenu, Me.currentTheme)
+            e.Cancel = False
+
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Click event of the IToolStripMenuItem control.
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of a recent file menu item.
         ''' </summary>
-        ''' <param name="sender">The sender.</param>
-        ''' <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        Private Sub IToolStripMenuItem_Click(sender As Object, e As EventArgs)
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub RecentFileMenuItem_Click(sender As Object, e As EventArgs)
+
+            Dim entry As RecentFileEntry = DirectCast(DirectCast(sender, ToolStripMenuItem).Tag, RecentFileEntry)
 
             Me.RemoveControlHints()
-
-            Dim name As String = My.Settings.MRU(CInt(sender.tag)).Split({Me.mruDelimiter}, StringSplitOptions.None)(0)
-            Dim path As String = My.Settings.MRU(CInt(sender.tag)).Split({Me.mruDelimiter}, StringSplitOptions.None)(1)
-            Dim parameters As String = My.Settings.MRU(CInt(sender.tag)).Split({Me.mruDelimiter}, StringSplitOptions.None)(2)
-
-            Me.TextBox_Name.Text = name
-            Me.TextBox_File.Text = path
-            Me.TextBox_Parameters.Text = parameters
+            Me.TextBox_Name.Text = entry.Name
+            Me.TextBox_File.Text = entry.FilePath
+            Me.TextBox_Parameters.Text = entry.Arguments
+            Me.SetControlHints()
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the Click event of the Button_OpenFile control.
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of the menu item that clears the recent file list.
         ''' </summary>
-        ''' <param name="sender">The source of the event.</param>
-        ''' <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        Private Sub Button_OpenFile_Click(sender As Object, e As EventArgs) _
-        Handles Button_OpenFile.Click
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ClearRecentFilesMenuItem_Click(sender As Object, e As EventArgs)
+
+            My.Settings.MRU.Clear()
+            My.Settings.Save()
+            Me.RenewRecentFiles()
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_OpenFile"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Button_OpenFile_Click(sender As Object, e As EventArgs) Handles Button_OpenFile.Click
 
             Me.OpenFileDialog1.ShowDialog(Me)
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Handles the FileOk event of the OpenFileDialog1 control.
+        ''' Handles the <see cref="FileDialog.FileOk"/> event of the <see cref="OpenFileDialog1"/> component.
         ''' </summary>
-        ''' <param name="sender">The source of the event.</param>
-        ''' <param name="e">The <see cref="CancelEventArgs"/> instance containing the event data.</param>
-        Private Sub OpenFileDialog1_FileOk(sender As Object, e As CancelEventArgs) _
-        Handles OpenFileDialog1.FileOk
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub OpenFileDialog1_FileOk(sender As Object, e As CancelEventArgs) Handles OpenFileDialog1.FileOk
 
             Dim filePath As String = DirectCast(sender, OpenFileDialog).FileName
 
             ControlHintManager.RemoveHint(Me.TextBox_File)
             Me.TextBox_File.Text = filePath
 
-            If String.IsNullOrWhiteSpace(Me.TextBox_Name.Text) OrElse Me.TextBox_Name.Text = Me.textBoxNameHint Then
+            If String.IsNullOrWhiteSpace(Me.TextBox_Name.Text) OrElse Me.TextBox_Name.Text = Me.strings.NameHint Then
                 ControlHintManager.RemoveHint(Me.TextBox_Name)
-                Me.TextBox_Name.Text = IO.Path.GetFileNameWithoutExtension(filePath)
+                Me.TextBox_Name.Text = Path.GetFileNameWithoutExtension(filePath)
             End If
 
             Me.SetControlHints()
 
         End Sub
 
-        Private Sub TabControl1_SelectedIndexChanged(sender As Object, e As EventArgs) _
-        Handles TabControl1.SelectedIndexChanged
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_ItemBuilder"/> item.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripButton_ItemBuilder_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ItemBuilder.Click
 
-            If Me.TabControl1.SelectedTab.Equals(Me.TabPage2) Then
-                Try
-                    Me.LoadRegistryItemsToDataGridView()
-                Catch ex As Exception
-                    Using msgbox As New CenteredMessageBox(Me)
-                        msgbox.Show("Error trying to parse registry values. Error message:" &
-                                    Environment.NewLine & Environment.NewLine & ex.Message,
-                                    My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End Using
+            Me.ShowPage(Me.Panel_ItemBuilder)
 
-                End Try
+        End Sub
 
-                Me.TabPage2.Show()
-            Else
-                Me.TabPage1.Show()
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_StartupList"/> item.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripButton_StartupList_Click(sender As Object, e As EventArgs) Handles ToolStripButton_StartupList.Click
 
+            Me.ShowPage(Me.Panel_StartupList)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_DeleteEntry"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Button_DeleteEntry_Click(sender As Object, e As EventArgs) Handles Button_DeleteEntry.Click
+
+            If Me.DataGridView1.SelectedRows.Count = 0 Then
+                Exit Sub
             End If
 
-        End Sub
-
-        Private Sub ToolStripButton1_Click(sender As Object, e As EventArgs) Handles ToolStripButton_ItemBuilder.Click
-
-            ' Tries to ensure that the tab page is shown.
-            ' https://github.com/ElektroStudios/File2Startup/issues/2
-
-            Me.TabControl1.Show()
-            Me.TabControl1.SelectTab(Me.TabPage1)
-            Me.TabPage1.Show()
-
-        End Sub
-
-        Private Sub ToolStripButton3_Click(sender As Object, e As EventArgs) Handles ToolStripButton_StartupList.Click
-
-            Me.TabControl1.Show()
-            Me.TabControl1.SelectTab(Me.TabPage2)
-            Me.TabPage2.Show()
-
-        End Sub
-
-        Private Sub Button_DeleteEntry_Click(sender As Object, e As EventArgs) Handles Button_DeleteEntry.Click
             Try
-                If Me.DataGridView1.SelectedRows IsNot Nothing Then
+                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                Dim selectedRowIndex As Integer = selectedRow.Index
+                Dim startupTypeName As String = Main.GetCellText(selectedRow, Me.ColumnType)
+                Dim regKeyFullPath As String = StartupRegistryKeys.GetKeyPathFromId(Me.GetStartupTypeId(selectedRow))
+                Dim name As String = Main.GetCellText(selectedRow, Me.ColumnName)
 
-                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-                    Dim selectedRowIndex As Integer = selectedRow.Index
-                    Dim startupType As String = selectedRow.Cells(0).Value
-                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
-                    Dim name As String = selectedRow.Cells(2).Value
+                Using msgbox As New CenteredMessageBox(Me)
+                    Dim result As DialogResult =
+                        msgbox.Show($"{Me.strings.DeleteEntryQuestion}{Environment.NewLine}{Environment.NewLine}{startupTypeName}\{name}{Environment.NewLine}{Environment.NewLine}{Me.strings.CannotBeUndone}",
+                                    My.Application.Info.Title,
+                                    MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+                    If result = DialogResult.No Then
+                        Exit Sub
+                    End If
+                End Using
 
+                If RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name) Then
+                    RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
+                End If
+
+                Me.lastSelectedRowNameAndStartupType = Nothing
+                If Me.TryLoadRegistryItemsToDataGridView() AndAlso Me.DataGridView1.Rows.Count <> 0 Then
+                    ' Selects the row that preceded the deleted one.
+                    Dim rowToSelect As DataGridViewRow = Me.DataGridView1.Rows(Math.Max(0, Math.Min(selectedRowIndex - 1, Me.DataGridView1.Rows.Count - 1)))
+                    Me.DataGridView1.ClearSelection()
+                    rowToSelect.Selected = True
+                    Me.DataGridView1.CurrentCell = rowToSelect.Cells(Me.ColumnName.Index)
+                    Me.DataGridView1.FirstDisplayedScrollingRowIndex = rowToSelect.Index
+                End If
+
+            Catch ex As Exception
+                Me.ShowErrorMessage(Me.strings.RegistryKeyError, ex)
+
+            End Try
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_SendtoItemBuilder"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Button_SendtoItemBuilder_Click(sender As Object, e As EventArgs) Handles Button_SendtoItemBuilder.Click
+
+            If Me.DataGridView1.SelectedRows.Count = 0 Then
+                Exit Sub
+            End If
+
+            Try
+                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                Dim startupTypeId As String = Me.GetStartupTypeId(selectedRow)
+                Dim startupTypeName As String = Main.GetCellText(selectedRow, Me.ColumnType)
+                Dim name As String = Main.GetCellText(selectedRow, Me.ColumnName)
+                Dim value As String = Main.GetCellText(selectedRow, Me.ColumnValue)
+
+                Dim command As StartupCommand = Nothing
+                Dim parsedSuccessfully As Boolean = StartupCommand.TryParse(value, command)
+
+                Me.RemoveControlHints()
+                Me.TextBox_Name.Text = name
+                If parsedSuccessfully Then
+                    Me.TextBox_File.Text = command.FilePath
+                    Me.TextBox_Parameters.Text = command.Arguments
+                Else
+                    Me.TextBox_File.Text = value
+                    Me.TextBox_Parameters.Text = String.Empty
+                End If
+                Me.SetControlHints()
+
+                If startupTypeId = StartupRegistryKeys.CurrentUserId Then
+                    Me.RadioButton_CurrentUser.Checked = True
+                Else
+                    Me.RadioButton_AllUsers.Checked = True
+                End If
+
+                If Not parsedSuccessfully Then
                     Using msgbox As New CenteredMessageBox(Me)
-
-                        Dim result As DialogResult = msgbox.Show(Me.msgq1 &
-                                                                     Environment.NewLine & Environment.NewLine & $"{startupType}\{name}" &
-                                                                     Environment.NewLine & Environment.NewLine & Me.msgq2,
-                                                                     My.Application.Info.Title,
-                                                                     MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-                                                                     MessageBoxDefaultButton.Button2)
-                        If result = DialogResult.No Then
-                            Exit Sub
-                        End If
+                        msgbox.Show($"{Me.strings.ParseFilePathFailed}{Environment.NewLine}{Environment.NewLine}{value}",
+                                    My.Application.Info.Title,
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
                     End Using
+                End If
 
-                    Dim regValueExists As Boolean = RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name)
-                    If regValueExists Then
+                Dim deleteSentEntry As DialogResult
+                Using msgbox As New CenteredMessageBox(Me)
+                    deleteSentEntry = msgbox.Show($"{Me.strings.DeleteSentEntryQuestion}{Environment.NewLine}{Environment.NewLine}{startupTypeName}\{name}{Environment.NewLine}{Environment.NewLine}{Me.strings.CannotBeUndone}",
+                                                  My.Application.Info.Title,
+                                                  MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2)
+                End Using
+
+                If deleteSentEntry = DialogResult.Yes Then
+                    Dim regKeyFullPath As String = StartupRegistryKeys.GetKeyPathFromId(startupTypeId)
+                    If RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name) Then
                         RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
                     End If
 
-                    Try
-                        Me.lastSelectedRowNameAndStartupType = Nothing
-                        Me.LoadRegistryItemsToDataGridView()
-                        Try
-                            Me.DataGridView1.Rows(selectedRowIndex - 1).Selected = True
-                            Me.DataGridView1.FirstDisplayedScrollingRowIndex = selectedRowIndex - 1
-                        Catch ex As Exception ' Do nothing.
-                        End Try
-
-                    Catch ex As Exception
-                        Using msgbox As New CenteredMessageBox(Me)
-                            msgbox.Show("Error trying to parse registry values. Error message:" &
-                                        Environment.NewLine & Environment.NewLine & ex.Message,
-                                        My.Application.Info.Title,
-                                        MessageBoxButtons.OK, MessageBoxIcon.Error)
-                        End Using
-
-                    End Try
+                    Me.lastSelectedRowNameAndStartupType = Nothing
+                    Me.TryLoadRegistryItemsToDataGridView()
                 End If
 
+                Me.ShowPage(Me.Panel_ItemBuilder)
+
             Catch ex As Exception
-                Using msgbox As New CenteredMessageBox(Me)
-                    msgbox.Show("Error trying to parse registry key. Error message:" &
-                                Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title,
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Using
+                Me.ShowErrorMessage(Me.strings.RegistryKeyError, ex)
 
             End Try
 
         End Sub
 
-        Private Sub Button_SendtoItemBuilder_Click(sender As Object, e As EventArgs) Handles Button_SendtoItemBuilder.Click
-
-            Try
-                If Me.DataGridView1.SelectedRows IsNot Nothing Then
-                    Dim failedToParseFilePath As Boolean
-                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-                    Dim startupType As String = selectedRow.Cells(0).Value
-                    Dim name As String = selectedRow.Cells(2).Value
-                    Dim value As String = selectedRow.Cells(3).Value
-
-                    Dim filePath As String = value
-                    If value.Contains(ControlChars.Quote) Then
-                        Try
-                            filePath = value.TrimStart({ControlChars.Quote, " "c}).Substring(0, value.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote)
-                            failedToParseFilePath = Not FileSystemUtil.IsValidWindowsFileName(filePath.Replace("\"c, "-")) AndAlso
-                                                Not FileSystemUtil.IsValidWindowsDirectoryPath(filePath)
-
-                        Catch ex As Exception
-                        End Try
-                    End If
-
-                    Dim parameters As String = ""
-                    If Not failedToParseFilePath Then
-                        parameters =
-                            If(value.Contains(ControlChars.Quote),
-                               value?.TrimStart({ControlChars.Quote, " "c}).Substring(filePath.Length).TrimStart({ControlChars.Quote, " "c}),
-                               value?.Substring(value.IndexOf(filePath) + filePath.Length))
-                    End If
-
-                    Me.RemoveControlHints()
-                    If failedToParseFilePath Then
-                        Me.TextBox_Name.Text = name
-                        Me.TextBox_File.Text = value
-                        Me.TextBox_Parameters.Text = Nothing
-
-                        Using msgbox As New CenteredMessageBox(Me)
-                            msgbox.Show("Failed to parse entry file path, the full value has been retrieved instead:" &
-                                    Environment.NewLine & Environment.NewLine &
-                                    $"{value}",
-                                    My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Warning)
-                        End Using
-
-                    Else
-                        Me.TextBox_Name.Text = name
-                        Me.TextBox_File.Text = filePath
-                        Me.TextBox_Parameters.Text = parameters
-
-                    End If
-                    Me.SetControlHints()
-
-                    If startupType = "Current User" Then
-                        Me.RadioButton_CurrentUser.Checked = True
-                    Else
-                        Me.RadioButton_AllUsers.Checked = True
-                    End If
-
-                    Using msgbox As New CenteredMessageBox(Me)
-                        Dim dlgResult As DialogResult =
-                        msgbox.Show(Me.msgq9 &
-                            Environment.NewLine & Environment.NewLine &
-                            $"{startupType}\{name}" &
-                            Environment.NewLine & Environment.NewLine &
-                            Me.msgq2 &
-                            Environment.NewLine & Environment.NewLine,
-                            My.Application.Info.Title,
-                            MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button2)
-
-                        If dlgResult = DialogResult.Yes Then
-                            Try
-                                If Me.DataGridView1.SelectedRows IsNot Nothing Then
-
-                                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
-
-                                    Dim regValueExists As Boolean = RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name)
-                                    If regValueExists Then
-                                        RegistryUtil.DeleteValue(RegistryView.Default, regKeyFullPath, name, throwOnMissingValue:=False)
-                                    End If
-
-                                    Try
-                                        Me.LoadRegistryItemsToDataGridView()
-
-                                    Catch ex As Exception
-                                        Using msgbox2 As New CenteredMessageBox(Me)
-                                            msgbox2.Show("Error trying to parse registry values. Error message:" &
-                                                    Environment.NewLine & Environment.NewLine & ex.Message,
-                                                    My.Application.Info.Title,
-                                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                        End Using
-
-                                    End Try
-                                End If
-                                Me.lastSelectedRowNameAndStartupType = Nothing
-
-                            Catch ex As Exception
-                                Using msgbox2 As New CenteredMessageBox(Me)
-                                    msgbox2.Show("Error trying to parse registry key. Error message:" &
-                                            Environment.NewLine & Environment.NewLine & ex.Message,
-                                            My.Application.Info.Title,
-                                            MessageBoxButtons.OK, MessageBoxIcon.Error)
-                                End Using
-
-                            End Try
-                        End If
-
-                    End Using
-
-                    Me.TabControl1.Show()
-                    Me.TabControl1.SelectTab(Me.TabPage1)
-                    Me.TabPage1.Show()
-
-                End If
-
-            Catch ex As Exception
-                Using msgbox As New CenteredMessageBox(Me)
-                msgbox.Show("Error trying to parse registry key. Error message:" &
-                  Environment.NewLine & Environment.NewLine & ex.Message,
-                                     My.Application.Info.Title,
-                  MessageBoxButtons.OK, MessageBoxIcon.Error)
-            End Using
-
-            End Try
-
-        End Sub
-
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_OpenInRegedit"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub Button_OpenInRegedit_Click(sender As Object, e As EventArgs) Handles Button_OpenInRegedit.Click
 
-            Try
-                If Me.DataGridView1.SelectedRows IsNot Nothing Then
-                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
-                    Dim startupType As String = selectedRow.Cells(0).Value
-                    Dim regKeyFullPath As String = If(startupType = "Current User", Me.startupType("CurrentUserKey"), Me.startupType("AllUsersKey"))
-                    Dim name As String = selectedRow.Cells(2).Value
-
-                    Dim registryLastKey As String = "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Applets\Regedit"
-
-                    Registry.SetValue(registryLastKey, "LastKey", regKeyFullPath) ' Establecer el valor LastKey que Regedit abrirá directamente
-                    Process.Start("regedit.exe")
-                End If
-
-            Catch ex As Exception
-                Using msgbox As New CenteredMessageBox(Me)
-                    msgbox.Show("Error trying to parse registry key. Error message:" &
-                                Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title,
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Using
-
-            End Try
-
-        End Sub
-
-        Private Sub Button_RefreshList_Click(sender As Object, e As EventArgs) Handles Button_RefreshList.Click
-
-            Try
-                Me.LoadRegistryItemsToDataGridView()
-
-            Catch ex As Exception
-                Using msgbox As New CenteredMessageBox(Me)
-                    msgbox.Show("Error trying to parse registry values. Error message:" &
-                                Environment.NewLine & Environment.NewLine & ex.Message,
-                                My.Application.Info.Title,
-                                MessageBoxButtons.OK, MessageBoxIcon.Error)
-                End Using
-
-            End Try
-
-        End Sub
-
-        Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
-
-            Dim dgv As DataGridView = DirectCast(sender, DataGridView)
-            Dim hasSelectedrow As Boolean = dgv.SelectedRows IsNot Nothing
-
-            If Not Me.isRefreshingDataGridViewItems Then
-                If hasSelectedrow Then
-                    Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows.Cast(Of DataGridViewRow).FirstOrDefault()
-                    If selectedRow?.Cells(0).Value IsNot Nothing AndAlso selectedRow?.Cells(2).Value IsNot Nothing Then
-                        Me.lastSelectedRowNameAndStartupType = {selectedRow.Cells(2).Value, selectedRow.Cells(0).Value}
-                    End If
-                End If
+            If Me.DataGridView1.SelectedRows.Count = 0 Then
+                Exit Sub
             End If
 
-            Me.Button_DeleteEntry.Enabled = hasSelectedrow
-            Me.Button_SendtoItemBuilder.Enabled = hasSelectedrow
-            Me.Button_OpenInRegedit.Enabled = hasSelectedrow
+            Try
+                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                Dim regKeyFullPath As String = StartupRegistryKeys.GetKeyPathFromId(Me.GetStartupTypeId(selectedRow))
+
+                ' Regedit opens directly the key stored in its "LastKey" value.
+                Registry.SetValue(Main.RegeditAppletKeyPath, "LastKey", regKeyFullPath)
+                Process.Start("regedit.exe")
+
+            Catch ex As Exception
+                Me.ShowErrorMessage(Me.strings.RegistryKeyError, ex)
+
+            End Try
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="Control.Click"/> event of the <see cref="Button_RefreshList"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub Button_RefreshList_Click(sender As Object, e As EventArgs) Handles Button_RefreshList.Click
+
+            Me.TryLoadRegistryItemsToDataGridView()
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="DataGridView.SelectionChanged"/> event of the <see cref="DataGridView1"/> control.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub DataGridView1_SelectionChanged(sender As Object, e As EventArgs) Handles DataGridView1.SelectionChanged
+
+            If Me.DataGridView1.SelectedRows.Count > 0 AndAlso Not Me.isRefreshingDataGridViewItems Then
+                Dim selectedRow As DataGridViewRow = Me.DataGridView1.SelectedRows(0)
+                Me.lastSelectedRowNameAndStartupType = {Main.GetCellText(selectedRow, Me.ColumnName),
+                                                        Me.GetStartupTypeId(selectedRow)}
+            End If
+
+            Me.UpdateStartupListButtons()
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of the <see cref="ToolStripButton_About"/> item.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub ToolStripButton_About_Click(sender As Object, e As EventArgs) Handles ToolStripButton_About.Click
 
             Using aboutBox As New AboutForm()
-                aboutBox.ShowDialog()
+                aboutBox.ShowDialog(Me)
             End Using
 
         End Sub
 
-        Private Sub EnglishToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EnglishToolStripMenuItem.Click
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripItem.Click"/> event of the language menu items.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub LanguageMenuItems_Click(sender As Object, e As EventArgs) _
+        Handles EnglishToolStripMenuItem.Click, SpanishToolStripMenuItem.Click, PortugueseToolStripMenuItem.Click
 
-            Me.ApplyFormLanguage("en")
+            Dim cultureName As String
+            If sender Is Me.SpanishToolStripMenuItem Then
+                cultureName = "es"
+            ElseIf sender Is Me.PortugueseToolStripMenuItem Then
+                cultureName = "pt"
+            Else
+                cultureName = "en"
+            End If
+
+            Me.ApplyFormLanguage(cultureName)
 
         End Sub
 
-        Private Sub SpanishToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles SpanishToolStripMenuItem.Click
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Handles the <see cref="ToolStripToggleSwitch.CheckedChanged"/> event of the theme switch.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="sender">
+        ''' The source of the event.
+        ''' </param>
+        '''
+        ''' <param name="e">
+        ''' The event data.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ToolStripToggleSwitch_Theme_CheckedChanged(sender As Object, e As EventArgs) _
+        Handles ToolStripToggleSwitch_Theme.CheckedChanged
 
-            Me.ApplyFormLanguage("es")
+            If Me.isApplyingTheme Then
+                Exit Sub
+            End If
 
-        End Sub
+            Dim theme As AppTheme = If(Me.ToolStripToggleSwitch_Theme.Checked, AppTheme.Dark, AppTheme.Light)
 
-        Private Sub PortugueseToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles PortugueseToolStripMenuItem.Click
+            My.Settings.Theme = ThemePreference.ToSettingValue(theme)
+            My.Settings.Save()
 
-            Me.ApplyFormLanguage("pt")
+            Me.ApplyTheme(theme)
 
         End Sub
 
 #End Region
 
-#Region " Methods "
+#Region " Private Methods "
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Sets the control hints.
+        ''' Shows the specified page (<see cref="Panel_ItemBuilder"/> or <see cref="Panel_StartupList"/>),
+        ''' and marks its navigation button as the active one.
         ''' </summary>
-        Private Sub SetControlHints()
-            ControlHintManager.SetHint(Me.TextBox_Name, New ControlHintInfo(Me.textBoxNameHint, Me.TextBox_Name.Font, SystemColors.GrayText, ControlHintType.Persistent))
-            ControlHintManager.SetHint(Me.TextBox_File, New ControlHintInfo(Me.textBoxFileHint, Me.TextBox_File.Font, SystemColors.GrayText, ControlHintType.Persistent))
-            ControlHintManager.SetHint(Me.TextBox_Parameters, New ControlHintInfo(Me.textBoxParametersHint, Me.TextBox_Parameters.Font, SystemColors.GrayText, ControlHintType.Persistent))
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="page">
+        ''' The page to show.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <exception cref="ArgumentException">
+        ''' <paramref name="page"/> is not one of the pages of the form.
+        ''' </exception>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ShowPage(page As Panel)
+
+            Dim isStartupList As Boolean
+            If page Is Me.Panel_StartupList Then
+                isStartupList = True
+            ElseIf page Is Me.Panel_ItemBuilder Then
+                isStartupList = False
+            Else
+                Throw New ArgumentException("Unknown page.", NameOf(page))
+            End If
+
+            Me.ToolStripButton_ItemBuilder.Checked = Not isStartupList
+            Me.ToolStripButton_StartupList.Checked = isStartupList
+            Me.ToolStripStatusLabel_EntryCount.Visible = isStartupList
+
+            Me.Panel_ItemBuilder.Visible = Not isStartupList
+            Me.Panel_StartupList.Visible = isStartupList
+
+            If isStartupList Then
+                Me.TryLoadRegistryItemsToDataGridView()
+            End If
+
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Removes the control hints.
+        ''' Adjusts the height of the form so the item builder page fits its content exactly, 
+        ''' without empty space at the bottom (the form is already scaled to the current DPI and font).
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub FitClientHeightToItemBuilder()
+
+            Dim builderHeight As Integer = Me.TableLayoutPanel_ItemBuilder.GetPreferredSize(New Size(Me.TableLayoutPanel_ItemBuilder.Width, 0)).Height
+
+            Dim clientHeight As Integer = Me.ToolStrip_Header.Height +
+                                          Me.ToolStrip_ItemBuilder.Height +
+                                          builderHeight +
+                                          Me.StatusStrip_Main.Height
+
+            Me.ClientSize = New Size(Me.ClientSize.Width, clientHeight)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Loads the theme stored in the user settings (or the Windows theme, if there is no stored theme).
+        ''' <para></para>
+        ''' A corrupted setting value is discarded.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The theme to apply.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Function LoadThemeSetting() As AppTheme
+
+            Dim isSystemDarkTheme As Boolean = ThemePreference.IsSystemDarkTheme()
+            Try
+                Return ThemePreference.Resolve(My.Settings.Theme, isSystemDarkTheme)
+
+            Catch ex As FormatException
+                ' The user settings file was edited by hand: reset the value, so the Windows theme is followed.
+                My.Settings.Theme = String.Empty
+                My.Settings.Save()
+                Return ThemePreference.Resolve(String.Empty, isSystemDarkTheme)
+
+            End Try
+
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Applies the specified visual theme to the form, its menus, its title bar and the text hints,
+        ''' and updates the state of the theme switch.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="theme">
+        ''' The theme to apply.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ApplyTheme(theme As AppTheme)
+
+            Me.isApplyingTheme = True
+            Try
+                Me.currentTheme = theme
+
+                ' The hints must be removed while the colors change, because they replace the text color of the text boxes.
+                Me.RemoveControlHints()
+
+                ThemeManager.Apply(Me, theme)
+                ThemeManager.ApplyToDropDown(Me.ContextMenuStrip_Recent, theme)
+                Me.ToolStripToggleSwitch_Theme.Checked = (theme = AppTheme.Dark)
+
+                Me.SetControlHints()
+
+            Finally
+                Me.isApplyingTheme = False
+
+            End Try
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Assigns the images of the buttons, resized for the current DPI.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ApplyButtonImages()
+
+            ' The form scales by font; the designer font height (17 pixels) corresponds to 96 DPI.
+            Dim scale As Single = Me.CurrentAutoScaleDimensions.Height / Me.AutoScaleDimensions.Height
+            Dim side As Integer = Math.Max(Main.ButtonImageSize, CInt(Math.Round(Main.ButtonImageSize * scale)))
+            Dim size As New Size(side, side)
+
+            Me.Button_AddToStartup.Image = ImageUtil.ResizeImage(My.Resources.plus, size)
+            Me.Button_DeleteEntry.Image = ImageUtil.ResizeImage(My.Resources.delete, size)
+            Me.Button_SendtoItemBuilder.Image = ImageUtil.ResizeImage(My.Resources.pencil, size)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Applies the texts of the specified language to the user interface, and saves the language in the user settings.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="cultureName">
+        ''' The name of the culture (<c>en</c>, <c>es</c> or <c>pt</c>). An unsupported language falls back to English.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ApplyFormLanguage(cultureName As String)
+
+            Dim language As String = UIStrings.GetNeutralLanguage(cultureName)
+
+            My.Settings.Culture = language
+            My.Settings.Save()
+            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(language)
+
+            Me.RemoveControlHints()
+            Me.strings = UIStrings.FromCulture(language)
+
+            Me.SuspendLayout()
+            Try
+                Me.Text = My.Application.Info.Title
+
+                ' Header.
+                Me.ToolStripButton_ItemBuilder.Text = Me.strings.ItemBuilder
+                Me.ToolStripButton_StartupList.Text = Me.strings.StartupList
+                Me.ToolStripDropDownButton_Language.Text = Me.strings.Language
+                Me.EnglishToolStripMenuItem.Text = Me.strings.English
+                Me.SpanishToolStripMenuItem.Text = Me.strings.Spanish
+                Me.PortugueseToolStripMenuItem.Text = Me.strings.Portuguese
+                Me.EnglishToolStripMenuItem.Checked = (language = "en")
+                Me.SpanishToolStripMenuItem.Checked = (language = "es")
+                Me.PortugueseToolStripMenuItem.Checked = (language = "pt")
+                Me.ToolStripButton_About.Text = Me.strings.About
+                Me.ToolTip1.SetToolTip(Me.ToolStripToggleSwitch_Theme.ToggleSwitch, Me.strings.DarkTheme)
+                Me.ToolStripToggleSwitch_Theme.ToggleSwitch.AccessibleName = Me.strings.DarkTheme
+
+                ' Item builder page.
+                Me.Label_Name.Text = Me.strings.NameCaption
+                Me.Label_File.Text = Me.strings.FileCaption
+                Me.Label_Arguments.Text = Me.strings.ArgumentsCaption
+                Me.Label_StartupType.Text = Me.strings.StartupTypeCaption
+                Me.Button_OpenFile.Text = Me.strings.Browse
+                Me.RadioButton_CurrentUser.Text = Me.strings.CurrentUser
+                Me.RadioButton_AllUsers.Text = Me.strings.AllUsers
+                Me.ToolTip1.SetToolTip(Me.RadioButton_AllUsers, If(Main.IsProcessElevated, Nothing, Me.strings.AllUsersRequiresElevation))
+                Me.ToolStripDropDownButton_Recent.Text = Me.strings.RecentFiles
+                Me.Button_AddToStartup.Text = Me.strings.AddToStartup
+                Me.clearRecentFilesMenuItem.Text = Me.strings.ClearRecentFiles
+
+                ' Startup list page.
+                Me.ColumnType.HeaderText = Me.strings.TypeColumn
+                Me.ColumnIcon.HeaderText = Me.strings.IconColumn
+                Me.ColumnName.HeaderText = Me.strings.NameColumn
+                Me.ColumnValue.HeaderText = Me.strings.ValueColumn
+                Me.Button_DeleteEntry.Text = Me.strings.DeleteEntry
+                Me.Button_SendtoItemBuilder.Text = Me.strings.SendToItemBuilder
+                Me.Button_OpenInRegedit.Text = Me.strings.OpenInRegedit
+                Me.Button_RefreshList.Text = Me.strings.RefreshList
+
+                ' Status bar.
+                Me.UpdateElevationStatus()
+                Me.UpdateEntryCount()
+
+                ' The startup type column shows localized names.
+                If Me.Panel_StartupList.Visible Then
+                    Me.TryLoadRegistryItemsToDataGridView()
+                End If
+
+            Finally
+                Me.ResumeLayout(performLayout:=True)
+
+            End Try
+
+            Me.SetControlHints()
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Updates the elevation notice of the status bar.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub UpdateElevationStatus()
+
+            Dim isElevated As Boolean = Main.IsProcessElevated
+            Me.ToolStripStatusLabel_Elevation.Text = If(isElevated, Me.strings.RunningElevated, Me.strings.NotRunningElevated)
+            Me.ToolStripStatusLabel_Elevation.Tag = If(isElevated, Nothing, ThemeManager.WarningTag)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Updates the number of startup entries shown in the status bar.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub UpdateEntryCount()
+
+            Me.ToolStripStatusLabel_EntryCount.Text = Me.strings.FormatEntryCount(Me.DataGridView1.Rows.Count)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sets the text hints of the item builder text boxes, with the hint color of the current theme.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub SetControlHints()
+
+            Dim hintColor As Color = ThemePalette.FromTheme(Me.currentTheme).HintText
+
+            ControlHintManager.SetHint(Me.TextBox_Name, New ControlHintInfo(Me.strings.NameHint, Me.TextBox_Name.Font, hintColor, ControlHintType.Persistent))
+            ControlHintManager.SetHint(Me.TextBox_File, New ControlHintInfo(Me.strings.FileHint, Me.TextBox_File.Font, hintColor, ControlHintType.Persistent))
+            ControlHintManager.SetHint(Me.TextBox_Parameters, New ControlHintInfo(Me.strings.ArgumentsHint, Me.TextBox_Parameters.Font, hintColor, ControlHintType.Persistent))
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Removes the text hints of the item builder text boxes.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub RemoveControlHints()
+
             ControlHintManager.RemoveHint(Me.TextBox_Name)
             ControlHintManager.RemoveHint(Me.TextBox_File)
             ControlHintManager.RemoveHint(Me.TextBox_Parameters)
+
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Loads the dropped file into the textboxes.
+        ''' Loads the specified (dropped) file into the item builder text boxes.
         ''' </summary>
-        ''' <param name="File">The file to load.</param>
-        Private Sub LoadDragDropFile(file As IO.FileInfo)
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="file">
+        ''' The file to load.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub LoadDragDropFile(file As FileInfo)
 
             Me.RemoveControlHints()
             Me.TextBox_Name.Text = Path.GetFileNameWithoutExtension(file.Name)
@@ -700,330 +1160,344 @@ Namespace UserInterface
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Adds the file to the registry startup.
+        ''' Adds the file of the item builder to Windows startup.
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the entry was added; otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Function AddFileToWindowsStartup() As Boolean
 
-            Dim entry As String = String.Format("{0}" & Me.mruDelimiter & "{1}" & Me.mruDelimiter & "{2}",
-                                                Me.TextBox_Name.Text,
-                                                Me.TextBox_File.Text,
-                                                If(Me.TextBox_Parameters.Text = Me.textBoxParametersHint,
-                                                   String.Empty,
-                                                   Me.TextBox_Parameters.Text))
+            Dim name As String = Me.TextBox_Name.Text
+            Dim parameters As String = If(Me.TextBox_Parameters.Text = Me.strings.ArgumentsHint,
+                                          String.Empty,
+                                          Me.TextBox_Parameters.Text)
 
-            Dim name As String = entry.Split({Me.mruDelimiter}, StringSplitOptions.None)(0)
-            Dim path As String = entry.Split({Me.mruDelimiter}, StringSplitOptions.None)(1)
-            Dim parameters As String = entry.Split({Me.mruDelimiter}, StringSplitOptions.None)(2)
+            ' Builds the command-line to store in the registry.
+            ' The file path is always quoted, so any quotes typed by the user around the path are removed first.
+            Dim command As StartupCommand
+            Try
+                command = New StartupCommand(StartupCommand.NormalizeUserFilePath(Me.TextBox_File.Text), parameters)
 
-            Dim regValueExists As Boolean =
-                RegistryUtil.ExistValue(RegistryView.Default, Me.startupType(Me.SelectedStartupType), name)
+            Catch ex As ArgumentException
+                Me.ShowErrorMessage(Me.strings.EntryAddFailed, ex)
+                Return False
 
-            If regValueExists Then
+            End Try
+
+            Dim entry As New RecentFileEntry(name, command.FilePath, command.Arguments)
+            Dim regKeyFullPath As String = Me.startupType(Me.selectedStartupType)
+
+            If RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name) Then
                 Using msgbox As New CenteredMessageBox(Me)
-                    Dim result As DialogResult = msgbox.Show(Me.msgq3 & Environment.NewLine & Environment.NewLine & Me.msgq4,
-                                                                 My.Application.Info.Title,
-                                                                 MessageBoxButtons.YesNo, MessageBoxIcon.Question,
-                                                                 MessageBoxDefaultButton.Button2)
+                    Dim result As DialogResult = msgbox.Show($"{Me.strings.EntryAlreadyExists}{Environment.NewLine}{Environment.NewLine}{Me.strings.OverwriteEntryQuestion}",
+                                                             My.Application.Info.Title,
+                                                             MessageBoxButtons.YesNo, MessageBoxIcon.Question,
+                                                             MessageBoxDefaultButton.Button2)
                     If result = DialogResult.No Then
                         Return False
                     End If
                 End Using
             End If
 
-            RegistryUtil.CreateValue(Of String)(RegistryView.Default, Me.startupType(Me.SelectedStartupType),
-                                                name,
-                                                String.Format("""{0}"" {1}", path, parameters))
+            RegistryUtil.CreateValue(Of String)(RegistryView.Default, regKeyFullPath, name, command.ToCommandLine())
 
-            Select Case RegistryUtil.ExistValue(RegistryView.Default, Me.startupType(Me.SelectedStartupType), name)
+            If Not RegistryUtil.ExistValue(RegistryView.Default, regKeyFullPath, name) Then
+                Using msgbox As New CenteredMessageBox(Me)
+                    msgbox.Show(Me.strings.EntryAddFailed, My.Application.Info.Title,
+                                MessageBoxButtons.OK, MessageBoxIcon.Error)
+                End Using
+                Return False
+            End If
 
-                Case True
-                    Dim itemExists As Boolean = My.Settings.MRU.Cast(Of String).Any(Function(item As String) item.Equals(entry, StringComparison.OrdinalIgnoreCase))
-                    If Not itemExists Then
-                        My.Settings.MRU.Add(entry)
-                    End If
+            RecentFileList.AddIfMissing(My.Settings.MRU, entry, Me.mruDelimiter)
 
-                    Using msgbox As New CenteredMessageBox(Me)
-                        msgbox.Show(Me.msgq5, My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Information)
-                    End Using
-
-                Case False
-                    Using msgbox As New CenteredMessageBox(Me)
-                        msgbox.Show(Me.msgq6, My.Application.Info.Title,
-                                    MessageBoxButtons.OK, MessageBoxIcon.Error)
-                    End Using
-                    Return False
-
-            End Select
+            Using msgbox As New CenteredMessageBox(Me)
+                msgbox.Show(Me.strings.EntryAdded, My.Application.Info.Title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Information)
+            End Using
 
             Return True
 
         End Function
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Checks whether the recent files object is empty, then instances a new one.
+        ''' Ensures that the recent file list of the user settings exists, and renews it.
         ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
         Private Sub CheckRecentFiles()
 
             If My.Settings.MRU Is Nothing Then
-                My.Settings.MRU = New System.Collections.Specialized.StringCollection
+                My.Settings.MRU = New StringCollection()
             End If
 
-            Me.RenewRecentfiles()
+            Me.RenewRecentFiles()
 
         End Sub
 
+        ''' ----------------------------------------------------------------------------------------------------
         ''' <summary>
-        ''' Renews the recentfiles to controls the maximum number of entries.
+        ''' Limits the recent file list to its maximum number of entries, and updates the recent files button.
         ''' </summary>
-        Private Sub RenewRecentfiles()
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub RenewRecentFiles()
 
-            Dim count As Integer = My.Settings.MRU.Count
-            If count > 10 Then
-                Do Until My.Settings.MRU.Count = 10
-                    My.Settings.MRU.RemoveAt(0)
-                Loop
+            If RecentFileList.TrimToMaxCount(My.Settings.MRU, RecentFileList.MaxCount) Then
                 My.Settings.Save()
             End If
 
-            Me.ToolStripDropDownButton_Recent.Enabled = count > 0
-
-        End Sub
-
-        Private Sub LoadRegistryItemsToDataGridView()
-
-            Me.isRefreshingDataGridViewItems = True
-            ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
-            ' Me.DataGridView1.SuspendLayout()
-            Me.DataGridView1.Rows.Clear()
-
-            Dim view As RegistryView = RegistryView.Default
-
-            For i As Integer = 0 To Me.startupType.Values.Count - 1
-
-                Dim startupType As String = If(Me.startupType.Keys(i) = "CurrentUserKey", "Current User", "All Users")
-                If startupType = "All Users" AndAlso Not IsProcessElevated Then
-
-                    Continue For
-                End If
-
-                Dim fullKeyPath As String = Me.startupType.Values(i)
-
-                If RegistryUtil.ExistSubKey(view, fullKeyPath) Then
-
-                    Using root As RegistryKey = RegistryUtil.GetRootKey(fullKeyPath, view),
-                        subKey As RegistryKey = root.OpenSubKey(RegistryUtil.GetSubKeyPath(fullKeyPath), writable:=True)
-
-                        Dim valueNames() As String = subKey.GetValueNames()
-
-                        For Each valueName As String In valueNames
-                            Dim data As String = RegistryUtil.GetValueData(Of String)(view, fullKeyPath, valueName, RegistryValueOptions.DoNotExpandEnvironmentNames)
-
-                            Dim fileIcon As Icon = Nothing
-                            Try
-                                Dim filePath As String = data
-                                If filePath.Contains(ControlChars.Quote) Then
-                                    filePath = Path.GetFullPath(filePath.TrimStart({ControlChars.Quote, " "c}).Substring(0, filePath.TrimStart({ControlChars.Quote, " "c}).IndexOf(ControlChars.Quote)).TrimEnd(ControlChars.Quote))
-                                End If
-
-                                fileIcon = ImageUtil.ExtractIconFromFile(filePath)
-                            Catch ex As Exception
-                                ' Ignore error on building file path to retrieve icon file,
-                                ' as it is not enough reason to abort loading other items in the Data Grid View.
-
-                            End Try
-
-                            Dim dgvRow As New DataGridViewRow()
-                            Dim cellType As New DataGridViewTextBoxCell With {.Value = startupType}
-                            Dim cellIcon As New DataGridViewImageCell With {.Value = fileIcon, .ImageLayout = DataGridViewImageCellLayout.Zoom}
-                            Dim cellName As New DataGridViewTextBoxCell With {.Value = valueName}
-                            Dim cellData As New DataGridViewTextBoxCell With {.Value = data}
-
-                            dgvRow.Cells.AddRange(cellType, cellIcon, cellName, cellData)
-                            Me.DataGridView1.Rows.Add(dgvRow)
-
-                        Next valueName
-
-                    End Using
-
-                End If
-
-            Next
-
-            Me.isRefreshingDataGridViewItems = False
-            ' Tries to solve issue: https://github.com/ElektroStudios/File2Startup/issues/2
-            ' Me.DataGridView1.ResumeLayout()
-            ' Me.DataGridView1.PerformLayout()
-
-        End Sub
-
-        Private Sub ApplyFormLanguage(cultureName As String)
-
-            My.Settings.Culture = cultureName
-            My.Settings.Save()
-            Thread.CurrentThread.CurrentUICulture = CultureInfo.GetCultureInfo(cultureName)
-
-            Dim culture As CultureInfo = Thread.CurrentThread.CurrentUICulture
-            Dim resources As New ComponentResourceManager(Me.GetType())
-
-            Dim enabledButton_AddToStartup As Boolean = Me.Button_AddToStartup.Enabled
-            Dim enabledButton_DeleteEntry As Boolean = Me.Button_DeleteEntry.Enabled
-            Dim enabledButton_SendtoItemBuilder As Boolean = Me.Button_SendtoItemBuilder.Enabled
-            Dim enabledButton_OpenInRegedit As Boolean = Me.Button_OpenInRegedit.Enabled
-            Dim checkedRadioButton_CurrentUser As Boolean = Me.RadioButton_CurrentUser.Checked
-            Dim boundsButton_AddToStartup As Rectangle = Me.Button_AddToStartup.Bounds
-            Dim boundsButton_DeleteEntry As Rectangle = Me.Button_DeleteEntry.Bounds
-            Dim boundsButton_SendtoItemBuilder As Rectangle = Me.Button_SendtoItemBuilder.Bounds
-            Dim boundsButton_OpenInRegedit As Rectangle = Me.Button_OpenInRegedit.Bounds
-            Dim boundsButton_RefreshList As Rectangle = Me.Button_RefreshList.Bounds
-
-            resources.ApplyResources(Me, Me.Name, culture)
-
-            resources.ApplyResources(Me.ToolStripButton_ItemBuilder, Me.ToolStripButton_ItemBuilder.Name, culture)
-            resources.ApplyResources(Me.ToolStripButton_StartupList, Me.ToolStripButton_StartupList.Name, culture)
-            resources.ApplyResources(Me.ToolStripButton_About, Me.ToolStripButton_About.Name, culture)
-            resources.ApplyResources(Me.ToolStripDropDownButton2, Me.ToolStripDropDownButton2.Name, culture)
-            resources.ApplyResources(Me.ToolStripDropDownButton_Recent, Me.ToolStripDropDownButton_Recent.Name, culture)
-
-            resources.ApplyResources(Me.EnglishToolStripMenuItem, Me.EnglishToolStripMenuItem.Name, culture)
-            resources.ApplyResources(Me.SpanishToolStripMenuItem, Me.SpanishToolStripMenuItem.Name, culture)
-            resources.ApplyResources(Me.PortugueseToolStripMenuItem, Me.PortugueseToolStripMenuItem.Name, culture)
-
-            resources.ApplyResources(Me.Button_AddToStartup, Me.Button_AddToStartup.Name, culture)
-            resources.ApplyResources(Me.Button_DeleteEntry, Me.Button_DeleteEntry.Name, culture)
-            resources.ApplyResources(Me.Button_OpenInRegedit, Me.Button_OpenInRegedit.Name, culture)
-            resources.ApplyResources(Me.Button_RefreshList, Me.Button_RefreshList.Name, culture)
-            resources.ApplyResources(Me.Button_SendtoItemBuilder, Me.Button_SendtoItemBuilder.Name, culture)
-
-            resources.ApplyResources(Me.Label1, Me.Label1.Name, culture)
-            resources.ApplyResources(Me.Label2, Me.Label2.Name, culture)
-            resources.ApplyResources(Me.Label3, Me.Label3.Name, culture)
-            resources.ApplyResources(Me.Label4, Me.Label4.Name, culture)
-
-            resources.ApplyResources(Me.RadioButton_AllUsers, Me.RadioButton_AllUsers.Name, culture)
-            resources.ApplyResources(Me.RadioButton_CurrentUser, Me.RadioButton_CurrentUser.Name, culture)
-
-            resources.ApplyResources(AboutForm.LabelLoadedAssemblies, AboutForm.LabelLoadedAssemblies.Name, culture)
-
-            Me.Button_AddToStartup.Enabled = enabledButton_AddToStartup
-            Me.Button_DeleteEntry.Enabled = enabledButton_DeleteEntry
-            Me.Button_SendtoItemBuilder.Enabled = enabledButton_SendtoItemBuilder
-            Me.Button_OpenInRegedit.Enabled = enabledButton_OpenInRegedit
-            Me.RadioButton_CurrentUser.Checked = checkedRadioButton_CurrentUser
-            Me.Button_AddToStartup.Bounds = boundsButton_AddToStartup
-            Me.Button_DeleteEntry.Bounds = boundsButton_DeleteEntry
-            Me.Button_SendtoItemBuilder.Bounds = boundsButton_SendtoItemBuilder
-            Me.Button_OpenInRegedit.Bounds = boundsButton_OpenInRegedit
-            Me.Button_RefreshList.Bounds = boundsButton_RefreshList
-
-            Me.TabPage1.Text = Me.ToolStripButton_ItemBuilder.Text
-            Me.TabPage2.Text = Me.ToolStripButton_StartupList.Text
-
-            Me.RemoveControlHints()
-
-            Select Case culture.Name
-                Case "en"
-                    Me.textBoxNameHint = "Unique startup entry name for the file (Drop a file here to auto-assign)."
-                    Me.textBoxFileHint = "Full path to the file (Drop a file here to auto-assign)."
-                    Me.textBoxParametersHint = "Optional arguments (for an executable file only)."
-                    Me.msgq1 = "Do you really want to delete the following entry?:"
-                    Me.msgq2 = "This action cannot be undone."
-                    Me.msgq3 = "An entry with the same name already exists in Windows startup."
-                    Me.msgq4 = "Do you really want to overwrite the entry?."
-                    Me.msgq5 = "Item successfully added to Windows startup."
-                    Me.msgq6 = "Failed to add the item to Windows startup."
-                    Me.msgq7 = "Program is not running elevated, some features are disabled."
-                    Me.msgq8 = "Clear recent file list"
-                    Me.msgq9 = "Do you also want to delete the sent item from startup list?:"
-                    Me.msgq10 = "Failed to parse entry file path, the full value has been retrieved instead:"
-
-                    Me.DataGridView1.Columns(0).HeaderText = "Type"
-                    Me.DataGridView1.Columns(1).HeaderText = "Icon"
-                    Me.DataGridView1.Columns(2).HeaderText = "Name"
-                    Me.DataGridView1.Columns(3).HeaderText = "Value"
-
-                Case "es"
-                    Me.textBoxNameHint = "Nombre único de entrada de inicio para el archivo (arrastre un archivo aquí para asignarlo automáticamente)."
-                    Me.textBoxFileHint = "Ruta completa al archivo (arrastre un archivo aquí para asignarlo automáticamente)."
-                    Me.textBoxParametersHint = "Argumentos opcionales (sólo para un archivo ejecutable)."
-                    Me.msgq1 = "¿Realmente desea eliminar la siguiente entrada?:"
-                    Me.msgq2 = "Esta acción no se podrá deshacer."
-                    Me.msgq3 = "Ya existe una entrada con el mismo nombre en el inicio de Windows."
-                    Me.msgq4 = "¿Realmente desea sobrescribir la entrada?."
-                    Me.msgq5 = "Elemento agregado exitosamente al inicio de Windows."
-                    Me.msgq6 = "Error al agregar el elemento al inicio de Windows."
-                    Me.msgq7 = "El programa no se está ejecutando en modo elevado, algunas funciones están desactivadas."
-                    Me.msgq8 = "Borrar lista de archivos recientes"
-                    Me.msgq9 = "¿Quieres además eliminar de la lista de inicio la entrada enviada?:"
-                    Me.msgq10 = "No se pudo analizar la ruta del archivo de entrada; en su lugar, se recuperó el valor completo:"
-
-                    Me.DataGridView1.Columns(0).HeaderText = "Tipo"
-                    Me.DataGridView1.Columns(1).HeaderText = "Icono"
-                    Me.DataGridView1.Columns(2).HeaderText = "Nombre"
-                    Me.DataGridView1.Columns(3).HeaderText = "Valor"
-
-                Case "pt"
-                    Me.textBoxNameHint = "Nome exclusivo de entrada de inicialização para o arquivo (arraste um arquivo aqui para atribuí-lo automaticamente)."
-                    Me.textBoxFileHint = "Caminho completo para o arquivo (arraste um arquivo aqui para atribuí-lo automaticamente)."
-                    Me.textBoxParametersHint = "Argumentos opcionais (apenas para um arquivo executável)."
-                    Me.msgq1 = "Deseja mesmo excluir a seguinte entrada?:"
-                    Me.msgq2 = "Esta ação não pode ser desfeita."
-                    Me.msgq3 = "Já existe uma entrada com o mesmo nome na começar do Windows."
-                    Me.msgq4 = "Deseja realmente substituir a entrada?"
-                    Me.msgq5 = "Item adicionado com sucesso na começar do Windows."
-                    Me.msgq6 = "Erro ao adicionar item na começar do Windows."
-                    Me.msgq7 = "O programa não está sendo executado em modo elevado, algumas funções estão desabilitadas."
-                    Me.msgq8 = "Limpar lista de arquivos recentes"
-                    Me.msgq9 = "Deseja além remover a entrada enviada da lista de início?:"
-                    Me.msgq10 = "Falha ao analisar o caminho do arquivo de entrada. Em vez disso, o valor completo foi recuperado:"
-
-                    Me.DataGridView1.Columns(0).HeaderText = "Tipo"
-                    Me.DataGridView1.Columns(1).HeaderText = "Ícone"
-                    Me.DataGridView1.Columns(2).HeaderText = "Nome"
-                    Me.DataGridView1.Columns(3).HeaderText = "Valor"
-
-            End Select
-
-            Me.Text = If(Not IsProcessElevated, Me.msgq7, My.Application.Info.Title)
-
-            Me.SetControlHints()
-
-            If Me.TabControl1.SelectedTab.Equals(Me.TabPage1) Then
-                Me.TextBox_File.Focus()
-                Me.TextBox_Name.Focus()
-                Me.TextBox_Parameters.Focus()
-                Me.ToolStrip1.Focus()
-            End If
-
-            Me.Button_AddToStartup.ImageAlign = ContentAlignment.MiddleLeft
-            Me.ClearRecentFilesMenuItem.Text = Me.msgq8
-            Me.ClearRecentFilesMenuItem.Enabled = True
             Me.ToolStripDropDownButton_Recent.Enabled = My.Settings.MRU.Count > 0
 
         End Sub
 
-        Private Sub DataGridView1_RowsAdded(sender As Object, e As DataGridViewRowsAddedEventArgs) Handles DataGridView1.RowsAdded
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Loads the startup entries into the startup list, showing an error message if the registry cannot be read.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the entries were loaded; otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Function TryLoadRegistryItemsToDataGridView() As Boolean
 
-            Me.DataGridView1.Sort(Me.DataGridView1.Columns(2), ListSortDirection.Ascending)
+            Try
+                Me.LoadRegistryItemsToDataGridView()
+                Return True
 
-            If Me.lastSelectedRowNameAndStartupType IsNot Nothing Then
-                For Each row As DataGridViewRow In Me.DataGridView1.Rows
-                    If row.Cells(0).Value = Me.lastSelectedRowNameAndStartupType(1) AndAlso row.Cells(2).Value.ToString().ToLower() = Me.lastSelectedRowNameAndStartupType(0).ToLower() Then
-                        row.Selected = True
-                        Me.DataGridView1.FirstDisplayedScrollingRowIndex = row.Index
-                        Exit For
+            Catch ex As Exception
+                Me.ShowErrorMessage(Me.strings.RegistryValuesError, ex)
+                Return False
+
+            End Try
+
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Loads the startup entries into the startup list.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub LoadRegistryItemsToDataGridView()
+
+            Me.isRefreshingDataGridViewItems = True
+            Try
+                Me.DataGridView1.Rows.Clear()
+
+                Dim view As RegistryView = RegistryView.Default
+
+                For Each pair As KeyValuePair(Of String, String) In Me.startupType
+
+                    If pair.Key = StartupRegistryKeys.AllUsersId AndAlso Not Main.IsProcessElevated Then
+                        Continue For
                     End If
-                Next
-            Else
-                Me.DataGridView1.Rows(0).Selected = True
+                    Dim startupTypeName As String = If(pair.Key = StartupRegistryKeys.CurrentUserId, Me.strings.CurrentUser, Me.strings.AllUsers)
 
-            End If
+                    Dim fullKeyPath As String = pair.Value
+                    If Not RegistryUtil.ExistSubKey(view, fullKeyPath) Then
+                        Continue For
+                    End If
+
+                    Using root As RegistryKey = RegistryUtil.GetRootKey(fullKeyPath, view),
+                          subKey As RegistryKey = root.OpenSubKey(RegistryUtil.GetSubKeyPath(fullKeyPath), writable:=False)
+
+                        For Each valueName As String In subKey.GetValueNames()
+                            ' Values are read as raw objects and converted to string,
+                            ' so a non-string value (e.g. REG_DWORD) does not abort the loading of the whole list.
+                            Dim rawData As Object = subKey.GetValue(valueName, Nothing, RegistryValueOptions.DoNotExpandEnvironmentNames)
+                            Dim data As String = If(TypeOf rawData Is String(),
+                                                    String.Join(" ", DirectCast(rawData, String())),
+                                                    Convert.ToString(rawData, CultureInfo.InvariantCulture))
+
+                            Dim fileIcon As Icon = Nothing
+                            Try
+                                Dim command As StartupCommand = Nothing
+                                If StartupCommand.TryParse(data, command) Then
+                                    fileIcon = ImageUtil.ExtractIconFromFile(command.GetExpandedFilePath())
+                                End If
+                            Catch ex As Exception
+                                ' The icon is merely decorative; it is not a reason to abort loading the other entries.
+                            End Try
+
+                            Dim dgvRow As New DataGridViewRow()
+                            Dim iconCell As New DataGridViewImageCell With {.Value = fileIcon, .ImageLayout = DataGridViewImageCellLayout.Zoom}
+                            iconCell.Style.NullValue = Nothing ' No "missing image" glyph for entries without icon.
+                            dgvRow.Cells.AddRange(New DataGridViewTextBoxCell With {.Value = startupTypeName, .Tag = pair.Key},
+                                                  iconCell,
+                                                  New DataGridViewTextBoxCell With {.Value = valueName},
+                                                  New DataGridViewTextBoxCell With {.Value = data, .ToolTipText = data})
+                            Me.DataGridView1.Rows.Add(dgvRow)
+                        Next valueName
+
+                    End Using
+
+                Next pair
+
+                Me.DataGridView1.Sort(Me.ColumnName, ListSortDirection.Ascending)
+                Me.RestoreStartupListSelection()
+
+            Finally
+                Me.isRefreshingDataGridViewItems = False
+                Me.UpdateEntryCount()
+                Me.UpdateStartupListButtons()
+
+            End Try
 
         End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Selects the row of the startup list that the user selected before the list was reloaded, 
+        ''' or the first row if there is no previous selection (or the previous row no longer exists).
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub RestoreStartupListSelection()
+
+            Me.DataGridView1.ClearSelection()
+            If Me.DataGridView1.Rows.Count = 0 Then
+                Exit Sub
+            End If
+
+            Dim rowToSelect As DataGridViewRow = Me.DataGridView1.Rows(0)
+            If Me.lastSelectedRowNameAndStartupType IsNot Nothing Then
+                For Each row As DataGridViewRow In Me.DataGridView1.Rows
+                    If Me.GetStartupTypeId(row) = Me.lastSelectedRowNameAndStartupType(1) AndAlso
+                       String.Equals(Main.GetCellText(row, Me.ColumnName), Me.lastSelectedRowNameAndStartupType(0), StringComparison.OrdinalIgnoreCase) Then
+
+                        rowToSelect = row
+                        Exit For
+                    End If
+                Next row
+            End If
+
+            rowToSelect.Selected = True
+            Me.DataGridView1.CurrentCell = rowToSelect.Cells(Me.ColumnName.Index)
+            Me.DataGridView1.FirstDisplayedScrollingRowIndex = rowToSelect.Index
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Shows an error message box.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="message">
+        ''' The localized message.
+        ''' </param>
+        '''
+        ''' <param name="ex">
+        ''' The exception, whose message is appended.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub ShowErrorMessage(message As String, ex As Exception)
+
+            Using msgbox As New CenteredMessageBox(Me)
+                msgbox.Show($"{message}{Environment.NewLine}{Environment.NewLine}{ex.Message}",
+                            My.Application.Info.Title,
+                            MessageBoxButtons.OK, MessageBoxIcon.Error)
+            End Using
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets the text of the specified cell of a startup list row.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="row">
+        ''' The row.
+        ''' </param>
+        '''
+        ''' <param name="column">
+        ''' The column.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The cell text, or <see cref="String.Empty"/> if the cell has no value.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Shared Function GetCellText(row As DataGridViewRow, column As DataGridViewColumn) As String
+
+            Return Convert.ToString(row.Cells(column.Index).Value, CultureInfo.InvariantCulture)
+
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets the startup type identifier of a startup list row 
+        ''' (the type cell shows a localized name, and stores the identifier in its tag).
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="row">
+        ''' The row.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see cref="StartupRegistryKeys.CurrentUserId"/> or <see cref="StartupRegistryKeys.AllUsersId"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <exception cref="InvalidOperationException">
+        ''' The row has no startup type identifier.
+        ''' </exception>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Function GetStartupTypeId(row As DataGridViewRow) As String
+
+            Dim id As String = TryCast(row.Cells(Me.ColumnType.Index).Tag, String)
+            If String.IsNullOrEmpty(id) Then
+                Throw New InvalidOperationException($"The startup list row {row.Index} has no startup type identifier.")
+            End If
+
+            Return id
+
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Enables the startup list buttons that require a selected row only when there is a selected row.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Sub UpdateStartupListButtons()
+
+            Dim hasSelectedRow As Boolean = Me.DataGridView1.SelectedRows.Count > 0
+
+            Me.Button_DeleteEntry.Enabled = hasSelectedRow
+            Me.Button_SendtoItemBuilder.Enabled = hasSelectedRow
+            Me.Button_OpenInRegedit.Enabled = hasSelectedRow
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Gets the path of the first file of a drag and drop operation.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="data">
+        ''' The data of the drag and drop operation.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The path of the first dropped file, or <see langword="Nothing"/> if the data does not contain files.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        Private Shared Function GetDroppedFilePath(data As IDataObject) As String
+
+            If data Is Nothing OrElse Not data.GetDataPresent(DataFormats.FileDrop) Then
+                Return Nothing
+            End If
+
+            Dim filePaths As String() = TryCast(data.GetData(DataFormats.FileDrop), String())
+            Return If(filePaths IsNot Nothing AndAlso filePaths.Length <> 0, filePaths(0), Nothing)
+
+        End Function
 
 #End Region
 
     End Class
 
 End Namespace
+
+#End Region

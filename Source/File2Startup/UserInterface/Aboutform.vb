@@ -11,6 +11,9 @@ Option Infer Off
 Imports System.ComponentModel
 Imports System.Reflection
 
+Imports UserInterface.Localization
+Imports UserInterface.Theming
+
 #End Region
 
 #Region " AboutForm "
@@ -19,6 +22,26 @@ Imports System.Reflection
 ''' Tthe 'About' form, responsible for displaying application information.
 ''' </summary>
 Partial Friend NotInheritable Class AboutForm : Inherits Form
+
+#Region " Overridden Methods "
+
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <summary>
+    ''' Raises the <see cref="Control.HandleCreated"/> event, and applies the dark/light title bar of the current theme.
+    ''' </summary>
+    ''' ----------------------------------------------------------------------------------------------------
+    ''' <param name="e">
+    ''' The event data.
+    ''' </param>
+    ''' ----------------------------------------------------------------------------------------------------
+    Protected Overrides Sub OnHandleCreated(e As EventArgs)
+
+        MyBase.OnHandleCreated(e)
+        WindowThemeUtil.SetDarkTitleBar(Me, ThemeManager.CurrentTheme = Core.AppTheme.Dark)
+
+    End Sub
+
+#End Region
 
 #Region " Event Handlers "
 
@@ -36,8 +59,11 @@ Partial Friend NotInheritable Class AboutForm : Inherits Form
     Private Sub AboutForm_Load(sender As Object, e As EventArgs) _
     Handles MyBase.Load
 
-        Me.Text = $"About {My.Application.Info.Title}"
+        Dim strings As UIStrings = UIStrings.FromCurrentUICulture()
+        Me.Text = String.Format(Globalization.CultureInfo.CurrentUICulture, strings.AboutTitleFormat, My.Application.Info.Title)
+        Me.LabelLoadedAssemblies.Text = strings.LoadedAssemblies
         Me.InitializeControlValues()
+        ThemeManager.Apply(Me, ThemeManager.CurrentTheme)
     End Sub
 
     ''' <summary>
@@ -65,7 +91,7 @@ Partial Friend NotInheritable Class AboutForm : Inherits Form
             End Using
 
         Catch ex As Exception
-            MessageBox.Show(Me, "Error opening the URL:" & Environment.NewLine & Environment.NewLine & ex.Message,
+            MessageBox.Show(Me, $"{UIStrings.FromCurrentUICulture().OpenUrlError}{Environment.NewLine}{Environment.NewLine}{ex.Message}",
                             My.Application.Info.Title, MessageBoxButtons.OK, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1)
 
         End Try

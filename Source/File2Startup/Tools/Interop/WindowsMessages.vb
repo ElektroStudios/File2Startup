@@ -142,6 +142,25 @@ Namespace DevCase.Interop.Win32.Enums
         ''' ----------------------------------------------------------------------------------------------------
         WM_WindowPosChanging = &H46
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sent to a window when its non-client area needs to be changed to indicate an active or inactive state.
+        ''' <para></para>
+        ''' 
+        ''' <c>wParam</c> 
+        ''' Indicates when a title bar or icon needs to be changed to indicate an active (non-zero) or inactive (zero) state.
+        ''' <para></para>
+        ''' 
+        ''' <c>lParam</c> 
+        ''' Zero to repaint the non-client area normally.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://learn.microsoft.com/en-us/windows/win32/winmsg/wm-ncactivate"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        WM_NCActivate = &H86
+
     End Enum
 
 End Namespace

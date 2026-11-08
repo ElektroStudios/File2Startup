@@ -1,4 +1,5 @@
 ﻿' UNUSED CODE HAS BEEN PRUNED. 06/APRIL/2024
+' WNDPROC RESTORED (IT WAS PRUNED BY MISTAKE). 07/NOVEMBER/2026
 
 
 
@@ -52,6 +53,7 @@ Option Infer Off
 Imports System.Runtime.InteropServices
 
 Imports DevCase.Interop.Win32
+Imports DevCase.Interop.Win32.Enums
 Imports DevCase.Interop.Win32.Types
 
 #End Region
@@ -355,6 +357,75 @@ Namespace DevCase.Core.Application.UserInterface.Types
 #End Region
 
 #Region " Window Procedure (WndProc) "
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Invokes the default window procedure associated with this window.
+        ''' <para></para>
+        ''' While <see cref="WindowMagnetizer.Enabled"/> is <see langword="True"/>, 
+        ''' it intercepts the <see cref="WindowsMessages.WM_WindowPosChanging"/> message of a moving window 
+        ''' to dock it to the nearest screen border.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="m">
+        ''' A <see cref="Message"/> that is associated with the current window message.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Protected Overrides Sub WndProc(ByRef m As Message)
+
+            If Me.enabledB Then
+
+                Select Case m.Msg
+
+                    Case WindowsMessages.WM_Sizing
+                        Me.isResizing = True
+
+                    Case WindowsMessages.WM_ExitSizeMove
+                        Me.isResizing = False
+
+                    Case WindowsMessages.WM_WindowPosChanging
+                        If Not Me.isResizing AndAlso Not WindowMagnetizer.IsMoveIgnored(m.LParam) Then
+                            Me.DockToNearestScreenBorder(window:=Me.ownerWindowB, windowPosHandle:=m.LParam, threshold:=Me.thresholdB)
+                        End If
+
+                End Select
+
+            End If
+
+            MyBase.WndProc(m)
+
+        End Sub
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Determines whether the <see cref="WindowPos"/> structure pointed by the specified handle 
+        ''' has the <see cref="SetWindowPosFlags.IgnoreMove"/> flag, meaning that the window position is not changing.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="windowPosHandle">
+        ''' A pointer to a <see cref="WindowPos"/> structure.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' <see langword="True"/> if the move is ignored; otherwise, <see langword="False"/>.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <exception cref="ArgumentNullException">
+        ''' <paramref name="windowPosHandle"/> is <see cref="IntPtr.Zero"/>.
+        ''' </exception>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Protected Shared Function IsMoveIgnored(windowPosHandle As IntPtr) As Boolean
+
+            If windowPosHandle = IntPtr.Zero Then
+                Throw New ArgumentNullException(NameOf(windowPosHandle))
+            End If
+
+            Dim windowPos As WindowPos = DirectCast(Marshal.PtrToStructure(windowPosHandle, GetType(WindowPos)), WindowPos)
+            Return (windowPos.Flags And CInt(SetWindowPosFlags.IgnoreMove)) <> 0
+
+        End Function
 
 #End Region
 

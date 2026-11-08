@@ -505,6 +505,22 @@ Namespace DevCase.Core.Application.Forms
                         RestoreProperties(ctrl, ctrlDefaults)
                     End If
 
+                Case ControlHintType.Persistent
+                    ' A text box selects all its text when it gets the focus with the keyboard;
+                    ' the hint must not look like selected user text, so the caret is moved to the start.
+                    ' The selection is changed once the focus change finishes.
+                    Dim textBox As TextBoxBase = TryCast(ctrl, TextBoxBase)
+                    If textBox IsNot Nothing AndAlso textBox.IsHandleCreated AndAlso
+                       ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+
+                        textBox.BeginInvoke(New Action(
+                            Sub()
+                                If Not textBox.IsDisposed AndAlso textBox.Text.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+                                    textBox.Select(0, 0)
+                                End If
+                            End Sub))
+                    End If
+
             End Select
 
         End Sub
@@ -669,7 +685,11 @@ Namespace DevCase.Core.Application.Forms
             Select Case hintInfo.HintType
 
                 Case ControlHintType.Normal
-                    If ctrl.GetContainerControl.ActiveControl.Equals(ctrl) AndAlso ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
+                    ' The control may not be hosted in a container control, or the container may not have an active control yet.
+                    Dim containerControl As IContainerControl = ctrl.GetContainerControl()
+                    Dim isActiveControl As Boolean = containerControl IsNot Nothing AndAlso ctrl.Equals(containerControl.ActiveControl)
+
+                    If isActiveControl AndAlso ctrlText.Equals(hintInfo.Text, StringComparison.OrdinalIgnoreCase) Then
                         ControlHintManager.RestoreProperties(ctrl, ctrlDefaults)
 
                     ElseIf String.IsNullOrEmpty(ctrlText) Then

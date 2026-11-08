@@ -446,6 +446,107 @@ Namespace DevCase.Interop.Win32
         ) As <MarshalAs(UnmanagedType.Bool)> Boolean
         End Function
 
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sends the specified message to a window and does not return until the window procedure has processed the message.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-sendmessagew"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hwnd">
+        ''' A handle to the window whose window procedure will receive the message.
+        ''' </param>
+        ''' 
+        ''' <param name="msg">
+        ''' The message to be sent.
+        ''' </param>
+        ''' 
+        ''' <param name="wParam">
+        ''' Additional message-specific information.
+        ''' </param>
+        ''' 
+        ''' <param name="lParam">
+        ''' Additional message-specific information.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The result of the message processing; it depends on the message sent.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("User32.dll", EntryPoint:="SendMessageW", SetLastError:=False)>
+        Public Shared Function SendMessage(hwnd As IntPtr, msg As WindowsMessages, wParam As IntPtr, lParam As IntPtr
+        ) As IntPtr
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Sets the value of Desktop Window Manager (DWM) non-client rendering attributes for a window.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/nf-dwmapi-dwmsetwindowattribute"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hwnd">
+        ''' The handle to the window for which the attribute value is to be set.
+        ''' </param>
+        ''' 
+        ''' <param name="attribute">
+        ''' The attribute to set.
+        ''' </param>
+        ''' 
+        ''' <param name="attributeValue">
+        ''' The value of the attribute (a 32-bit integer, used as a boolean for <see cref="DwmWindowAttribute.UseImmersiveDarkMode"/>).
+        ''' </param>
+        ''' 
+        ''' <param name="attributeSize">
+        ''' The size, in bytes, of the attribute value.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, it returns <c>S_OK</c> (zero). Otherwise, it returns an <c>HRESULT</c> error code.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("Dwmapi.dll", SetLastError:=False)>
+        Public Shared Function DwmSetWindowAttribute(hwnd As IntPtr, attribute As DwmWindowAttribute, ByRef attributeValue As Integer, attributeSize As Integer
+        ) As Integer
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Causes a window to use a different set of visual style information than its class normally uses.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <remarks>
+        ''' <see href="https://learn.microsoft.com/en-us/windows/win32/api/uxtheme/nf-uxtheme-setwindowtheme"/>
+        ''' </remarks>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="hwnd">
+        ''' Handle to the window whose visual style information is to be changed.
+        ''' </param>
+        ''' 
+        ''' <param name="subAppName">
+        ''' The application name to use in place of the calling application's name (e.g. <c>DarkMode_Explorer</c>).
+        ''' </param>
+        ''' 
+        ''' <param name="subIdList">
+        ''' A semicolon-separated list of class identifier names, or <see langword="Nothing"/>.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' If the function succeeds, it returns <c>S_OK</c> (zero). Otherwise, it returns an <c>HRESULT</c> error code.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        <SuppressUnmanagedCodeSecurity>
+        <DllImport("UxTheme.dll", CharSet:=CharSet.Unicode, SetLastError:=False)>
+        Public Shared Function SetWindowTheme(hwnd As IntPtr, subAppName As String, subIdList As String
+        ) As Integer
+        End Function
+
 #End Region
 
     End Class

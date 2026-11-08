@@ -108,6 +108,24 @@
     <Import Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\AppTheme.vb" />
+    <Compile Include="Core\ThemePreference.vb" />
+    <Compile Include="Tools\Interop\DwmWindowAttribute.vb" />
+    <Compile Include="UserInterface\Controls\ToggleSwitchGlyphs.vb" />
+    <Compile Include="UserInterface\Controls\ToggleSwitchLayout.vb" />
+    <Compile Include="UserInterface\Controls\ToolStripToggleSwitch.vb" />
+    <Compile Include="UserInterface\Localization\UIStrings.vb" />
+    <Compile Include="UserInterface\Theming\ThemedToolStripRenderer.vb" />
+    <Compile Include="UserInterface\Theming\ThemeManager.vb" />
+    <Compile Include="UserInterface\Theming\ThemePalette.vb" />
+    <Compile Include="UserInterface\Theming\WindowThemeUtil.vb" />
+    <Compile Include="UserInterface\Controls\ToggleSwitch.vb">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Core\RecentFileEntry.vb" />
+    <Compile Include="Core\RecentFileList.vb" />
+    <Compile Include="Core\StartupCommand.vb" />
+    <Compile Include="Core\StartupRegistryKeys.vb" />
     <Compile Include="Tools\Core\FileSystemUtil.vb" />
     <Compile Include="Tools\Core\UtilReflection.vb" />
     <Compile Include="Tools\Core\CenteredMessageBox.vb" />
@@ -165,15 +183,6 @@
     <EmbeddedResource Include="UserInterface\Aboutform.resx">
       <DependentUpon>Aboutform.vb</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="UserInterface\Main.en.resx">
-      <DependentUpon>Main.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserInterface\Main.es.resx">
-      <DependentUpon>Main.vb</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="UserInterface\Main.pt.resx">
-      <DependentUpon>Main.vb</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="UserInterface\Main.resx">
       <DependentUpon>Main.vb</DependentUpon>
       <SubType>Designer</SubType>
@@ -204,6 +213,7 @@
     <None Include="packages.config" />
     <None Include="Resources\delete.png" />
     <None Include="Resources\earth.png" />
+    <None Include="Resources\recent_files.png" />
     <None Include="Resources\information.png" />
     <None Include="Resources\to-do-list.png" />
     <None Include="Resources\Elektro.png" />

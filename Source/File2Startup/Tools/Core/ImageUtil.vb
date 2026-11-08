@@ -38,6 +38,7 @@ Option Infer Off
 
 #Region " Imports "
 
+Imports System.Drawing.Drawing2D
 Imports System.IO
 Imports System.Runtime.InteropServices
 
@@ -118,6 +119,62 @@ Namespace DevCase.Core.Imaging.Tools
             Dim ico As Icon = TryCast(Drawing.Icon.FromHandle(shInfo.IconHandle).Clone(), Icon)
             NativeMethods.DestroyIcon(shInfo.IconHandle)
             Return ico
+
+        End Function
+
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <summary>
+        ''' Creates a high quality resized copy of the specified image.
+        ''' </summary>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <param name="image">
+        ''' The source image.
+        ''' </param>
+        ''' 
+        ''' <param name="size">
+        ''' The size of the resulting image.
+        ''' </param>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <returns>
+        ''' The resized image. The caller is responsible for disposing it.
+        ''' </returns>
+        ''' ----------------------------------------------------------------------------------------------------
+        ''' <exception cref="ArgumentNullException">
+        ''' <paramref name="image"/> is <see langword="Nothing"/>.
+        ''' </exception>
+        ''' 
+        ''' <exception cref="ArgumentOutOfRangeException">
+        ''' <paramref name="size"/> has a width or height lower than 1.
+        ''' </exception>
+        ''' ----------------------------------------------------------------------------------------------------
+        <DebuggerStepThrough>
+        Public Shared Function ResizeImage(image As Image, size As Size) As Bitmap
+
+            If image Is Nothing Then
+                Throw New ArgumentNullException(NameOf(image))
+            End If
+
+            If size.Width < 1 OrElse size.Height < 1 Then
+                Throw New ArgumentOutOfRangeException(NameOf(size), size, "The width and height must be greater than zero.")
+            End If
+
+            Dim result As New Bitmap(size.Width, size.Height, Global.System.Drawing.Imaging.PixelFormat.Format32bppArgb)
+            Try
+                Using g As Graphics = Graphics.FromImage(result)
+                    g.CompositingQuality = CompositingQuality.HighQuality
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic
+                    g.PixelOffsetMode = PixelOffsetMode.HighQuality
+                    g.SmoothingMode = SmoothingMode.HighQuality
+                    g.DrawImage(image, New Rectangle(Point.Empty, size))
+                End Using
+
+            Catch
+                result.Dispose()
+                Throw
+
+            End Try
+
+            Return result
 
         End Function
 
