@@ -52,7 +52,7 @@
             Me.RadioButton_CurrentUser = New System.Windows.Forms.RadioButton()
             Me.RadioButton_AllUsers = New System.Windows.Forms.RadioButton()
             Me.TableLayoutPanel_StartupType = New System.Windows.Forms.TableLayoutPanel()
-            Me.Button_AddToStartup = New System.Windows.Forms.Button()
+            Me.Button_AddToStartup = New Global.UserInterface.Controls.IconButton()
             Me.ToolStrip_ItemBuilder = New System.Windows.Forms.ToolStrip()
             Me.ToolStripDropDownButton_Recent = New System.Windows.Forms.ToolStripDropDownButton()
             Me.Panel_StartupList = New System.Windows.Forms.Panel()
@@ -64,10 +64,10 @@
             Me.ColumnValue = New System.Windows.Forms.DataGridViewTextBoxColumn()
             Me.TableLayoutPanel_ListActions = New System.Windows.Forms.TableLayoutPanel()
             Me.FlowLayoutPanel_ListActions = New System.Windows.Forms.FlowLayoutPanel()
-            Me.Button_DeleteEntry = New System.Windows.Forms.Button()
-            Me.Button_SendtoItemBuilder = New System.Windows.Forms.Button()
-            Me.Button_OpenInRegedit = New System.Windows.Forms.Button()
-            Me.Button_RefreshList = New System.Windows.Forms.Button()
+            Me.Button_DeleteEntry = New Global.UserInterface.Controls.IconButton()
+            Me.Button_SendtoItemBuilder = New Global.UserInterface.Controls.IconButton()
+            Me.Button_OpenInRegedit = New Global.UserInterface.Controls.IconButton()
+            Me.Button_RefreshList = New Global.UserInterface.Controls.IconButton()
             Me.ContextMenuStrip_Recent = New System.Windows.Forms.ContextMenuStrip(Me.components)
             Me.OpenFileDialog1 = New System.Windows.Forms.OpenFileDialog()
             Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
@@ -374,7 +374,6 @@
             Me.Button_AddToStartup.TabIndex = 1
             Me.Button_AddToStartup.Tag = "Theme:Accent"
             Me.Button_AddToStartup.Text = "Add to Windows startup"
-            Me.Button_AddToStartup.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
             Me.Button_AddToStartup.UseVisualStyleBackColor = True
             '
             'ToolStrip_ItemBuilder
@@ -528,7 +527,6 @@
             Me.Button_DeleteEntry.Padding = New System.Windows.Forms.Padding(6, 0, 6, 0)
             Me.Button_DeleteEntry.TabIndex = 0
             Me.Button_DeleteEntry.Text = "Delete entry"
-            Me.Button_DeleteEntry.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
             Me.Button_DeleteEntry.UseVisualStyleBackColor = True
             '
             'Button_SendtoItemBuilder
@@ -541,7 +539,6 @@
             Me.Button_SendtoItemBuilder.Padding = New System.Windows.Forms.Padding(6, 0, 6, 0)
             Me.Button_SendtoItemBuilder.TabIndex = 1
             Me.Button_SendtoItemBuilder.Text = "Send to item builder"
-            Me.Button_SendtoItemBuilder.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText
             Me.Button_SendtoItemBuilder.UseVisualStyleBackColor = True
             '
             'Button_OpenInRegedit
@@ -648,7 +645,7 @@
         Friend WithEvents TableLayoutPanel_StartupType As System.Windows.Forms.TableLayoutPanel
         Friend WithEvents ToolStrip_ItemBuilder As System.Windows.Forms.ToolStrip
         Friend WithEvents ToolStripDropDownButton_Recent As System.Windows.Forms.ToolStripDropDownButton
-        Friend WithEvents Button_AddToStartup As System.Windows.Forms.Button
+        Friend WithEvents Button_AddToStartup As Global.UserInterface.Controls.IconButton
         Friend WithEvents Panel_StartupList As System.Windows.Forms.Panel
         Friend WithEvents TableLayoutPanel_StartupList As System.Windows.Forms.TableLayoutPanel
         Friend WithEvents DataGridView1 As System.Windows.Forms.DataGridView
@@ -658,10 +655,10 @@
         Friend WithEvents ColumnValue As System.Windows.Forms.DataGridViewTextBoxColumn
         Friend WithEvents TableLayoutPanel_ListActions As System.Windows.Forms.TableLayoutPanel
         Friend WithEvents FlowLayoutPanel_ListActions As System.Windows.Forms.FlowLayoutPanel
-        Friend WithEvents Button_DeleteEntry As System.Windows.Forms.Button
-        Friend WithEvents Button_SendtoItemBuilder As System.Windows.Forms.Button
-        Friend WithEvents Button_OpenInRegedit As System.Windows.Forms.Button
-        Friend WithEvents Button_RefreshList As System.Windows.Forms.Button
+        Friend WithEvents Button_DeleteEntry As Global.UserInterface.Controls.IconButton
+        Friend WithEvents Button_SendtoItemBuilder As Global.UserInterface.Controls.IconButton
+        Friend WithEvents Button_OpenInRegedit As Global.UserInterface.Controls.IconButton
+        Friend WithEvents Button_RefreshList As Global.UserInterface.Controls.IconButton
         Friend WithEvents ContextMenuStrip_Recent As System.Windows.Forms.ContextMenuStrip
         Friend WithEvents OpenFileDialog1 As System.Windows.Forms.OpenFileDialog
         Friend WithEvents ToolTip1 As System.Windows.Forms.ToolTip

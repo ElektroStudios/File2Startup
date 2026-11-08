@@ -113,12 +113,15 @@
     <Compile Include="Tools\Interop\DwmWindowAttribute.vb" />
     <Compile Include="UserInterface\Controls\ToggleSwitchGlyphs.vb" />
     <Compile Include="UserInterface\Controls\ToggleSwitchLayout.vb" />
-    <Compile Include="UserInterface\Controls\ToolStripToggleSwitch.vb" />
+    <Compile Include="UserInterface\Controls\ToolStripToggleSwitch.vb">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="UserInterface\Localization\UIStrings.vb" />
     <Compile Include="UserInterface\Theming\ThemedToolStripRenderer.vb" />
     <Compile Include="UserInterface\Theming\ThemeManager.vb" />
     <Compile Include="UserInterface\Theming\ThemePalette.vb" />
     <Compile Include="UserInterface\Theming\WindowThemeUtil.vb" />
+    <Compile Include="UserInterface\Controls\IconButton.vb" />
     <Compile Include="UserInterface\Controls\ToggleSwitch.vb">
       <SubType>Component</SubType>
     </Compile>
@@ -213,15 +216,17 @@
     <None Include="packages.config" />
     <None Include="Resources\delete.png" />
     <None Include="Resources\earth.png" />
-    <None Include="Resources\recent_files.png" />
-    <None Include="Resources\information.png" />
-    <None Include="Resources\to-do-list.png" />
     <None Include="Resources\Elektro.png" />
+    <None Include="Resources\information.png" />
     <None Include="Resources\pencil.png" />
     <None Include="Resources\plus.png" />
-    <None Include="Resources\united-states-of-america.png" />
-    <None Include="Resources\spain.png" />
     <None Include="Resources\portugal.png" />
+    <None Include="Resources\recent_files.png" />
+    <None Include="Resources\refresh.png" />
+    <None Include="Resources\registry.png" />
+    <None Include="Resources\spain.png" />
+    <None Include="Resources\to-do-list.png" />
+    <None Include="Resources\united-states-of-america.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -360,6 +360,11 @@ Namespace UserInterface.Theming
         ''' ----------------------------------------------------------------------------------------------------
         Private Shared Sub ApplyToButton(button As ButtonBase, palette As ThemePalette)
 
+            Dim iconButton As IconButton = TryCast(button, IconButton)
+            If iconButton IsNot Nothing Then
+                iconButton.DisabledForeColor = palette.DisabledText
+            End If
+
             If Not palette.IsDark Then
                 button.FlatStyle = FlatStyle.Standard
                 button.BackColor = SystemColors.Control

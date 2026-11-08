@@ -33,6 +33,8 @@
   - The text hint of a field is no longer shown as selected text when the field gets the focus.
   - The item builder page is shown when a file is dropped on the window from the startup list page.
   - The "About" window follows the selected theme and language.
+  - New icons for the "Open in Regedit" and "Refresh" buttons.
+  - The icons of the buttons are separated from their text, and the icon and the text are centered together (previously the icons were too close to the text, and the "+" icon of the "Add to Windows startup" button overlapped its text in the dark theme).
 
  🌟 Improvements:
   - The icon of unquoted startup entries, and of entries whose file path contains environment variables (e.g. `%ProgramFiles%`), is now shown in the startup list and in the recent files menu.

@@ -1005,9 +1005,11 @@ Namespace UserInterface
             Dim side As Integer = Math.Max(Main.ButtonImageSize, CInt(Math.Round(Main.ButtonImageSize * scale)))
             Dim size As New Size(side, side)
 
-            Me.Button_AddToStartup.Image = ImageUtil.ResizeImage(My.Resources.plus, size)
-            Me.Button_DeleteEntry.Image = ImageUtil.ResizeImage(My.Resources.delete, size)
-            Me.Button_SendtoItemBuilder.Image = ImageUtil.ResizeImage(My.Resources.pencil, size)
+            Me.Button_AddToStartup.Icon = ImageUtil.ResizeImage(My.Resources.plus, size)
+            Me.Button_DeleteEntry.Icon = ImageUtil.ResizeImage(My.Resources.delete, size)
+            Me.Button_SendtoItemBuilder.Icon = ImageUtil.ResizeImage(My.Resources.pencil, size)
+            Me.Button_OpenInRegedit.Icon = ImageUtil.ResizeImage(My.Resources.registry, size)
+            Me.Button_RefreshList.Icon = ImageUtil.ResizeImage(My.Resources.refresh, size)
 
         End Sub
 
