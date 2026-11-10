@@ -177,9 +177,9 @@ Namespace Core
         Public Overrides Function GetHashCode() As Integer
 
             Dim comparer As StringComparer = StringComparer.OrdinalIgnoreCase
-            Return HashCode.Combine(comparer.GetHashCode(Me.Name),
-                                    comparer.GetHashCode(Me.FilePath),
-                                    comparer.GetHashCode(Me.Arguments))
+            Return System.HashCode.Combine(comparer.GetHashCode(Me.Name),
+                                           comparer.GetHashCode(Me.FilePath),
+                                           comparer.GetHashCode(Me.Arguments))
 
         End Function
 

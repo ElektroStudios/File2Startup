@@ -201,8 +201,8 @@
     <None Include="Resources\united-states-of-america.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions">
-      <Version>10.0.14</Version>
+    <PackageReference Include="Microsoft.Bcl.HashCode">
+      <Version>6.0.0</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
